@@ -40,16 +40,19 @@
   <!-- Lucide Icons -->
   <script src="https://unpkg.com/lucide@latest"></script>
 
-  <!-- Three.js CDN -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-
   <!-- Custom Styles -->
   <link rel="stylesheet" href="./styles.css" />
 </head>
 <body class="bg-[#03150e] text-stone-100 antialiased selection:bg-emerald-500/30 selection:text-emerald-200">
 
-  <!-- 3D WebGL Three.js Canvas Layer for Rotating Earth & Ayurvedic Geometry -->
-  <div id="bg-canvas-container"></div>
+  <!-- Cinematic Ayurvedic Medicine-Making Entrance Animation Overlay -->
+  <div id="ayur-intro-overlay">
+    <canvas id="ayur-intro-canvas"></canvas>
+    <button id="ayur-intro-skip" aria-label="Skip Introduction">
+      <span>Skip Intro</span>
+      <i data-lucide="chevron-right" class="w-3 h-3"></i>
+    </button>
+  </div>
 
   <!-- Top Global Scroll Progress Bar -->
   <div id="scroll-progress-container">
@@ -85,14 +88,9 @@
         </div>
 
         <nav class="space-y-1.5" id="sidebar-nav">
-          <a href="#hero" id="nav-hero" class="nav-item active flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-semibold text-stone-300 hover:text-white border border-transparent transition-all">
-            <i data-lucide="globe" class="w-4 h-4 text-amber-400"></i>
-            <span>Cosmic Origin & Earth</span>
-          </a>
-
-          <a href="#overview" id="nav-overview" class="nav-item flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-semibold text-stone-300 hover:text-white border border-transparent transition-all">
+          <a href="#overview" id="nav-overview" class="nav-item active flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-semibold text-stone-300 hover:text-white border border-transparent transition-all">
             <i data-lucide="layout-dashboard" class="w-4 h-4 text-emerald-400"></i>
-            <span>Operations Overview</span>
+            <span>Clinical Dashboard</span>
           </a>
 
           <a href="#patients" id="nav-patients" class="nav-item flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-semibold text-stone-300 hover:text-white border border-transparent transition-all">
@@ -108,18 +106,33 @@
 
           <a href="#suites" id="nav-suites" class="nav-item flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-semibold text-stone-300 hover:text-white border border-transparent transition-all">
             <i data-lucide="sparkles" class="w-4 h-4 text-purple-400"></i>
-            <span>Chikitsa Suites & Herbarium</span>
+            <span>Chikitsa Suites</span>
+          </a>
+
+          <a href="#billing" id="nav-billing" class="nav-item flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-semibold text-stone-300 hover:text-white border border-transparent transition-all">
+            <i data-lucide="receipt" class="w-4 h-4 text-amber-400"></i>
+            <span>Billing & Payments</span>
+            <span class="ml-auto text-[10px] px-1.5 py-0.2 rounded-full bg-amber-900/80 text-amber-300 border border-amber-700/50" id="badge-invoice-count">6</span>
           </a>
         </nav>
       </div>
 
-      <!-- Footer Widgets: Ambient Audio & Clinic Status -->
-      <div class="space-y-3">
+      <!-- Footer Widgets: Ambient Audio, Replay Intro & Clinic Status -->
+      <div class="space-y-2.5">
+        <!-- Replay Medicine-Making Animation -->
+        <button id="btn-replay-intro" onclick="window.location.reload();" class="w-full flex items-center justify-between px-3.5 py-2 rounded-xl bg-emerald-950/40 border border-emerald-900/60 hover:border-emerald-700/60 text-xs text-stone-300 hover:text-white transition-all group">
+          <div class="flex items-center gap-2">
+            <i data-lucide="play-circle" class="w-3.5 h-3.5 text-emerald-400 group-hover:scale-110 transition-transform"></i>
+            <span class="font-medium text-[11px]">Replay Medicine Intro</span>
+          </div>
+          <span class="text-[9px] font-bold px-1.5 py-0.2 rounded bg-emerald-900/60 text-emerald-300">ANIMATION</span>
+        </button>
+
         <!-- Soundscape Synthesizer Toggle -->
         <button id="btn-audio-toggle" class="w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl bg-emerald-950/60 border border-emerald-800/60 hover:border-amber-500/40 text-xs text-stone-200 hover:text-white transition-all group">
           <div class="flex items-center gap-2.5">
             <i data-lucide="volume-2" id="audio-icon" class="w-4 h-4 text-amber-400 group-hover:scale-110 transition-transform"></i>
-            <span class="font-medium text-[11px]" id="audio-label">Vedic Tanpura (432Hz)</span>
+            <span class="font-medium text-[11px]" id="audio-label">Vedic Soundscape</span>
           </div>
           <span class="text-[10px] font-bold px-2 py-0.5 rounded bg-emerald-900/90 text-emerald-300" id="audio-status">OFF</span>
         </button>
@@ -130,7 +143,7 @@
             <span class="font-bold text-emerald-200">Jaipur Sanctorum</span>
             <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
           </div>
-          <p class="text-[11px] text-emerald-400/80 mt-1 font-mono">Chikitsa Wing • 6 Suites Active</p>
+          <p class="text-[11px] text-emerald-400/80 mt-1 font-mono">Panchakarma Wing • 6 Suites Active</p>
         </div>
       </div>
     </aside>
@@ -139,12 +152,12 @@
     <div class="flex-1 flex flex-col min-w-0">
 
       <!-- Sticky Top Header with Dynamic Section Tracker -->
-      <header class="sticky top-0 z-20 h-16 px-8 flex items-center justify-between bg-[#041a12]/70 backdrop-blur-xl border-b border-emerald-900/40">
+      <header class="sticky top-0 z-20 h-16 px-8 flex items-center justify-between bg-[#041a12]/90 backdrop-blur-xl border-b border-emerald-900/50 shadow-md">
         <div class="flex items-center gap-3">
-          <div class="w-2 h-2 rounded-full bg-amber-400 shadow-[0_0_8px_#f59e0b]"></div>
+          <div class="w-2.5 h-2.5 rounded-full bg-emerald-400 shadow-[0_0_8px_#10b981]"></div>
           <div>
-            <h2 id="topbar-title" class="text-sm font-bold tracking-wide uppercase text-stone-100 font-serif">Cosmic Origin & Earth</h2>
-            <p id="topbar-subtitle" class="text-[11px] text-emerald-400/90">The 5 Mahabhutas & Sacred Panchakarma Harmony</p>
+            <h2 id="topbar-title" class="text-sm font-bold tracking-wide uppercase text-stone-100 font-serif">Clinical Dashboard</h2>
+            <p id="topbar-subtitle" class="text-[11px] text-emerald-400/90">Hospital EHR & Panchakarma Management System</p>
           </div>
         </div>
 
@@ -155,7 +168,12 @@
             <span id="live-clock" class="font-mono text-[11px]">08:30:00 IST</span>
           </div>
 
-          <!-- Admit Patient Action Button -->
+          <!-- Create Invoice & Admit Patient Action Buttons -->
+          <button id="btn-open-create-invoice" class="flex items-center gap-2 px-3.5 py-2 rounded-lg bg-emerald-950/80 hover:bg-emerald-900 text-xs font-bold text-amber-300 border border-amber-500/40 shadow-md transition-all">
+            <i data-lucide="receipt" class="w-3.5 h-3.5"></i>
+            <span>+ Create Invoice</span>
+          </button>
+
           <button id="btn-open-admit-modal" class="flex items-center gap-2 btn-gold px-4 py-2 rounded-lg text-xs font-bold shadow-lg">
             <i data-lucide="user-plus" class="w-3.5 h-3.5"></i>
             <span>Admit Patient</span>
@@ -164,60 +182,60 @@
       </header>
 
       <!-- Scrollable Main Container -->
-      <main class="flex-1 px-8 py-10 space-y-28">
+      <main class="flex-1 px-8 py-8 space-y-12">
 
         <!-- ========================================== -->
-        <!-- 1. HERO SECTION: 3D EARTH & VEDIC SYMBOLS -->
+        <!-- 1. CLINICAL EXECUTIVE DASHBOARD HEADER     -->
         <!-- ========================================== -->
-        <section id="hero" class="content-section min-h-[82vh] flex flex-col justify-between">
-          <div class="max-w-3xl space-y-6 pt-6">
-            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-500/10 border border-amber-500/30 text-amber-300 text-xs font-semibold">
-              <i data-lucide="sparkles" class="w-3.5 h-3.5 text-amber-400"></i>
-              <span>Panchamahabhuta • Tridosha • Shodhana Chikitsa</span>
-            </div>
-
-            <h1 class="text-4xl md:text-5xl lg:text-6xl font-extrabold font-serif leading-tight">
-              Sacred Healing for the <span class="gold-gradient-text">Whole Being</span>
-            </h1>
-
-            <p class="text-base md:text-lg text-emerald-200/90 leading-relaxed font-light">
-              Experience the convergence of timeless Vedic medicine and clinical Panchakarma administration. As the Earth rotates in harmony with the cosmos, balance your Prakriti through scientific purification.
-            </p>
-
-            <!-- Sanskrit Verse Box -->
-            <div class="p-4 rounded-xl bg-emerald-950/40 backdrop-blur-md border border-emerald-800/40 text-xs">
-              <p class="font-serif text-amber-200/90 italic text-sm">
-                “सर्ववेदेषु यत्सारं तदायर्वेद उच्यते। दोषाणां च समत्वेन स्वास्थ्यायुष्यं विवर्धते॥”
-              </p>
-              <p class="text-emerald-400/80 mt-1 text-[11px]">
-                “The essence of all Vedas is Ayurveda; by harmonizing the bodily doshas, longevity and supreme health flourish.”
-              </p>
-            </div>
-          </div>
-
-          <!-- Interactive Mahabhuta Element Bar -->
-          <div class="space-y-3 pt-8">
-            <p class="text-xs font-bold uppercase tracking-wider text-emerald-400/70">Interactive Pancha Mahabhuta (Click an Element)</p>
-            <div class="grid grid-cols-2 sm:grid-cols-5 gap-3" id="mahabhuta-grid">
-              <!-- Dynamically populated or static interactive element buttons -->
-            </div>
-          </div>
-
-          <!-- Downward Scroll Prompt -->
-          <div class="flex items-center justify-center pt-8 pb-4">
-            <a href="#overview" class="flex flex-col items-center gap-2 text-xs font-medium text-emerald-400/80 hover:text-amber-300 transition-colors float-gentle">
-              <span class="text-[11px] tracking-widest uppercase font-semibold">Scroll down to view live clinic operations</span>
-              <div class="w-6 h-10 rounded-full border-2 border-emerald-500/40 flex items-start justify-center p-1">
-                <div class="w-1.5 h-2.5 rounded-full bg-amber-400 animate-bounce"></div>
+        <section id="overview" class="content-section space-y-6">
+          
+          <!-- Healthcare Welcome & Doctor Duty Banner -->
+          <div class="p-6 rounded-2xl bg-gradient-to-r from-[#06241a] via-[#041d14] to-[#02130c] border border-emerald-800/50 shadow-xl flex flex-col lg:flex-row lg:items-center justify-between gap-6">
+            <div class="space-y-2">
+              <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-300 text-xs font-semibold">
+                <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+                <span>NABH Certified • Panchakarma Clinical Management System</span>
               </div>
-            </a>
-          </div>
-        </section>
+              <h1 class="text-2xl md:text-3xl font-extrabold font-serif text-white">
+                AyurSutra <span class="gold-gradient-text">Clinical Command Center</span>
+              </h1>
+              <p class="text-xs text-stone-300 max-w-2xl leading-relaxed">
+                Supervising Vaidya: <strong class="text-amber-300">Dr. Ramesh Vaidya (Senior Acharya)</strong> • 
+                Hospital OPD & Inpatient Shodhana Wing • Integrated EMR & Real-time Dosha Telemetry
+              </p>
+            </div>
 
-        <!-- ========================================== -->
-        <!-- 2. OPERATIONS & SESSIONS OVERVIEW -->
-        <!-- ========================================== -->
-        <section id="overview" class="content-section space-y-8">
+            <!-- Quick Action Shortcuts -->
+            <div class="flex flex-wrap items-center gap-2.5">
+              <button onclick="document.getElementById('btn-open-admit-modal').click()" class="btn-gold px-3.5 py-2 rounded-xl text-xs font-bold flex items-center gap-1.5 shadow">
+                <i data-lucide="user-plus" class="w-3.5 h-3.5"></i>
+                <span>New Patient</span>
+              </button>
+              <a href="#billing" class="px-3.5 py-2 rounded-xl bg-amber-950/60 hover:bg-amber-900/80 border border-amber-500/50 text-xs font-semibold text-amber-300 hover:text-white flex items-center gap-1.5 transition-all shadow">
+                <i data-lucide="credit-card" class="w-3.5 h-3.5 text-amber-400"></i>
+                <span>Billing & POS</span>
+              </a>
+              <a href="#schedule" class="px-3.5 py-2 rounded-xl bg-emerald-950/80 hover:bg-emerald-900 border border-emerald-700/60 text-xs font-semibold text-emerald-200 hover:text-white flex items-center gap-1.5 transition-all">
+                <i data-lucide="calendar" class="w-3.5 h-3.5 text-amber-400"></i>
+                <span>Today's Schedule</span>
+              </a>
+              <a href="#patients" class="px-3.5 py-2 rounded-xl bg-emerald-950/80 hover:bg-emerald-900 border border-emerald-700/60 text-xs font-semibold text-emerald-200 hover:text-white flex items-center gap-1.5 transition-all">
+                <i data-lucide="file-text" class="w-3.5 h-3.5 text-cyan-400"></i>
+                <span>Patient EMR</span>
+              </a>
+            </div>
+          </div>
+
+          <!-- Interactive Pancha Mahabhuta & Tridosha Diagnostic Bar -->
+          <div class="p-5 rounded-2xl bg-[#041a12]/60 border border-emerald-900/40 space-y-3">
+            <div class="flex items-center justify-between">
+              <p class="text-xs font-bold uppercase tracking-wider text-emerald-400">Pancha Mahabhuta & Tridosha Diagnostic Matrix</p>
+              <span class="text-[11px] text-stone-400 font-mono">Click element to view clinical attributes</span>
+            </div>
+            <div class="grid grid-cols-2 sm:grid-cols-5 gap-3" id="mahabhuta-grid">
+              <!-- Dynamically populated interactive element buttons -->
+            </div>
+          </div>
           <div class="flex flex-col md:flex-row md:items-end justify-between gap-4 border-b border-emerald-900/60 pb-4">
             <div>
               <span class="text-xs font-bold uppercase tracking-wider text-emerald-400">Clinical Overview</span>
@@ -633,6 +651,121 @@
           </div>
         </section>
 
+        <!-- ========================================== -->
+        <!-- 5. BILLING, INVOICES & PAYMENT GATEWAY    -->
+        <!-- ========================================== -->
+        <section id="billing" class="content-section space-y-6 pb-20">
+          <div class="flex flex-col md:flex-row md:items-end justify-between gap-4 border-b border-emerald-900/60 pb-4">
+            <div>
+              <span class="text-xs font-bold uppercase tracking-wider text-amber-400">Hospital Finance & Cashless POS</span>
+              <h2 class="text-2xl font-bold font-serif text-white mt-1">Billing, Invoices & Payment Gateway</h2>
+              <p class="text-xs text-stone-300 mt-0.5">GST-Compliant Tax Invoices, Ayush TPA Claims, UPI QR & Card Terminal Processing</p>
+            </div>
+            <div class="flex flex-wrap items-center gap-3">
+              <button onclick="openCreateInvoiceModal()" class="flex items-center gap-2 btn-gold px-4 py-2 rounded-xl text-xs font-bold shadow-lg">
+                <i data-lucide="plus-circle" class="w-3.5 h-3.5"></i>
+                <span>+ New Custom Invoice</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- 4 Financial & Revenue KPI Summary Cards -->
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            <div class="glass-card p-5">
+              <div class="flex items-center justify-between">
+                <p class="text-xs font-semibold text-stone-400 uppercase tracking-wider">Total Invoiced</p>
+                <i data-lucide="file-text" class="w-4 h-4 text-emerald-400"></i>
+              </div>
+              <p class="text-2xl font-bold text-white mt-2 font-mono" id="kpi-total-invoiced">₹2,60,640</p>
+              <p class="text-xs text-emerald-400 mt-1 flex items-center gap-1 font-medium">
+                <i data-lucide="trending-up" class="w-3 h-3"></i>
+                <span>6 Active Clinical Invoices</span>
+              </p>
+            </div>
+
+            <div class="glass-card p-5">
+              <div class="flex items-center justify-between">
+                <p class="text-xs font-semibold text-stone-400 uppercase tracking-wider">Total Collected</p>
+                <i data-lucide="check-circle-2" class="w-4 h-4 text-amber-400"></i>
+              </div>
+              <p class="text-2xl font-bold gold-gradient-text mt-2 font-mono" id="kpi-total-collected">₹1,93,390</p>
+              <p class="text-xs text-amber-300/90 mt-1 font-medium font-mono" id="kpi-collection-rate">74.2% Realized Revenue</p>
+            </div>
+
+            <div class="glass-card p-5">
+              <div class="flex items-center justify-between">
+                <p class="text-xs font-semibold text-stone-400 uppercase tracking-wider">Pending Balance</p>
+                <i data-lucide="clock" class="w-4 h-4 text-red-400"></i>
+              </div>
+              <p class="text-2xl font-bold text-red-300 mt-2 font-mono" id="kpi-pending-balance">₹67,250</p>
+              <p class="text-xs text-red-400 mt-1 font-medium" id="kpi-pending-count">2 Unsettled / Due</p>
+            </div>
+
+            <div class="glass-card p-5">
+              <div class="flex items-center justify-between">
+                <p class="text-xs font-semibold text-stone-400 uppercase tracking-wider">Ayush TPA Claims</p>
+                <i data-lucide="shield-check" class="w-4 h-4 text-cyan-400"></i>
+              </div>
+              <p class="text-2xl font-bold text-cyan-300 mt-2">100% Cashless</p>
+              <p class="text-xs text-stone-300 mt-1 font-medium">IRDAI Ayush Approved</p>
+            </div>
+          </div>
+
+          <!-- Main Billing Ledger Panel -->
+          <div class="glass-panel p-6 space-y-5">
+            <div class="flex flex-col md:flex-row items-center justify-between gap-4">
+              <!-- Search Input -->
+              <div class="relative w-full md:w-80">
+                <i data-lucide="search" class="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-stone-400"></i>
+                <input type="text" id="invoice-search-input" placeholder="Search invoice #, patient, txn ID..." class="w-full pl-10 pr-4 py-2 rounded-xl bg-emerald-950/80 border border-emerald-800/80 text-xs text-stone-100 placeholder-stone-400 focus:outline-none focus:border-amber-400" />
+              </div>
+
+              <!-- Status Filters -->
+              <div class="flex flex-wrap items-center gap-2 w-full md:w-auto" id="invoice-filter-container">
+                <span class="text-xs text-stone-400 mr-1 font-medium">Status:</span>
+                <button class="inv-filter-btn active px-3 py-1.5 rounded-lg text-xs font-semibold bg-emerald-800/80 text-white border border-emerald-600/50" data-filter="All">All Invoices</button>
+                <button class="inv-filter-btn px-3 py-1.5 rounded-lg text-xs font-semibold bg-emerald-950/40 text-stone-300 hover:text-white border border-emerald-900/60" data-filter="Paid">Paid</button>
+                <button class="inv-filter-btn px-3 py-1.5 rounded-lg text-xs font-semibold bg-emerald-950/40 text-stone-300 hover:text-white border border-emerald-900/60" data-filter="Pending">Pending Due</button>
+                <button class="inv-filter-btn px-3 py-1.5 rounded-lg text-xs font-semibold bg-emerald-950/40 text-stone-300 hover:text-white border border-emerald-900/60" data-filter="Insurance">TPA Insurance</button>
+              </div>
+            </div>
+
+            <!-- Invoices Table -->
+            <div class="overflow-x-auto rounded-xl border border-emerald-900/50">
+              <table class="w-full text-left text-xs">
+                <thead class="bg-emerald-950/90 text-stone-300 uppercase tracking-wider font-semibold border-b border-emerald-900/60">
+                  <tr>
+                    <th class="px-5 py-3.5">Invoice # & Date</th>
+                    <th class="px-5 py-3.5">Patient Details</th>
+                    <th class="px-5 py-3.5">Panchakarma Package</th>
+                    <th class="px-5 py-3.5">Amount (₹ INR)</th>
+                    <th class="px-5 py-3.5">Payment Method</th>
+                    <th class="px-5 py-3.5">Status</th>
+                    <th class="px-5 py-3.5 text-right">Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="invoice-table-body" class="divide-y divide-emerald-900/40 bg-emerald-950/20">
+                  <!-- Injected via JavaScript -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- Quick Panchakarma Tariff & Rate Card Reference -->
+          <div class="glass-card p-5 space-y-3">
+            <div class="flex items-center justify-between pb-2 border-b border-emerald-900/50">
+              <div class="flex items-center gap-2">
+                <i data-lucide="tag" class="w-4 h-4 text-amber-400"></i>
+                <h3 class="font-bold text-xs text-stone-100 font-serif uppercase tracking-wider">Hospital Tariff & Schedule of Charges (NABH Standard)</h3>
+              </div>
+              <span class="text-[10px] text-emerald-400 font-mono">5% Ayush Healthcare GST Applicable</span>
+            </div>
+            <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 text-xs" id="tariff-catalog-grid">
+              <!-- Injected via JavaScript -->
+            </div>
+          </div>
+        </section>
+
       </main>
     </div>
   </div>
@@ -839,13 +972,474 @@
     </div>
   </div>
 
+  <!-- ========================================== -->
+  <!-- MODAL: MULTI-CHANNEL PAYMENT GATEWAY       -->
+  <!-- ========================================== -->
+  <div id="modal-payment-checkout" class="fixed inset-0 bg-black/80 backdrop-blur-md flex items-center justify-center p-4 z-50 hidden">
+    <div class="glass-panel bg-[#052117]/98 border border-emerald-700/80 max-w-2xl w-full p-6 shadow-2xl space-y-5 max-h-[92vh] overflow-y-auto">
+      
+      <!-- Modal Header -->
+      <div class="flex items-center justify-between pb-3 border-b border-emerald-900/70">
+        <div class="flex items-center gap-2.5">
+          <div class="w-9 h-9 rounded-xl bg-amber-500/20 border border-amber-500/40 flex items-center justify-center text-amber-300">
+            <i data-lucide="shield-check" class="w-5 h-5"></i>
+          </div>
+          <div>
+            <h3 class="text-lg font-bold font-serif gold-gradient-text">AyurPay Secure Checkout</h3>
+            <p class="text-[11px] text-stone-300">256-Bit Encrypted Healthcare POS Gateway</p>
+          </div>
+        </div>
+        <button id="btn-close-pay-modal" class="text-stone-400 hover:text-white p-1 rounded-lg">
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+      </div>
+
+      <!-- Payment Summary Card -->
+      <div class="p-4 rounded-xl bg-emerald-950/70 border border-emerald-800/70 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <div>
+          <span class="text-[10px] uppercase font-bold text-stone-400 tracking-wider font-mono" id="pay-summary-invid">INV-2026-102</span>
+          <h4 class="text-sm font-bold text-white font-serif" id="pay-summary-patient">Rajesh Verma</h4>
+          <p class="text-xs text-emerald-400 mt-0.5" id="pay-summary-package">5-Day Purva Karma & Vamana Shodhana</p>
+        </div>
+        <div class="text-right sm:border-l sm:border-emerald-900 sm:pl-5">
+          <span class="text-[10px] uppercase font-bold text-stone-400 tracking-wider">Total Payable</span>
+          <div class="text-2xl font-bold font-mono gold-gradient-text" id="pay-summary-amount">₹28,400</div>
+          <span class="text-[10px] text-stone-400 font-mono">Incl. 5% Ayush GST</span>
+        </div>
+      </div>
+
+      <!-- Payment Methods Navigation Tabs -->
+      <div class="grid grid-cols-3 sm:grid-cols-5 gap-2" id="pay-methods-tabs">
+        <button class="pay-tab-btn active p-2.5 rounded-xl border border-emerald-800 bg-emerald-950/50 flex flex-col items-center gap-1.5 text-xs text-stone-300" data-tab="upi">
+          <i data-lucide="qr-code" class="w-4 h-4 text-emerald-400"></i>
+          <span class="text-[11px] font-semibold">UPI / QR</span>
+        </button>
+        <button class="pay-tab-btn p-2.5 rounded-xl border border-emerald-800 bg-emerald-950/50 flex flex-col items-center gap-1.5 text-xs text-stone-300" data-tab="card">
+          <i data-lucide="credit-card" class="w-4 h-4 text-amber-400"></i>
+          <span class="text-[11px] font-semibold">Card</span>
+        </button>
+        <button class="pay-tab-btn p-2.5 rounded-xl border border-emerald-800 bg-emerald-950/50 flex flex-col items-center gap-1.5 text-xs text-stone-300" data-tab="netbanking">
+          <i data-lucide="landmark" class="w-4 h-4 text-cyan-400"></i>
+          <span class="text-[11px] font-semibold">NetBanking</span>
+        </button>
+        <button class="pay-tab-btn p-2.5 rounded-xl border border-emerald-800 bg-emerald-950/50 flex flex-col items-center gap-1.5 text-xs text-stone-300" data-tab="insurance">
+          <i data-lucide="shield-plus" class="w-4 h-4 text-purple-400"></i>
+          <span class="text-[11px] font-semibold">Ayush TPA</span>
+        </button>
+        <button class="pay-tab-btn p-2.5 rounded-xl border border-emerald-800 bg-emerald-950/50 flex flex-col items-center gap-1.5 text-xs text-stone-300" data-tab="cash">
+          <i data-lucide="banknote" class="w-4 h-4 text-green-400"></i>
+          <span class="text-[11px] font-semibold">Cash / POS</span>
+        </button>
+      </div>
+
+      <!-- TAB 1: UPI / QR CODE -->
+      <div id="pay-content-upi" class="pay-tab-content space-y-4">
+        <div class="p-5 rounded-2xl bg-emerald-950/50 border border-emerald-800/60 flex flex-col sm:flex-row items-center gap-6">
+          <!-- Interactive Dummy Dynamic QR -->
+          <div class="p-3 bg-white rounded-xl shadow-lg flex flex-col items-center text-center shrink-0 border border-amber-500/40">
+            <div class="w-36 h-36 bg-[#03150e] rounded-lg flex flex-col items-center justify-center p-2 relative overflow-hidden">
+              <!-- QR Visual Pattern -->
+              <div class="grid grid-cols-6 gap-1 w-full h-full opacity-90 p-1">
+                <div class="bg-amber-400 rounded-sm"></div><div class="bg-emerald-400 rounded-sm"></div><div class="bg-white rounded-sm"></div><div class="bg-amber-400 rounded-sm"></div><div class="bg-emerald-400 rounded-sm"></div><div class="bg-white rounded-sm"></div>
+                <div class="bg-emerald-400 rounded-sm"></div><div class="bg-white rounded-sm"></div><div class="bg-amber-400 rounded-sm"></div><div class="bg-white rounded-sm"></div><div class="bg-amber-400 rounded-sm"></div><div class="bg-emerald-400 rounded-sm"></div>
+                <div class="bg-white rounded-sm"></div><div class="bg-amber-400 rounded-sm"></div><div class="bg-emerald-400 rounded-sm"></div><div class="bg-amber-400 rounded-sm"></div><div class="bg-white rounded-sm"></div><div class="bg-emerald-400 rounded-sm"></div>
+                <div class="bg-amber-400 rounded-sm"></div><div class="bg-white rounded-sm"></div><div class="bg-amber-400 rounded-sm"></div><div class="bg-emerald-400 rounded-sm"></div><div class="bg-white rounded-sm"></div><div class="bg-amber-400 rounded-sm"></div>
+              </div>
+              <div class="absolute inset-0 flex items-center justify-center pointer-events-none">
+                <div class="w-8 h-8 rounded-full bg-[#03150e] border-2 border-amber-400 flex items-center justify-center text-amber-300 font-serif text-xs font-bold shadow">
+                  ॐ
+                </div>
+              </div>
+            </div>
+            <span class="text-[10px] text-gray-800 font-bold mt-1.5 font-mono">BHIM UPI Dynamic QR</span>
+          </div>
+
+          <div class="space-y-3 flex-1 text-xs">
+            <p class="text-stone-200">Scan with any UPI app to pay immediately:</p>
+            <div class="flex flex-wrap gap-2">
+              <span class="px-2.5 py-1 rounded-lg bg-emerald-900/60 border border-emerald-700/50 text-emerald-300 font-medium">Google Pay</span>
+              <span class="px-2.5 py-1 rounded-lg bg-emerald-900/60 border border-emerald-700/50 text-purple-300 font-medium">PhonePe</span>
+              <span class="px-2.5 py-1 rounded-lg bg-emerald-900/60 border border-emerald-700/50 text-cyan-300 font-medium">Paytm</span>
+              <span class="px-2.5 py-1 rounded-lg bg-emerald-900/60 border border-emerald-700/50 text-amber-300 font-medium">BHIM</span>
+            </div>
+            <div class="pt-2">
+              <label class="block text-stone-400 text-[11px] mb-1">Or Enter Patient / Payer UPI VPA ID:</label>
+              <div class="flex gap-2">
+                <input type="text" id="input-upi-id" placeholder="e.g. ananya@okaxis or 9876543210@paytm" value="patient@okhdfcbank" class="flex-1 px-3 py-2 bg-emerald-950/80 border border-emerald-800 rounded-xl text-stone-100 placeholder-stone-400 text-xs focus:outline-none focus:border-amber-400" />
+                <button type="button" onclick="showToast('UPI ID Verified')" class="px-3 py-2 rounded-xl bg-emerald-900 text-emerald-200 font-semibold border border-emerald-700/60 text-xs">Verify</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- TAB 2: CREDIT / DEBIT CARD -->
+      <div id="pay-content-card" class="pay-tab-content space-y-4 hidden">
+        <div class="grid grid-cols-1 md:grid-cols-12 gap-5 items-center">
+          
+          <!-- Visual 3D Credit Card -->
+          <div class="md:col-span-6 flex justify-center visual-card-wrapper">
+            <div class="visual-credit-card">
+              <div class="flex items-start justify-between">
+                <div class="emv-chip"></div>
+                <div class="text-right">
+                  <span class="text-xs font-serif font-bold gold-gradient-text tracking-widest block">AYURPAY</span>
+                  <span class="text-[9px] text-emerald-400/90 font-mono">NABH Healthcard</span>
+                </div>
+              </div>
+              <div class="space-y-3">
+                <div class="text-base sm:text-lg font-mono tracking-widest text-amber-200 font-bold drop-shadow" id="card-preview-number">
+                  4532 •••• •••• 8821
+                </div>
+                <div class="flex items-center justify-between text-[11px] font-mono text-stone-300 uppercase">
+                  <div>
+                    <span class="text-[8px] text-stone-400 block">CARDHOLDER</span>
+                    <span id="card-preview-name" class="font-semibold text-white">RAJESH VERMA</span>
+                  </div>
+                  <div>
+                    <span class="text-[8px] text-stone-400 block">EXPIRES</span>
+                    <span id="card-preview-expiry" class="font-semibold text-white">08/29</span>
+                  </div>
+                  <div class="font-bold text-amber-300 text-xs font-serif">RuPay / VISA</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card Form Inputs -->
+          <div class="md:col-span-6 space-y-3 text-xs">
+            <div>
+              <label class="block font-semibold text-stone-300 mb-1">Card Number</label>
+              <input type="text" id="input-card-number" maxlength="19" value="4532 8901 2345 8821" placeholder="4532 •••• •••• ••••" class="w-full px-3.5 py-2 bg-emerald-950/80 border border-emerald-800 rounded-xl text-stone-100 font-mono focus:outline-none focus:border-amber-400" />
+            </div>
+            <div>
+              <label class="block font-semibold text-stone-300 mb-1">Cardholder Name</label>
+              <input type="text" id="input-card-name" value="Rajesh Verma" placeholder="Name as on card" class="w-full px-3.5 py-2 bg-emerald-950/80 border border-emerald-800 rounded-xl text-stone-100 focus:outline-none focus:border-amber-400" />
+            </div>
+            <div class="grid grid-cols-2 gap-3">
+              <div>
+                <label class="block font-semibold text-stone-300 mb-1">Expiry (MM/YY)</label>
+                <input type="text" id="input-card-expiry" maxlength="5" value="08/29" placeholder="MM/YY" class="w-full px-3.5 py-2 bg-emerald-950/80 border border-emerald-800 rounded-xl text-stone-100 font-mono focus:outline-none focus:border-amber-400" />
+              </div>
+              <div>
+                <label class="block font-semibold text-stone-300 mb-1">CVV / CVC</label>
+                <input type="password" id="input-card-cvv" maxlength="4" value="882" placeholder="•••" class="w-full px-3.5 py-2 bg-emerald-950/80 border border-emerald-800 rounded-xl text-stone-100 font-mono focus:outline-none focus:border-amber-400" />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- TAB 3: NET BANKING -->
+      <div id="pay-content-netbanking" class="pay-tab-content space-y-3 hidden">
+        <p class="text-xs text-stone-300">Select your bank for instant direct debit:</p>
+        <div class="grid grid-cols-2 sm:grid-cols-3 gap-2.5 text-xs">
+          <label class="p-3 rounded-xl bg-emerald-950/60 border border-emerald-800 hover:border-amber-500/50 cursor-pointer flex items-center gap-2.5">
+            <input type="radio" name="netbank" checked class="accent-amber-400" />
+            <span class="font-bold text-stone-200">State Bank of India</span>
+          </label>
+          <label class="p-3 rounded-xl bg-emerald-950/60 border border-emerald-800 hover:border-amber-500/50 cursor-pointer flex items-center gap-2.5">
+            <input type="radio" name="netbank" class="accent-amber-400" />
+            <span class="font-bold text-stone-200">HDFC Bank</span>
+          </label>
+          <label class="p-3 rounded-xl bg-emerald-950/60 border border-emerald-800 hover:border-amber-500/50 cursor-pointer flex items-center gap-2.5">
+            <input type="radio" name="netbank" class="accent-amber-400" />
+            <span class="font-bold text-stone-200">ICICI Bank</span>
+          </label>
+          <label class="p-3 rounded-xl bg-emerald-950/60 border border-emerald-800 hover:border-amber-500/50 cursor-pointer flex items-center gap-2.5">
+            <input type="radio" name="netbank" class="accent-amber-400" />
+            <span class="font-bold text-stone-200">Axis Bank</span>
+          </label>
+          <label class="p-3 rounded-xl bg-emerald-950/60 border border-emerald-800 hover:border-amber-500/50 cursor-pointer flex items-center gap-2.5">
+            <input type="radio" name="netbank" class="accent-amber-400" />
+            <span class="font-bold text-stone-200">Kotak Mahindra</span>
+          </label>
+          <label class="p-3 rounded-xl bg-emerald-950/60 border border-emerald-800 hover:border-amber-500/50 cursor-pointer flex items-center gap-2.5">
+            <input type="radio" name="netbank" class="accent-amber-400" />
+            <span class="font-bold text-stone-200">Punjab National Bank</span>
+          </label>
+        </div>
+      </div>
+
+      <!-- TAB 4: AYUSH TPA INSURANCE -->
+      <div id="pay-content-insurance" class="pay-tab-content space-y-3 hidden">
+        <div class="p-4 rounded-xl bg-purple-950/30 border border-purple-800/50 text-xs space-y-2">
+          <div class="flex items-center gap-2 text-purple-300 font-bold">
+            <i data-lucide="shield-check" class="w-4 h-4"></i>
+            <span>IRDAI Recognized Ayush Cashless Claim Network</span>
+          </div>
+          <p class="text-stone-300">Panchakarma inpatient therapies are eligible for 100% cashless claims under major Ayush health insurance policies.</p>
+        </div>
+        <div class="grid grid-cols-2 gap-3 text-xs">
+          <div>
+            <label class="block font-semibold text-stone-300 mb-1">TPA Insurance Provider</label>
+            <select id="input-insurance-provider" class="w-full px-3 py-2 bg-emerald-950/80 border border-emerald-800 rounded-xl text-stone-100 focus:outline-none focus:border-amber-400">
+              <option>Star Health Ayush Care</option>
+              <option>Care Health Insurance (Religare)</option>
+              <option>Max Bupa Health Companion</option>
+              <option>HDFC ERGO Ayush Policy</option>
+            </select>
+          </div>
+          <div>
+            <label class="block font-semibold text-stone-300 mb-1">Pre-Auth / Policy Number</label>
+            <input type="text" id="input-insurance-policy" value="POL-AYUSH-2026-9912" class="w-full px-3 py-2 bg-emerald-950/80 border border-emerald-800 rounded-xl text-stone-100 focus:outline-none focus:border-amber-400" />
+          </div>
+        </div>
+      </div>
+
+      <!-- TAB 5: CASH / COUNTER POS -->
+      <div id="pay-content-cash" class="pay-tab-content space-y-3 hidden">
+        <div class="p-4 rounded-xl bg-emerald-950/60 border border-emerald-800/70 text-xs space-y-2">
+          <p class="text-stone-200"><strong class="text-amber-300">Cash / Physical Counter Receipt:</strong> Record cash payment received at hospital billing desk or POS swipe machine.</p>
+          <div class="pt-2 flex items-center gap-2">
+            <span class="text-stone-400">Collector:</span>
+            <span class="font-mono text-emerald-300 font-bold">AyurSutra Accounts Desk • Counter 1</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Simulated Processing State Overlay -->
+      <div id="payment-processing-state" class="p-6 rounded-2xl bg-emerald-950 border border-amber-500/50 flex flex-col items-center justify-center text-center space-y-3 hidden">
+        <div class="w-12 h-12 rounded-full border-4 border-amber-400/30 border-t-amber-400 animate-spin"></div>
+        <h4 class="text-base font-bold text-white font-serif">Connecting to Secure Gateway...</h4>
+        <p class="text-xs text-emerald-300 font-mono" id="processing-status-text">Authorizing transaction with banking network</p>
+      </div>
+
+      <!-- Action Footer -->
+      <div class="flex items-center justify-between pt-3 border-t border-emerald-900/60" id="payment-actions-footer">
+        <button type="button" id="btn-cancel-pay" class="px-4 py-2.5 rounded-xl border border-emerald-800 text-stone-300 hover:text-white text-xs">
+          Cancel
+        </button>
+        <button type="button" id="btn-execute-payment" class="btn-gold px-6 py-2.5 rounded-xl font-bold text-xs flex items-center gap-2 shadow-xl">
+          <i data-lucide="lock" class="w-3.5 h-3.5"></i>
+          <span id="btn-pay-label">Authorize & Complete Payment</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================== -->
+  <!-- MODAL: PRINTABLE HOSPITAL TAX INVOICE      -->
+  <!-- ========================================== -->
+  <div id="modal-invoice-viewer" class="fixed inset-0 bg-black/80 backdrop-blur-md flex items-center justify-center p-4 z-50 hidden">
+    <div class="bg-[#03150e] border border-emerald-700/80 max-w-3xl w-full p-6 sm:p-8 rounded-2xl shadow-2xl space-y-6 max-h-[92vh] overflow-y-auto invoice-print-area text-stone-100">
+      
+      <!-- Top Action Bar (Hidden when printing) -->
+      <div class="flex items-center justify-between pb-4 border-b border-emerald-900/70 invoice-print-hide">
+        <div class="flex items-center gap-2">
+          <i data-lucide="receipt" class="w-5 h-5 text-amber-400"></i>
+          <h3 class="font-bold text-base font-serif gold-gradient-text">Hospital Tax Invoice Preview</h3>
+        </div>
+        <div class="flex items-center gap-3">
+          <button onclick="window.print()" class="btn-gold px-4 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1.5 shadow">
+            <i data-lucide="printer" class="w-3.5 h-3.5"></i>
+            <span>Print / Save PDF</span>
+          </button>
+          <button id="btn-close-invoice-viewer" class="p-1.5 text-stone-400 hover:text-white rounded-lg hover:bg-emerald-900/40">
+            <i data-lucide="x" class="w-5 h-5"></i>
+          </button>
+        </div>
+      </div>
+
+      <!-- Printable Invoice Document Body -->
+      <div class="space-y-6">
+        
+        <!-- Clinic Letterhead & Metadata -->
+        <div class="flex flex-col sm:flex-row justify-between items-start gap-4 border-b border-emerald-900/70 pb-5">
+          <div>
+            <div class="flex items-center gap-2">
+              <span class="text-2xl font-serif text-amber-400">ॐ</span>
+              <h1 class="text-xl font-bold font-serif gold-gradient-text">AyurSutra Panchakarma Sanctorum</h1>
+            </div>
+            <p class="text-xs text-emerald-400/90 mt-0.5">NABH-Ayurveda Accredited Hospital & Research Center</p>
+            <p class="text-[11px] text-stone-400 mt-1">Vaidya Marg, Civil Lines, Jaipur, Rajasthan - 302006</p>
+            <p class="text-[10px] text-stone-400 font-mono mt-0.5">GSTIN: 08AAACA1234F1Z5 • AYUSH Reg: AYUSH-RJ-2026-881</p>
+          </div>
+
+          <div class="text-left sm:text-right space-y-1">
+            <span class="text-xs uppercase font-bold tracking-widest text-stone-400 block font-mono">ORIGINAL TAX INVOICE</span>
+            <div class="text-lg font-bold font-mono text-amber-300" id="inv-view-id">INV-2026-101</div>
+            <div class="text-xs text-stone-300">Date: <strong id="inv-view-date" class="font-mono">2026-08-16</strong></div>
+            <div class="pt-1">
+              <span id="inv-view-badge" class="inline-flex px-3 py-0.5 rounded-full text-xs font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-500/40">
+                PAID
+              </span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Billed Patient & Doctor Info -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 p-4 rounded-xl bg-emerald-950/40 border border-emerald-900/50 text-xs">
+          <div>
+            <span class="text-[10px] font-bold text-stone-400 uppercase tracking-wider block">Billed To (Patient):</span>
+            <h4 class="font-bold text-sm text-stone-100 font-serif mt-0.5" id="inv-view-patient-name">Ananya Sharma</h4>
+            <p class="text-stone-300 font-mono mt-0.5" id="inv-view-patient-id">Patient ID: AY-2026-001</p>
+            <p class="text-stone-400" id="inv-view-patient-contact">+91 98765 43210</p>
+          </div>
+
+          <div>
+            <span class="text-[10px] font-bold text-stone-400 uppercase tracking-wider block">Supervising Vaidya / Department:</span>
+            <h4 class="font-bold text-sm text-amber-300 font-serif mt-0.5" id="inv-view-doctor">Dr. Ramesh Vaidya (Senior Acharya)</h4>
+            <p class="text-stone-300 mt-0.5" id="inv-view-package">7-Day Shirodhara & Abhyanga Intensive</p>
+            <p class="text-stone-400 text-[11px] mt-0.5">Shodhana Inpatient Department</p>
+          </div>
+        </div>
+
+        <!-- Itemized Line Items Table -->
+        <div class="overflow-x-auto rounded-xl border border-emerald-900/60">
+          <table class="w-full text-left text-xs">
+            <thead class="bg-emerald-950/90 text-stone-300 uppercase tracking-wider font-semibold border-b border-emerald-900/60 invoice-table-header">
+              <tr>
+                <th class="px-4 py-3">#</th>
+                <th class="px-4 py-3">Item / Therapy Description</th>
+                <th class="px-4 py-3 text-center">Qty / Days</th>
+                <th class="px-4 py-3 text-right">Unit Rate (₹)</th>
+                <th class="px-4 py-3 text-right">Amount (₹)</th>
+              </tr>
+            </thead>
+            <tbody id="inv-view-items-body" class="divide-y divide-emerald-900/40 bg-emerald-950/20">
+              <!-- Dynamically populated -->
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Calculation & Totals -->
+        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-end gap-6 pt-2">
+          
+          <div class="space-y-2 text-xs text-stone-300 max-w-sm">
+            <div class="p-3 rounded-xl bg-emerald-950/40 border border-emerald-900/60">
+              <span class="font-bold text-amber-300 block mb-1">Payment Method & Settlement:</span>
+              <p id="inv-view-pay-method" class="font-mono text-stone-200">UPI (GPay / PhonePe) • TXN-AYUR-882194</p>
+              <p id="inv-view-paid-date" class="text-[11px] text-stone-400 mt-0.5">Paid At: 2026-08-16 10:45 AM</p>
+            </div>
+            <p class="text-[10px] text-stone-400">Medicines and therapies dispensed as per classical Charaka Samhita guidelines.</p>
+          </div>
+
+          <div class="w-full sm:w-72 space-y-2 text-xs font-mono">
+            <div class="flex justify-between text-stone-300">
+              <span>Subtotal:</span>
+              <span id="inv-view-subtotal">₹57,100</span>
+            </div>
+            <div class="flex justify-between text-stone-300">
+              <span>Ayush GST (5%):</span>
+              <span id="inv-view-gst">₹2,855</span>
+            </div>
+            <div class="flex justify-between text-stone-300">
+              <span>Institutional Discount:</span>
+              <span id="inv-view-discount" class="text-emerald-400">-₹2,000</span>
+            </div>
+            <div class="flex justify-between text-base font-bold text-white pt-2 border-t border-emerald-800">
+              <span class="font-serif">Total Amount:</span>
+              <span id="inv-view-total" class="gold-gradient-text">₹57,955</span>
+            </div>
+            <div class="flex justify-between text-xs font-bold text-emerald-300">
+              <span>Amount Paid:</span>
+              <span id="inv-view-amount-paid">₹57,955</span>
+            </div>
+            <div class="flex justify-between text-xs font-bold text-stone-400">
+              <span>Balance Due:</span>
+              <span id="inv-view-balance-due">₹0</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Signature & Seal -->
+        <div class="flex justify-between items-end pt-6 border-t border-emerald-900/60 text-xs">
+          <div>
+            <div class="w-16 h-16 rounded-full border-2 border-dashed border-amber-500/40 flex items-center justify-center text-center p-1 text-[9px] text-amber-300/80">
+              NABH AYUSH SEAL
+            </div>
+          </div>
+          <div class="text-right space-y-1">
+            <div class="font-serif italic text-sm text-amber-200">Dr. Ramesh Vaidya</div>
+            <div class="text-[10px] text-stone-400 font-medium">Chief Medical Superintendent & Vaidya Director</div>
+            <div class="text-[9px] text-emerald-400 font-mono">Digitally Authorized • AyurSutra EMR</div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================== -->
+  <!-- MODAL: CREATE CUSTOM TAX INVOICE           -->
+  <!-- ========================================== -->
+  <div id="modal-create-invoice" class="fixed inset-0 bg-black/80 backdrop-blur-md flex items-center justify-center p-4 z-50 hidden">
+    <div class="glass-panel bg-[#052117]/98 border border-emerald-700/80 max-w-xl w-full p-6 shadow-2xl space-y-5 max-h-[92vh] overflow-y-auto">
+      
+      <div class="flex items-center justify-between pb-3 border-b border-emerald-900/70">
+        <div class="flex items-center gap-2">
+          <i data-lucide="plus-circle" class="w-5 h-5 text-amber-400"></i>
+          <h3 class="text-lg font-bold font-serif gold-gradient-text">Generate New Tax Invoice</h3>
+        </div>
+        <button id="btn-close-create-inv-modal" class="text-stone-400 hover:text-white p-1 rounded-lg">
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+      </div>
+
+      <form id="form-create-invoice" class="space-y-4 text-xs">
+        
+        <div>
+          <label class="block font-semibold text-stone-300 mb-1">Select Patient</label>
+          <select id="create-inv-patient-select" class="w-full px-3.5 py-2.5 bg-emerald-950/80 border border-emerald-800 rounded-xl text-stone-100 focus:outline-none focus:border-amber-400">
+            <!-- Dynamically populated -->
+          </select>
+        </div>
+
+        <div>
+          <label class="block font-semibold text-stone-300 mb-1">Primary Therapy / Package Title</label>
+          <input type="text" id="create-inv-package" required placeholder="e.g. 7-Day Shirodhara & Abhyanga Intensive" value="7-Day Shirodhara & Abhyanga Intensive" class="w-full px-3.5 py-2.5 bg-emerald-950/80 border border-emerald-800 rounded-xl text-stone-100 focus:outline-none focus:border-amber-400" />
+        </div>
+
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="block font-semibold text-stone-300 mb-1">Therapy Charge (₹)</label>
+            <input type="number" id="create-inv-therapy-charge" required value="35000" class="w-full px-3.5 py-2 bg-emerald-950/80 border border-emerald-800 rounded-xl text-stone-100 font-mono focus:outline-none focus:border-amber-400" />
+          </div>
+          <div>
+            <label class="block font-semibold text-stone-300 mb-1">Chamber / Suite Stay (₹)</label>
+            <input type="number" id="create-inv-room-charge" required value="12000" class="w-full px-3.5 py-2 bg-emerald-950/80 border border-emerald-800 rounded-xl text-stone-100 font-mono focus:outline-none focus:border-amber-400" />
+          </div>
+        </div>
+
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="block font-semibold text-stone-300 mb-1">Medicines & Taila (₹)</label>
+            <input type="number" id="create-inv-med-charge" required value="3700" class="w-full px-3.5 py-2 bg-emerald-950/80 border border-emerald-800 rounded-xl text-stone-100 font-mono focus:outline-none focus:border-amber-400" />
+          </div>
+          <div>
+            <label class="block font-semibold text-stone-300 mb-1">Discount (₹)</label>
+            <input type="number" id="create-inv-discount" value="1500" class="w-full px-3.5 py-2 bg-emerald-950/80 border border-emerald-800 rounded-xl text-stone-100 font-mono focus:outline-none focus:border-amber-400" />
+          </div>
+        </div>
+
+        <div>
+          <label class="block font-semibold text-stone-300 mb-1">Initial Payment Status</label>
+          <select id="create-inv-status" class="w-full px-3.5 py-2 bg-emerald-950/80 border border-emerald-800 rounded-xl text-stone-100 focus:outline-none focus:border-amber-400">
+            <option value="Pending">Pending (Unpaid)</option>
+            <option value="Paid">Paid (Instant Realization)</option>
+          </select>
+        </div>
+
+        <div class="flex items-center justify-end gap-3 pt-3 border-t border-emerald-900/60">
+          <button type="button" id="btn-cancel-create-inv" class="px-4 py-2.5 rounded-xl border border-emerald-800 text-stone-300 hover:text-white">
+            Cancel
+          </button>
+          <button type="submit" class="btn-gold px-5 py-2.5 rounded-xl font-bold shadow-lg">
+            Create & Save Invoice
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
   <!-- Toast Notification Container -->
   <div id="toast-container" class="fixed bottom-6 right-6 z-50 space-y-2 pointer-events-none"></div>
 
   <!-- Application Logic Scripts -->
   <script type="module" src="./data.js"></script>
   <script src="./audio.js"></script>
-  <script src="./three-bg.js"></script>
+  <script src="./ayur-intro.js"></script>
   <script type="module" src="./app.js"></script>
 </body>
 </html>

@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>AyurSutra — Panchakarma Clinical Management & Vedic Cosmic Portal</title>
+  <title>AyurSutra — Panchakarma Hospital Management System & EMR</title>
 
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
@@ -35,112 +35,71 @@
   <!-- Google Fonts: Cinzel & Plus Jakarta Sans -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700;800;900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 
   <!-- Lucide Icons -->
   <script src="https://unpkg.com/lucide@latest"></script>
 
-  <!-- Three.js CDN -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-
-  <!-- Integrated Stylesheet -->
   <style>
     :root {
       --font-serif: 'Cinzel', serif;
-      --font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      --font-sans: 'Plus Jakarta Sans', sans-serif;
       --bg-deep: #03150e;
-      --bg-surface: rgba(6, 32, 22, 0.72);
-      --bg-surface-elevated: rgba(10, 44, 31, 0.85);
-      --bg-card: rgba(13, 50, 36, 0.65);
-      --border-subtle: rgba(45, 120, 85, 0.25);
-      --border-glow: rgba(212, 175, 55, 0.35);
-      --border-emerald: rgba(16, 185, 129, 0.3);
-      --text-primary: #f0fdf4;
-      --text-secondary: #a7f3d0;
-      --text-muted: #6ee7b7;
-      --text-dim: #4b7a67;
+      --bg-surface: rgba(6, 32, 22, 0.75);
+      --border-subtle: rgba(45, 120, 85, 0.3);
+      --border-glow: rgba(212, 175, 55, 0.4);
       --gold-primary: #d4af37;
-      --emerald-primary: #10b981;
-      --cyan-accent: #06b6d4;
-      --amber-accent: #f59e0b;
     }
 
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
-    html {
-      scroll-behavior: smooth;
-      color-scheme: dark;
-    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; color-scheme: dark; }
 
     body {
       font-family: var(--font-sans);
-      background-color: var(--bg-deep);
-      color: var(--text-primary);
+      background: radial-gradient(circle at 50% 0%, #062319 0%, #03150e 60%, #010a07 100%);
+      background-attachment: fixed;
+      color: #f0fdf4;
       overflow-x: hidden;
       min-height: 100vh;
     }
 
-    /* 3D WebGL Canvas Layer */
-    #bg-canvas-container {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100vw;
-      height: 100vh;
-      z-index: 0;
-      pointer-events: auto;
-      background: radial-gradient(circle at 50% 35%, #05261b 0%, #03140e 70%, #010a07 100%);
-    }
-
-    /* Scroll Progress Bar */
     #scroll-progress-container {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 3px;
-      background: rgba(255, 255, 255, 0.05);
-      z-index: 100;
+      position: fixed; top: 0; left: 0; width: 100%; height: 3px;
+      background: rgba(255, 255, 255, 0.05); z-index: 100;
     }
-
     #scroll-progress-bar {
-      height: 100%;
-      width: 0%;
+      height: 100%; width: 0%;
       background: linear-gradient(90deg, #10b981, #d4af37, #06b6d4);
-      box-shadow: 0 0 10px rgba(212, 175, 55, 0.7);
       transition: width 0.1s ease-out;
     }
 
-    /* Glassmorphism Styles */
     .glass-panel {
       background: var(--bg-surface);
       backdrop-filter: blur(20px);
-      -webkit-backdrop-filter: blur(20px);
       border: 1px solid var(--border-subtle);
       border-radius: 1rem;
     }
 
     .glass-card {
-      background: var(--bg-card);
-      backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
-      border: 1px solid var(--border-subtle);
-      border-radius: 0.875rem;
-      transition: all 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+      background: rgba(10, 44, 31, 0.65);
+      backdrop-filter: blur(14px);
+      border: 1px solid rgba(45, 120, 85, 0.35);
+      border-radius: 0.85rem;
+      transition: all 0.25s ease;
     }
 
     .glass-card:hover {
-      border-color: var(--border-emerald);
+      border-color: var(--border-glow);
       transform: translateY(-2px);
-      box-shadow: 0 12px 30px -10px rgba(0, 0, 0, 0.5), 0 0 20px -5px rgba(16, 185, 129, 0.15);
+      box-shadow: 0 8px 24px -6px rgba(0, 0, 0, 0.5), 0 0 12px -2px rgba(212, 175, 55, 0.15);
     }
 
-    .font-serif {
-      font-family: var(--font-serif);
+    .nav-item { transition: all 0.2s ease; }
+    .nav-item.active {
+      background: linear-gradient(90deg, rgba(212, 175, 55, 0.18) 0%, rgba(16, 185, 129, 0.12) 100%);
+      border-color: rgba(212, 175, 55, 0.6);
+      color: #ffffff;
+      box-shadow: inset 0 0 12px rgba(212, 175, 55, 0.15);
     }
 
     .gold-gradient-text {
@@ -149,76 +108,12 @@
       -webkit-text-fill-color: transparent;
     }
 
-    .emerald-gradient-text {
-      background: linear-gradient(135deg, #a7f3d0 0%, #34d399 50%, #059669 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
-
-    /* Sidebar Navigation Active Indicator */
-    .nav-item {
-      position: relative;
-      transition: all 0.25s ease;
-    }
-
-    .nav-item.active {
-      background: rgba(16, 185, 129, 0.18) !important;
-      color: #ffffff !important;
-      border-color: rgba(212, 175, 55, 0.4) !important;
-      box-shadow: 0 0 16px -2px rgba(16, 185, 129, 0.25);
-    }
-
-    .nav-item.active::before {
-      content: '';
-      position: absolute;
-      left: 0;
-      top: 15%;
-      height: 70%;
-      width: 3.5px;
-      background: linear-gradient(180deg, #d4af37, #10b981);
-      border-radius: 0 4px 4px 0;
-      box-shadow: 0 0 8px #d4af37;
-    }
-
-    ::-webkit-scrollbar {
-      width: 7px;
-      height: 7px;
-    }
-
-    ::-webkit-scrollbar-track {
-      background: #020d09;
-    }
-
-    ::-webkit-scrollbar-thumb {
-      background: #1b4d3a;
-      border-radius: 4px;
-    }
-
-    ::-webkit-scrollbar-thumb:hover {
-      background: #277256;
-    }
-
-    @keyframes float-gentle {
-      0%, 100% { transform: translateY(0px); }
-      50% { transform: translateY(-8px); }
-    }
-
-    .float-gentle {
-      animation: float-gentle 4s infinite ease-in-out;
-    }
-
-    .content-section {
-      scroll-margin-top: 5rem;
-      transition: opacity 0.4s ease, transform 0.4s ease;
-    }
-
     .btn-gold {
       background: linear-gradient(135deg, #d4af37 0%, #b8911f 100%);
       color: #03150e;
       font-weight: 700;
       transition: all 0.25s ease;
     }
-
     .btn-gold:hover {
       background: linear-gradient(135deg, #f5d76e 0%, #d4af37 100%);
       box-shadow: 0 0 20px rgba(212, 175, 55, 0.45);
@@ -231,18 +126,73 @@
       font-weight: 600;
       transition: all 0.25s ease;
     }
-
     .btn-emerald:hover {
       background: linear-gradient(135deg, #34d399 0%, #10b981 100%);
       box-shadow: 0 0 20px rgba(16, 185, 129, 0.4);
       transform: translateY(-1px);
     }
+
+    /* Entrance Overlay Styles */
+    #ayur-intro-overlay {
+      position: fixed; inset: 0; width: 100vw; height: 100vh;
+      z-index: 99999; background: #02120b;
+      display: flex; align-items: center; justify-content: center;
+      overflow: hidden; opacity: 1; pointer-events: auto;
+      transition: opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1), transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    #ayur-intro-overlay.fade-out { opacity: 0; transform: scale(1.03); pointer-events: none; }
+    #ayur-intro-canvas { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 1; }
+    #ayur-intro-skip {
+      position: absolute; top: 1.5rem; right: 1.75rem; z-index: 10;
+      display: inline-flex; align-items: center; gap: 0.4rem; padding: 0.45rem 0.95rem;
+      font-size: 0.72rem; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase;
+      color: #a7f3d0; background: rgba(6, 32, 22, 0.75); border: 1px solid rgba(45, 120, 85, 0.4);
+      border-radius: 9999px; backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+      cursor: pointer; transition: all 0.25s ease;
+    }
+    #ayur-intro-skip:hover {
+      color: #ffffff; background: rgba(16, 185, 129, 0.2);
+      border-color: rgba(212, 175, 55, 0.5); box-shadow: 0 0 16px rgba(16, 185, 129, 0.25);
+    }
+
+    /* Billing & Visual Card Styles */
+    .pay-tab-btn.active {
+      background: linear-gradient(135deg, rgba(212, 175, 55, 0.2) 0%, rgba(16, 185, 129, 0.25) 100%);
+      border-color: rgba(212, 175, 55, 0.7); color: #ffffff;
+      box-shadow: 0 0 15px rgba(212, 175, 55, 0.2);
+    }
+    .visual-credit-card {
+      width: 100%; max-width: 380px; height: 210px; border-radius: 1.25rem;
+      background: linear-gradient(135deg, #0b3d2c 0%, #062319 45%, #1b120c 100%);
+      border: 1px solid rgba(212, 175, 55, 0.5);
+      box-shadow: 0 15px 35px -5px rgba(0, 0, 0, 0.6), inset 0 0 20px rgba(212, 175, 55, 0.15);
+      position: relative; overflow: hidden; padding: 1.5rem; display: flex;
+      flex-direction: column; justify-content: space-between;
+    }
+    .emv-chip {
+      width: 42px; height: 32px; border-radius: 6px;
+      background: linear-gradient(135deg, #d4af37 0%, #fef08a 50%, #996515 100%);
+      border: 1px solid #78350f; position: relative;
+    }
+
+    @media print {
+      body * { visibility: hidden; }
+      #modal-invoice-viewer, #modal-invoice-viewer * { visibility: visible; }
+      #modal-invoice-viewer { position: absolute; left: 0; top: 0; width: 100%; background: #ffffff !important; color: #000000 !important; }
+      .invoice-print-hide { display: none !important; }
+    }
   </style>
 </head>
 <body class="bg-[#03150e] text-stone-100 antialiased selection:bg-emerald-500/30 selection:text-emerald-200">
 
-  <!-- 3D WebGL Three.js Canvas Layer for Rotating Earth & Ayurvedic Geometry -->
-  <div id="bg-canvas-container"></div>
+  <!-- Cinematic Ayurvedic Medicine-Making Entrance Animation Overlay -->
+  <div id="ayur-intro-overlay">
+    <canvas id="ayur-intro-canvas"></canvas>
+    <button id="ayur-intro-skip" aria-label="Skip Introduction">
+      <span>Skip Intro</span>
+      <i data-lucide="chevron-right" class="w-3 h-3"></i>
+    </button>
+  </div>
 
   <!-- Top Global Scroll Progress Bar -->
   <div id="scroll-progress-container">
@@ -255,7 +205,7 @@
     <!-- Left Sticky Glassmorphic Sidebar -->
     <aside class="sticky top-0 h-screen w-72 shrink-0 flex flex-col justify-between p-5 bg-[#041a12]/80 backdrop-blur-2xl border-r border-emerald-900/40 shadow-2xl z-30">
       
-      <!-- Brand & Sacred Emblem -->
+      <!-- Brand & Emblem -->
       <div>
         <div class="flex items-center gap-3.5 px-2 py-3 mb-6 border-b border-emerald-900/50">
           <div class="relative flex items-center justify-center w-11 h-11 rounded-xl bg-gradient-to-br from-emerald-800 to-emerald-950 border border-amber-500/40 shadow-lg text-amber-300">
@@ -266,31 +216,26 @@
           <div>
             <div class="flex items-center gap-1.5">
               <h1 class="text-lg font-bold tracking-wider font-serif gold-gradient-text">AyurSutra</h1>
-              <span class="text-[9px] font-bold px-1.5 py-0.5 rounded bg-amber-500/20 text-amber-300 border border-amber-500/30">VEDIC</span>
+              <span class="text-[9px] font-bold px-1.5 py-0.5 rounded bg-amber-500/20 text-amber-300 border border-amber-500/30">HOSPITAL</span>
             </div>
-            <p class="text-[11px] text-emerald-400/80 font-medium">Panchakarma Sanctuary</p>
+            <p class="text-[11px] text-emerald-400/80 font-medium">Clinical Management & EHR</p>
           </div>
         </div>
 
-        <!-- Automatic Scroll-Driven Navigation Menu -->
+        <!-- Navigation Menu -->
         <div class="px-2 mb-2">
-          <p class="text-[10px] font-bold uppercase tracking-widest text-emerald-500/60">Live Navigation (Scroll-Synced)</p>
+          <p class="text-[10px] font-bold uppercase tracking-widest text-emerald-500/60">Live Hospital Modules</p>
         </div>
 
         <nav class="space-y-1.5" id="sidebar-nav">
-          <a href="#hero" id="nav-hero" class="nav-item active flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-semibold text-stone-300 hover:text-white border border-transparent transition-all">
-            <i data-lucide="globe" class="w-4 h-4 text-amber-400"></i>
-            <span>Cosmic Origin & Earth</span>
-          </a>
-
-          <a href="#overview" id="nav-overview" class="nav-item flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-semibold text-stone-300 hover:text-white border border-transparent transition-all">
+          <a href="#overview" id="nav-overview" class="nav-item active flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-semibold text-stone-300 hover:text-white border border-transparent transition-all">
             <i data-lucide="layout-dashboard" class="w-4 h-4 text-emerald-400"></i>
-            <span>Operations Overview</span>
+            <span>Clinical Dashboard</span>
           </a>
 
           <a href="#patients" id="nav-patients" class="nav-item flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-semibold text-stone-300 hover:text-white border border-transparent transition-all">
             <i data-lucide="users" class="w-4 h-4 text-cyan-400"></i>
-            <span>Patient Records</span>
+            <span>Patient Records & EMR</span>
             <span class="ml-auto text-[10px] px-1.5 py-0.2 rounded-full bg-emerald-900/80 text-emerald-300 border border-emerald-700/50" id="badge-patient-count">6</span>
           </a>
 
@@ -301,29 +246,41 @@
 
           <a href="#suites" id="nav-suites" class="nav-item flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-semibold text-stone-300 hover:text-white border border-transparent transition-all">
             <i data-lucide="sparkles" class="w-4 h-4 text-purple-400"></i>
-            <span>Chikitsa Suites & Herbarium</span>
+            <span>Chikitsa Suites</span>
+          </a>
+
+          <a href="#billing" id="nav-billing" class="nav-item flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-semibold text-stone-300 hover:text-white border border-transparent transition-all">
+            <i data-lucide="receipt" class="w-4 h-4 text-amber-400"></i>
+            <span>Billing & Payments</span>
+            <span class="ml-auto text-[10px] px-1.5 py-0.2 rounded-full bg-amber-900/80 text-amber-300 border border-amber-700/50" id="badge-invoice-count">6</span>
           </a>
         </nav>
       </div>
 
-      <!-- Footer Widgets: Ambient Audio & Clinic Status -->
-      <div class="space-y-3">
-        <!-- Soundscape Synthesizer Toggle -->
+      <!-- Footer Widgets -->
+      <div class="space-y-2.5">
+        <button id="btn-replay-intro" onclick="window.location.reload();" class="w-full flex items-center justify-between px-3.5 py-2 rounded-xl bg-emerald-950/40 border border-emerald-900/60 hover:border-emerald-700/60 text-xs text-stone-300 hover:text-white transition-all group">
+          <div class="flex items-center gap-2">
+            <i data-lucide="play-circle" class="w-3.5 h-3.5 text-emerald-400 group-hover:scale-110 transition-transform"></i>
+            <span class="font-medium text-[11px]">Replay Medicine Intro</span>
+          </div>
+          <span class="text-[9px] font-bold px-1.5 py-0.2 rounded bg-emerald-900/60 text-emerald-300">ANIMATION</span>
+        </button>
+
         <button id="btn-audio-toggle" class="w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl bg-emerald-950/60 border border-emerald-800/60 hover:border-amber-500/40 text-xs text-stone-200 hover:text-white transition-all group">
           <div class="flex items-center gap-2.5">
             <i data-lucide="volume-2" id="audio-icon" class="w-4 h-4 text-amber-400 group-hover:scale-110 transition-transform"></i>
-            <span class="font-medium text-[11px]" id="audio-label">Vedic Tanpura (432Hz)</span>
+            <span class="font-medium text-[11px]" id="audio-label">Vedic Soundscape</span>
           </div>
           <span class="text-[10px] font-bold px-2 py-0.5 rounded bg-emerald-900/90 text-emerald-300" id="audio-status">OFF</span>
         </button>
 
-        <!-- Vaidya Sanctorum Info -->
         <div class="p-3.5 rounded-xl bg-gradient-to-b from-emerald-950/90 to-emerald-900/40 border border-emerald-800/40 text-xs">
           <div class="flex items-center justify-between">
             <span class="font-bold text-emerald-200">Jaipur Sanctorum</span>
             <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
           </div>
-          <p class="text-[11px] text-emerald-400/80 mt-1 font-mono">Chikitsa Wing • 6 Suites Active</p>
+          <p class="text-[11px] text-emerald-400/80 mt-1 font-mono">Panchakarma Wing • 6 Suites Active</p>
         </div>
       </div>
     </aside>
@@ -331,24 +288,27 @@
     <!-- Main Scrollable Content Area -->
     <div class="flex-1 flex flex-col min-w-0">
 
-      <!-- Sticky Top Header with Dynamic Section Tracker -->
-      <header class="sticky top-0 z-20 h-16 px-8 flex items-center justify-between bg-[#041a12]/70 backdrop-blur-xl border-b border-emerald-900/40">
+      <!-- Top Header -->
+      <header class="sticky top-0 z-20 h-16 px-8 flex items-center justify-between bg-[#041a12]/90 backdrop-blur-xl border-b border-emerald-900/50 shadow-md">
         <div class="flex items-center gap-3">
-          <div class="w-2 h-2 rounded-full bg-amber-400 shadow-[0_0_8px_#f59e0b]"></div>
+          <div class="w-2.5 h-2.5 rounded-full bg-emerald-400 shadow-[0_0_8px_#10b981]"></div>
           <div>
-            <h2 id="topbar-title" class="text-sm font-bold tracking-wide uppercase text-stone-100 font-serif">Cosmic Origin & Earth</h2>
-            <p id="topbar-subtitle" class="text-[11px] text-emerald-400/90">The 5 Mahabhutas & Sacred Panchakarma Harmony</p>
+            <h2 id="topbar-title" class="text-sm font-bold tracking-wide uppercase text-stone-100 font-serif">Clinical Dashboard</h2>
+            <p id="topbar-subtitle" class="text-[11px] text-emerald-400/90">Hospital EHR & Panchakarma Management System</p>
           </div>
         </div>
 
         <div class="flex items-center gap-4">
-          <!-- Real-time Clock -->
           <div class="hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-lg bg-emerald-950/60 border border-emerald-800/40 text-xs text-stone-300">
             <i data-lucide="clock" class="w-3.5 h-3.5 text-amber-400"></i>
             <span id="live-clock" class="font-mono text-[11px]">08:30:00 IST</span>
           </div>
 
-          <!-- Admit Patient Action Button -->
+          <button id="btn-open-create-invoice" onclick="openCreateInvoiceModal()" class="flex items-center gap-2 px-3.5 py-2 rounded-lg bg-emerald-950/80 hover:bg-emerald-900 text-xs font-bold text-amber-300 border border-amber-500/40 shadow-md transition-all">
+            <i data-lucide="receipt" class="w-3.5 h-3.5"></i>
+            <span>+ Create Invoice</span>
+          </button>
+
           <button id="btn-open-admit-modal" class="flex items-center gap-2 btn-gold px-4 py-2 rounded-lg text-xs font-bold shadow-lg">
             <i data-lucide="user-plus" class="w-3.5 h-3.5"></i>
             <span>Admit Patient</span>
@@ -356,64 +316,52 @@
         </div>
       </header>
 
-      <!-- Scrollable Main Container -->
-      <main class="flex-1 px-8 py-10 space-y-28">
+      <!-- Main Container -->
+      <main class="flex-1 px-8 py-8 space-y-12">
 
-        <!-- 1. HERO SECTION -->
-        <section id="hero" class="content-section min-h-[82vh] flex flex-col justify-between">
-          <div class="max-w-3xl space-y-6 pt-6">
-            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-500/10 border border-amber-500/30 text-amber-300 text-xs font-semibold">
-              <i data-lucide="sparkles" class="w-3.5 h-3.5 text-amber-400"></i>
-              <span>Panchamahabhuta • Tridosha • Shodhana Chikitsa</span>
-            </div>
-
-            <h1 class="text-4xl md:text-5xl lg:text-6xl font-extrabold font-serif leading-tight">
-              Sacred Healing for the <span class="gold-gradient-text">Whole Being</span>
-            </h1>
-
-            <p class="text-base md:text-lg text-emerald-200/90 leading-relaxed font-light">
-              Experience the convergence of timeless Vedic medicine and clinical Panchakarma administration. As the Earth rotates in harmony with the cosmos, balance your Prakriti through scientific purification.
-            </p>
-
-            <!-- Sanskrit Verse Box -->
-            <div class="p-4 rounded-xl bg-emerald-950/40 backdrop-blur-md border border-emerald-800/40 text-xs">
-              <p class="font-serif text-amber-200/90 italic text-sm">
-                “सर्ववेदेषु यत्सारं तदायर्वेद उच्यते। दोषाणां च समत्वेन स्वास्थ्यायुष्यं विवर्धते॥”
-              </p>
-              <p class="text-emerald-400/80 mt-1 text-[11px]">
-                “The essence of all Vedas is Ayurveda; by harmonizing the bodily doshas, longevity and supreme health flourish.”
-              </p>
-            </div>
-          </div>
-
-          <!-- Interactive Mahabhuta Element Bar -->
-          <div class="space-y-3 pt-8">
-            <p class="text-xs font-bold uppercase tracking-wider text-emerald-400/70">Interactive Pancha Mahabhuta (Click an Element)</p>
-            <div class="grid grid-cols-2 sm:grid-cols-5 gap-3" id="mahabhuta-grid"></div>
-          </div>
-
-          <!-- Downward Scroll Prompt -->
-          <div class="flex items-center justify-center pt-8 pb-4">
-            <a href="#overview" class="flex flex-col items-center gap-2 text-xs font-medium text-emerald-400/80 hover:text-amber-300 transition-colors float-gentle">
-              <span class="text-[11px] tracking-widest uppercase font-semibold">Scroll down to view live clinic operations</span>
-              <div class="w-6 h-10 rounded-full border-2 border-emerald-500/40 flex items-start justify-center p-1">
-                <div class="w-1.5 h-2.5 rounded-full bg-amber-400 animate-bounce"></div>
+        <!-- 1. CLINICAL DASHBOARD COMMAND CENTER -->
+        <section id="overview" class="content-section space-y-6">
+          <div class="p-6 rounded-2xl bg-gradient-to-r from-[#06241a] via-[#041d14] to-[#02130c] border border-emerald-800/50 shadow-xl flex flex-col lg:flex-row lg:items-center justify-between gap-6">
+            <div class="space-y-2">
+              <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-300 text-xs font-semibold">
+                <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+                <span>NABH Certified • Panchakarma Clinical Management System</span>
               </div>
-            </a>
-          </div>
-        </section>
+              <h1 class="text-2xl md:text-3xl font-extrabold font-serif text-white">
+                AyurSutra <span class="gold-gradient-text">Clinical Command Center</span>
+              </h1>
+              <p class="text-xs text-stone-300 max-w-2xl leading-relaxed">
+                Supervising Vaidya: <strong class="text-amber-300">Dr. Ramesh Vaidya (Senior Acharya)</strong> • 
+                Hospital OPD & Inpatient Shodhana Wing • Integrated EMR & Real-time Dosha Telemetry
+              </p>
+            </div>
 
-        <!-- 2. OPERATIONS & SESSIONS OVERVIEW -->
-        <section id="overview" class="content-section space-y-8">
-          <div class="flex flex-col md:flex-row md:items-end justify-between gap-4 border-b border-emerald-900/60 pb-4">
-            <div>
-              <span class="text-xs font-bold uppercase tracking-wider text-emerald-400">Clinical Overview</span>
-              <h2 class="text-2xl font-bold font-serif text-white mt-1">Operations & Panchakarma Status</h2>
+            <div class="flex flex-wrap items-center gap-2.5">
+              <button onclick="document.getElementById('btn-open-admit-modal').click()" class="btn-gold px-3.5 py-2 rounded-xl text-xs font-bold flex items-center gap-1.5 shadow">
+                <i data-lucide="user-plus" class="w-3.5 h-3.5"></i>
+                <span>New Patient</span>
+              </button>
+              <a href="#billing" class="px-3.5 py-2 rounded-xl bg-amber-950/60 hover:bg-amber-900/80 border border-amber-500/50 text-xs font-semibold text-amber-300 hover:text-white flex items-center gap-1.5 transition-all shadow">
+                <i data-lucide="credit-card" class="w-3.5 h-3.5 text-amber-400"></i>
+                <span>Billing & POS</span>
+              </a>
+              <a href="#schedule" class="px-3.5 py-2 rounded-xl bg-emerald-950/80 hover:bg-emerald-900 border border-emerald-700/60 text-xs font-semibold text-emerald-200 hover:text-white flex items-center gap-1.5 transition-all">
+                <i data-lucide="calendar" class="w-3.5 h-3.5 text-amber-400"></i>
+                <span>Today's Schedule</span>
+              </a>
+              <a href="#patients" class="px-3.5 py-2 rounded-xl bg-emerald-950/80 hover:bg-emerald-900 border border-emerald-700/60 text-xs font-semibold text-emerald-200 hover:text-white flex items-center gap-1.5 transition-all">
+                <i data-lucide="file-text" class="w-3.5 h-3.5 text-cyan-400"></i>
+                <span>Patient EMR</span>
+              </a>
             </div>
-            <div class="flex items-center gap-2 text-xs text-emerald-300/80">
-              <i data-lucide="shield-check" class="w-4 h-4 text-emerald-400"></i>
-              <span>Live NABH-Ayurveda Validated Protocols</span>
+          </div>
+
+          <div class="p-5 rounded-2xl bg-[#041a12]/60 border border-emerald-900/40 space-y-3">
+            <div class="flex items-center justify-between">
+              <p class="text-xs font-bold uppercase tracking-wider text-emerald-400">Pancha Mahabhuta & Tridosha Diagnostic Matrix</p>
+              <span class="text-[11px] text-stone-400 font-mono">Click element to view clinical attributes</span>
             </div>
+            <div class="grid grid-cols-2 sm:grid-cols-5 gap-3" id="mahabhuta-grid"></div>
           </div>
 
           <!-- 4 Core Metric KPI Cards -->
@@ -457,262 +405,64 @@
               <p class="text-xs text-stone-400 mt-1 font-medium">2 Sanitized & Ready</p>
             </div>
           </div>
-
-          <!-- Operational Panels -->
-          <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
-            <!-- Treatment Pipeline -->
-            <div class="lg:col-span-7 glass-panel p-6 space-y-4">
-              <div class="flex items-center justify-between pb-3 border-b border-emerald-900/50">
-                <div class="flex items-center gap-2">
-                  <i data-lucide="clock-3" class="w-4 h-4 text-amber-400"></i>
-                  <h3 class="font-bold text-sm text-stone-100 font-serif">Today's Treatment Pipeline</h3>
-                </div>
-                <span class="text-[11px] font-semibold text-emerald-300 bg-emerald-950/80 border border-emerald-800/80 px-2.5 py-0.5 rounded-full">
-                  Real-time Schedule
-                </span>
-              </div>
-
-              <div class="space-y-2.5" id="pipeline-container"></div>
-            </div>
-
-            <!-- Panchakarma Protocol Distribution -->
-            <div class="lg:col-span-5 glass-panel p-6 flex flex-col justify-between space-y-6">
-              <div>
-                <div class="flex items-center justify-between pb-3 border-b border-emerald-900/50 mb-4">
-                  <h3 class="font-bold text-sm text-stone-100 font-serif">Panchakarma Phase Distribution</h3>
-                  <i data-lucide="pie-chart" class="w-4 h-4 text-cyan-400"></i>
-                </div>
-
-                <div class="space-y-4">
-                  <div>
-                    <div class="flex justify-between text-xs font-semibold text-stone-300 mb-1.5">
-                      <span class="flex items-center gap-1.5 text-amber-300">
-                        <span class="w-2 h-2 rounded-full bg-amber-400"></span>
-                        Purva Karma (Snehana & Swedana)
-                      </span>
-                      <span>45%</span>
-                    </div>
-                    <div class="w-full bg-emerald-950/80 h-2.5 rounded-full overflow-hidden border border-emerald-900/50">
-                      <div class="bg-gradient-to-r from-amber-500 to-amber-400 h-full w-[45%] rounded-full shadow-[0_0_8px_#f59e0b]"></div>
-                    </div>
-                  </div>
-
-                  <div>
-                    <div class="flex justify-between text-xs font-semibold text-stone-300 mb-1.5">
-                      <span class="flex items-center gap-1.5 text-emerald-300">
-                        <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
-                        Pradhana Karma (Shirodhara / Basti / Vamana)
-                      </span>
-                      <span>40%</span>
-                    </div>
-                    <div class="w-full bg-emerald-950/80 h-2.5 rounded-full overflow-hidden border border-emerald-900/50">
-                      <div class="bg-gradient-to-r from-emerald-500 to-emerald-400 h-full w-[40%] rounded-full shadow-[0_0_8px_#10b981]"></div>
-                    </div>
-                  </div>
-
-                  <div>
-                    <div class="flex justify-between text-xs font-semibold text-stone-300 mb-1.5">
-                      <span class="flex items-center gap-1.5 text-blue-300">
-                        <span class="w-2 h-2 rounded-full bg-blue-400"></span>
-                        Paschat Karma (Samsarjana & Rasayana)
-                      </span>
-                      <span>15%</span>
-                    </div>
-                    <div class="w-full bg-emerald-950/80 h-2.5 rounded-full overflow-hidden border border-emerald-900/50">
-                      <div class="bg-gradient-to-r from-blue-500 to-cyan-400 h-full w-[15%] rounded-full shadow-[0_0_8px_#06b6d4]"></div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <!-- Clinical Alert Reminder -->
-              <div class="p-3.5 rounded-xl bg-amber-950/30 border border-amber-500/30 text-xs text-amber-200/90 flex items-start gap-2.5">
-                <i data-lucide="alert-circle" class="w-4 h-4 text-amber-400 shrink-0 mt-0.5"></i>
-                <div>
-                  <strong class="text-amber-300">Vaidya Protocol Directive:</strong> Verify Agni digestion status (Niramata) before initiating Pradhana Shodhana procedures.
-                </div>
-              </div>
-            </div>
-          </div>
         </section>
 
-        <!-- 3. CLINICAL PATIENT RECORDS -->
+        <!-- 2. PATIENT RECORDS & EMR DATABASE -->
         <section id="patients" class="content-section space-y-6">
           <div class="flex flex-col md:flex-row md:items-end justify-between gap-4 border-b border-emerald-900/60 pb-4">
             <div>
-              <span class="text-xs font-bold uppercase tracking-wider text-cyan-400">Clinical Management</span>
-              <h2 class="text-2xl font-bold font-serif text-white mt-1">Patient Health Records & Prakriti</h2>
+              <span class="text-xs font-bold uppercase tracking-wider text-cyan-400">Clinical Directory & EMR</span>
+              <h2 class="text-2xl font-bold font-serif text-white mt-1">Patient Treatment Records</h2>
             </div>
-            <button id="btn-admit-trigger-2" class="flex items-center gap-2 btn-emerald px-4 py-2 rounded-lg text-xs font-semibold shadow">
-              <i data-lucide="plus" class="w-3.5 h-3.5"></i>
+            <button onclick="document.getElementById('btn-open-admit-modal').click()" class="flex items-center gap-2 btn-gold px-4 py-2 rounded-lg text-xs font-bold shadow-lg">
+              <i data-lucide="user-plus" class="w-3.5 h-3.5"></i>
               <span>Admit New Patient</span>
             </button>
           </div>
 
-          <!-- Search & Dosha Filter Bar -->
-          <div class="flex flex-col lg:flex-row items-stretch lg:items-center justify-between gap-4">
-            <div class="relative flex-1 max-w-md">
-              <i data-lucide="search" class="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-emerald-400/60"></i>
-              <input
-                type="text"
-                id="patient-search-input"
-                placeholder="Search by Patient Name, ID, Dosha, or Vaidya..."
-                class="w-full pl-10 pr-4 py-2.5 bg-emerald-950/60 border border-emerald-800/60 rounded-xl text-xs text-stone-100 placeholder-emerald-400/40 focus:outline-none focus:border-amber-400/60 transition-colors"
-              />
+          <div class="glass-panel p-6 space-y-5">
+            <div class="flex flex-col md:flex-row items-center justify-between gap-4">
+              <div class="relative w-full md:w-80">
+                <i data-lucide="search" class="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-stone-400"></i>
+                <input type="text" id="patient-search-input" placeholder="Search by name, ID, symptoms..." class="w-full pl-10 pr-4 py-2 rounded-xl bg-emerald-950/80 border border-emerald-800/80 text-xs text-stone-100 placeholder-stone-400 focus:outline-none focus:border-amber-400" />
+              </div>
+
+              <div class="flex flex-wrap items-center gap-2 w-full md:w-auto" id="dosha-filter-container">
+                <span class="text-xs text-stone-400 mr-1 font-medium">Dosha Filter:</span>
+                <button class="dosha-filter-btn active px-3 py-1.5 rounded-lg text-xs font-semibold bg-emerald-800/80 text-white border border-emerald-600/50" data-filter="All">All</button>
+                <button class="dosha-filter-btn px-3 py-1.5 rounded-lg text-xs font-semibold bg-emerald-950/40 text-stone-300 hover:text-white border border-emerald-900/60" data-filter="Vata">Vata</button>
+                <button class="dosha-filter-btn px-3 py-1.5 rounded-lg text-xs font-semibold bg-emerald-950/40 text-stone-300 hover:text-white border border-emerald-900/60" data-filter="Pitta">Pitta</button>
+                <button class="dosha-filter-btn px-3 py-1.5 rounded-lg text-xs font-semibold bg-emerald-950/40 text-stone-300 hover:text-white border border-emerald-900/60" data-filter="Kapha">Kapha</button>
+              </div>
             </div>
 
-            <!-- Dosha Filter Buttons -->
-            <div class="flex flex-wrap items-center gap-1.5" id="dosha-filter-container">
-              <button data-filter="All" class="dosha-filter-btn active px-3 py-1.5 rounded-lg text-xs font-medium bg-emerald-800/80 text-white border border-emerald-700">All</button>
-              <button data-filter="Vata" class="dosha-filter-btn px-3 py-1.5 rounded-lg text-xs font-medium bg-emerald-950/40 text-emerald-300 border border-emerald-800/60 hover:bg-emerald-900/50">Vata</button>
-              <button data-filter="Pitta" class="dosha-filter-btn px-3 py-1.5 rounded-lg text-xs font-medium bg-emerald-950/40 text-amber-300 border border-emerald-800/60 hover:bg-emerald-900/50">Pitta</button>
-              <button data-filter="Kapha" class="dosha-filter-btn px-3 py-1.5 rounded-lg text-xs font-medium bg-emerald-950/40 text-cyan-300 border border-emerald-800/60 hover:bg-emerald-900/50">Kapha</button>
-              <button data-filter="Dual" class="dosha-filter-btn px-3 py-1.5 rounded-lg text-xs font-medium bg-emerald-950/40 text-purple-300 border border-emerald-800/60 hover:bg-emerald-900/50">Dual-Dosha</button>
-            </div>
-          </div>
-
-          <!-- Patient Data Table -->
-          <div class="glass-panel overflow-hidden">
-            <div class="overflow-x-auto">
+            <div class="overflow-x-auto rounded-xl border border-emerald-900/50">
               <table class="w-full text-left text-xs">
-                <thead class="bg-emerald-950/80 border-b border-emerald-900/70 font-semibold text-emerald-300/80 uppercase tracking-wider">
+                <thead class="bg-emerald-950/90 text-stone-300 uppercase tracking-wider font-semibold border-b border-emerald-900/60">
                   <tr>
-                    <th class="px-5 py-4">Patient Profile</th>
-                    <th class="px-5 py-4">Prakriti (Dosha)</th>
-                    <th class="px-5 py-4">Assigned Therapy</th>
-                    <th class="px-5 py-4">Cycle Progress</th>
-                    <th class="px-5 py-4">Assigned Vaidya</th>
-                    <th class="px-5 py-4">Status</th>
-                    <th class="px-5 py-4 text-right">Action</th>
+                    <th class="px-5 py-3.5">Patient Details</th>
+                    <th class="px-5 py-3.5">Prakriti & Dosha Ratio</th>
+                    <th class="px-5 py-3.5">Active Shodhana Therapy</th>
+                    <th class="px-5 py-3.5">Cycle Progress</th>
+                    <th class="px-5 py-3.5">Status</th>
+                    <th class="px-5 py-3.5 text-right">Actions</th>
                   </tr>
                 </thead>
-                <tbody class="divide-y divide-emerald-900/40" id="patient-table-body"></tbody>
+                <tbody id="patient-table-body" class="divide-y divide-emerald-900/40 bg-emerald-950/20"></tbody>
               </table>
             </div>
           </div>
         </section>
 
-        <!-- 4. THERAPY PROTOCOLS & INTERACTIVE TIMER -->
-        <section id="schedule" class="content-section space-y-8">
+        <!-- 3. THERAPY PROTOCOLS & SHIRODHARA TIMER -->
+        <section id="schedule" class="content-section space-y-6">
           <div class="flex flex-col md:flex-row md:items-end justify-between gap-4 border-b border-emerald-900/60 pb-4">
             <div>
-              <span class="text-xs font-bold uppercase tracking-wider text-amber-400">Therapy Management</span>
-              <h2 class="text-2xl font-bold font-serif text-white mt-1">Three-Stage Panchakarma Tracker</h2>
-            </div>
-            <div class="flex items-center gap-2 text-xs text-amber-300/80">
-              <i data-lucide="flame" class="w-4 h-4 text-amber-400"></i>
-              <span>Authentic Shastra Regimen</span>
+              <span class="text-xs font-bold uppercase tracking-wider text-amber-400">Protocol Management</span>
+              <h2 class="text-2xl font-bold font-serif text-white mt-1">Panchakarma 3-Stage Treatment Protocols</h2>
             </div>
           </div>
 
-          <!-- 3-Phase Columns -->
-          <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-
-            <!-- Phase 1: Purva Karma -->
-            <div class="glass-card p-5 space-y-4 border-t-2 border-t-amber-400">
-              <div class="flex items-center justify-between pb-3 border-b border-emerald-900/50">
-                <div>
-                  <span class="text-[10px] font-bold uppercase px-2 py-0.5 rounded bg-amber-500/20 text-amber-300 border border-amber-500/30">Phase 1</span>
-                  <h3 class="font-bold text-sm text-stone-100 font-serif mt-1.5">Purva Karma</h3>
-                  <p class="text-[11px] text-stone-400">Preparatory Oleation & Fomentation</p>
-                </div>
-                <div class="p-2 rounded-lg bg-amber-950/60 text-amber-400">
-                  <i data-lucide="droplet" class="w-5 h-5"></i>
-                </div>
-              </div>
-
-              <div class="space-y-3">
-                <div class="p-3.5 rounded-xl bg-emerald-950/50 border border-emerald-800/50">
-                  <div class="flex justify-between items-start">
-                    <p class="text-xs font-bold text-amber-300">Snehapana (Medicated Ghee)</p>
-                    <span class="text-[10px] px-1.5 py-0.5 rounded bg-amber-900/60 text-amber-200">07:00 AM</span>
-                  </div>
-                  <p class="text-xs text-stone-200 mt-1 font-semibold">Rajesh Verma (Kapha Predominant)</p>
-                  <p class="text-[11px] text-stone-400 mt-0.5">50ml Sukumara Ghrita • Day 2 of 5</p>
-                </div>
-
-                <div class="p-3.5 rounded-xl bg-emerald-950/50 border border-emerald-800/50">
-                  <div class="flex justify-between items-start">
-                    <p class="text-xs font-bold text-amber-300">Sarvanga Abhyanga & Bashpa</p>
-                    <span class="text-[10px] px-1.5 py-0.5 rounded bg-emerald-900/60 text-emerald-200">08:30 AM</span>
-                  </div>
-                  <p class="text-xs text-stone-200 mt-1 font-semibold">Ananya Sharma (Vata-Pitta)</p>
-                  <p class="text-[11px] text-stone-400 mt-0.5">Mahanarayana Taila • Chikitsa Suite 2</p>
-                </div>
-              </div>
-            </div>
-
-            <!-- Phase 2: Pradhana Karma -->
-            <div class="glass-card p-5 space-y-4 border-t-2 border-t-emerald-400">
-              <div class="flex items-center justify-between pb-3 border-b border-emerald-900/50">
-                <div>
-                  <span class="text-[10px] font-bold uppercase px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">Phase 2</span>
-                  <h3 class="font-bold text-sm text-stone-100 font-serif mt-1.5">Pradhana Karma</h3>
-                  <p class="text-[11px] text-stone-400">Main Elimination & Purification Therapies</p>
-                </div>
-                <div class="p-2 rounded-lg bg-emerald-950/60 text-emerald-400">
-                  <i data-lucide="sparkle" class="w-5 h-5"></i>
-                </div>
-              </div>
-
-              <div class="space-y-3">
-                <div class="p-3.5 rounded-xl bg-emerald-950/50 border border-emerald-800/50">
-                  <div class="flex justify-between items-start">
-                    <p class="text-xs font-bold text-emerald-300">Takradhara / Shirodhara</p>
-                    <span class="text-[10px] px-1.5 py-0.5 rounded bg-emerald-900/60 text-emerald-200">09:30 AM</span>
-                  </div>
-                  <p class="text-xs text-stone-200 mt-1 font-semibold">Ananya Sharma</p>
-                  <p class="text-[11px] text-stone-400 mt-0.5">Duration: 45 min • Oil Temp: 38.5°C</p>
-                </div>
-
-                <div class="p-3.5 rounded-xl bg-emerald-950/50 border border-emerald-800/50">
-                  <div class="flex justify-between items-start">
-                    <p class="text-xs font-bold text-emerald-300">Kashaya Basti Protocol</p>
-                    <span class="text-[10px] px-1.5 py-0.5 rounded bg-emerald-900/60 text-emerald-200">11:30 AM</span>
-                  </div>
-                  <p class="text-xs text-stone-200 mt-1 font-semibold">Sunita Joshi</p>
-                  <p class="text-[11px] text-stone-400 mt-0.5">Niruha & Anuvasana • Recovery Room 1</p>
-                </div>
-              </div>
-            </div>
-
-            <!-- Phase 3: Paschat Karma -->
-            <div class="glass-card p-5 space-y-4 border-t-2 border-t-cyan-400">
-              <div class="flex items-center justify-between pb-3 border-b border-emerald-900/50">
-                <div>
-                  <span class="text-[10px] font-bold uppercase px-2 py-0.5 rounded bg-cyan-500/20 text-cyan-300 border border-cyan-500/30">Phase 3</span>
-                  <h3 class="font-bold text-sm text-stone-100 font-serif mt-1.5">Paschat Karma</h3>
-                  <p class="text-[11px] text-stone-400">Samsarjana Diet & Rejuvenation</p>
-                </div>
-                <div class="p-2 rounded-lg bg-cyan-950/60 text-cyan-400">
-                  <i data-lucide="leaf" class="w-5 h-5"></i>
-                </div>
-              </div>
-
-              <div class="space-y-3">
-                <div class="p-3.5 rounded-xl bg-emerald-950/50 border border-emerald-800/50">
-                  <div class="flex justify-between items-start">
-                    <p class="text-xs font-bold text-cyan-300">Samsarjana Krama (Diet Phase 2)</p>
-                    <span class="text-[10px] px-1.5 py-0.5 rounded bg-cyan-900/60 text-cyan-200">Continuous</span>
-                  </div>
-                  <p class="text-xs text-stone-200 mt-1 font-semibold">Sunita Joshi & Meera Nambiar</p>
-                  <p class="text-[11px] text-stone-400 mt-0.5">Peya, Vilepi, Akrita & Krita Yusha</p>
-                </div>
-
-                <div class="p-3.5 rounded-xl bg-emerald-950/50 border border-emerald-800/50">
-                  <div class="flex justify-between items-start">
-                    <p class="text-xs font-bold text-cyan-300">Rasayana Consultation</p>
-                    <span class="text-[10px] px-1.5 py-0.5 rounded bg-cyan-900/60 text-cyan-200">04:30 PM</span>
-                  </div>
-                  <p class="text-xs text-stone-200 mt-1 font-semibold">Meera Nambiar</p>
-                  <p class="text-[11px] text-stone-400 mt-0.5">Brahmi Rasayana & Chyawanprash protocol</p>
-                </div>
-              </div>
-            </div>
-
-          </div>
-
-          <!-- Interactive Live Shirodhara Therapy Timer Card -->
           <div class="glass-panel p-6 flex flex-col md:flex-row items-center justify-between gap-6 border-amber-500/30">
             <div class="space-y-2 max-w-lg">
               <div class="flex items-center gap-2">
@@ -722,209 +472,196 @@
               <p class="text-xs text-emerald-300/80 leading-relaxed">
                 Active Protocol: Medicated Buttermilk & Brahmi Taila stream at rhythmic 1Hz oscillation. Automated singing bowl alert sounds on completion.
               </p>
-              <div class="flex items-center gap-4 text-[11px] text-stone-300 font-mono">
-                <span>Patient: <strong class="text-white">Ananya Sharma</strong></span>
-                <span>•</span>
-                <span>Room: <strong class="text-amber-300">Chikitsa Suite 2</strong></span>
-              </div>
             </div>
 
-            <!-- Timer Display and Controls -->
-            <div class="flex items-center gap-5">
+            <div class="flex items-center gap-5 p-4 rounded-2xl bg-emerald-950/90 border border-emerald-700/60 shadow-xl">
               <div class="text-center">
-                <div id="therapy-timer-display" class="text-3xl sm:text-4xl font-mono font-bold gold-gradient-text tracking-widest">
-                  45:00
-                </div>
-                <span class="text-[10px] text-emerald-400 uppercase font-semibold">Session Remaining</span>
+                <span class="text-[10px] uppercase font-bold text-stone-400 tracking-wider block">Remaining</span>
+                <span class="text-3xl font-mono font-bold text-amber-400 tracking-tight" id="therapy-timer-display">45:00</span>
               </div>
-
-              <div class="flex items-center gap-2">
-                <button id="btn-timer-toggle" class="btn-gold px-4 py-2 rounded-xl text-xs flex items-center gap-1.5 shadow-lg">
-                  <i data-lucide="play" id="timer-btn-icon" class="w-3.5 h-3.5"></i>
-                  <span id="timer-btn-text">Start</span>
+              <div class="flex flex-col gap-2">
+                <button id="btn-timer-toggle" class="btn-gold px-4 py-2 rounded-xl text-xs font-bold flex items-center justify-center gap-1.5 shadow">
+                  <i data-lucide="play" class="w-3.5 h-3.5" id="timer-btn-icon"></i>
+                  <span id="timer-btn-text">Start Flow</span>
                 </button>
-                <button id="btn-timer-reset" class="px-3 py-2 rounded-xl bg-emerald-950 border border-emerald-800 text-stone-300 hover:text-white text-xs">
-                  <i data-lucide="rotate-ccw" class="w-3.5 h-3.5"></i>
+                <button id="btn-timer-reset" class="px-3 py-1 rounded-lg bg-stone-800 hover:bg-stone-700 text-stone-300 text-[11px] font-medium transition-colors">
+                  Reset
                 </button>
               </div>
             </div>
           </div>
         </section>
 
-        <!-- 5. CHIKITSA SUITES & HERBARIUM DISPENSARY -->
-        <section id="suites" class="content-section space-y-6 pb-20">
+        <!-- 4. CHIKITSA SUITES & HERBARIUM -->
+        <section id="suites" class="content-section space-y-6">
           <div class="flex flex-col md:flex-row md:items-end justify-between gap-4 border-b border-emerald-900/60 pb-4">
             <div>
-              <span class="text-xs font-bold uppercase tracking-wider text-purple-400">Sanctuary Facilities</span>
-              <h2 class="text-2xl font-bold font-serif text-white mt-1">Chikitsa Suites & Herbarium Telemetry</h2>
+              <span class="text-xs font-bold uppercase tracking-wider text-purple-400">Facility Operations</span>
+              <h2 class="text-2xl font-bold font-serif text-white mt-1">Chikitsa Suites & Herbarium Monitoring</h2>
             </div>
-            <div class="flex items-center gap-2 text-xs text-purple-300/80">
-              <i data-lucide="thermometer" class="w-4 h-4 text-purple-400"></i>
-              <span>Automated Herbal Oil Temperature Control</span>
+          </div>
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5" id="rooms-grid"></div>
+        </section>
+
+        <!-- 5. BILLING, INVOICES & PAYMENT GATEWAY -->
+        <section id="billing" class="content-section space-y-6 pb-20">
+          <div class="flex flex-col md:flex-row md:items-end justify-between gap-4 border-b border-emerald-900/60 pb-4">
+            <div>
+              <span class="text-xs font-bold uppercase tracking-wider text-amber-400">Hospital Finance & Cashless POS</span>
+              <h2 class="text-2xl font-bold font-serif text-white mt-1">Billing, Invoices & Payment Gateway</h2>
+              <p class="text-xs text-stone-300 mt-0.5">GST-Compliant Tax Invoices, Ayush TPA Claims, UPI QR & Card Terminal Processing</p>
+            </div>
+            <button onclick="openCreateInvoiceModal()" class="flex items-center gap-2 btn-gold px-4 py-2 rounded-xl text-xs font-bold shadow-lg">
+              <i data-lucide="plus-circle" class="w-3.5 h-3.5"></i>
+              <span>+ New Custom Invoice</span>
+            </button>
+          </div>
+
+          <!-- 4 Financial & Revenue KPI Summary Cards -->
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            <div class="glass-card p-5">
+              <div class="flex items-center justify-between">
+                <p class="text-xs font-semibold text-stone-400 uppercase tracking-wider">Total Invoiced</p>
+                <i data-lucide="file-text" class="w-4 h-4 text-emerald-400"></i>
+              </div>
+              <p class="text-2xl font-bold text-white mt-2 font-mono" id="kpi-total-invoiced">₹2,60,640</p>
+              <p class="text-xs text-emerald-400 mt-1 flex items-center gap-1 font-medium">
+                <i data-lucide="trending-up" class="w-3 h-3"></i>
+                <span>6 Active Clinical Invoices</span>
+              </p>
+            </div>
+
+            <div class="glass-card p-5">
+              <div class="flex items-center justify-between">
+                <p class="text-xs font-semibold text-stone-400 uppercase tracking-wider">Total Collected</p>
+                <i data-lucide="check-circle-2" class="w-4 h-4 text-amber-400"></i>
+              </div>
+              <p class="text-2xl font-bold gold-gradient-text mt-2 font-mono" id="kpi-total-collected">₹1,93,390</p>
+              <p class="text-xs text-amber-300/90 mt-1 font-medium font-mono" id="kpi-collection-rate">74.2% Realized Revenue</p>
+            </div>
+
+            <div class="glass-card p-5">
+              <div class="flex items-center justify-between">
+                <p class="text-xs font-semibold text-stone-400 uppercase tracking-wider">Pending Balance</p>
+                <i data-lucide="clock" class="w-4 h-4 text-red-400"></i>
+              </div>
+              <p class="text-2xl font-bold text-red-300 mt-2 font-mono" id="kpi-pending-balance">₹67,250</p>
+              <p class="text-xs text-red-400 mt-1 font-medium" id="kpi-pending-count">2 Unsettled / Due</p>
+            </div>
+
+            <div class="glass-card p-5">
+              <div class="flex items-center justify-between">
+                <p class="text-xs font-semibold text-stone-400 uppercase tracking-wider">Ayush TPA Claims</p>
+                <i data-lucide="shield-check" class="w-4 h-4 text-cyan-400"></i>
+              </div>
+              <p class="text-2xl font-bold text-cyan-300 mt-2">100% Cashless</p>
+              <p class="text-xs text-stone-300 mt-1 font-medium">IRDAI Ayush Approved</p>
             </div>
           </div>
 
-          <!-- 6 Therapy Room Cards -->
-          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5" id="rooms-grid"></div>
-
-          <!-- Herbarium Pharmacy Dispensary Summary -->
-          <div class="glass-panel p-6 space-y-4">
-            <div class="flex items-center justify-between pb-3 border-b border-emerald-900/50">
-              <div class="flex items-center gap-2">
-                <i data-lucide="flask-conical" class="w-4 h-4 text-amber-400"></i>
-                <h3 class="font-bold text-sm text-stone-100 font-serif">Herbarium Formulations & Medicated Tailas in Active Preparation</h3>
+          <!-- Main Billing Ledger Panel -->
+          <div class="glass-panel p-6 space-y-5">
+            <div class="flex flex-col md:flex-row items-center justify-between gap-4">
+              <div class="relative w-full md:w-80">
+                <i data-lucide="search" class="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-stone-400"></i>
+                <input type="text" id="invoice-search-input" placeholder="Search invoice #, patient, txn ID..." class="w-full pl-10 pr-4 py-2 rounded-xl bg-emerald-950/80 border border-emerald-800/80 text-xs text-stone-100 placeholder-stone-400 focus:outline-none focus:border-amber-400" />
               </div>
-              <span class="text-[11px] text-amber-300 bg-amber-950/60 border border-amber-800/60 px-2.5 py-0.5 rounded-full">
-                Siddha Taila Lab
-              </span>
+
+              <div class="flex flex-wrap items-center gap-2 w-full md:w-auto" id="invoice-filter-container">
+                <span class="text-xs text-stone-400 mr-1 font-medium">Status:</span>
+                <button class="inv-filter-btn active px-3 py-1.5 rounded-lg text-xs font-semibold bg-emerald-800/80 text-white border border-emerald-600/50" data-filter="All">All Invoices</button>
+                <button class="inv-filter-btn px-3 py-1.5 rounded-lg text-xs font-semibold bg-emerald-950/40 text-stone-300 hover:text-white border border-emerald-900/60" data-filter="Paid">Paid</button>
+                <button class="inv-filter-btn px-3 py-1.5 rounded-lg text-xs font-semibold bg-emerald-950/40 text-stone-300 hover:text-white border border-emerald-900/60" data-filter="Pending">Pending Due</button>
+                <button class="inv-filter-btn px-3 py-1.5 rounded-lg text-xs font-semibold bg-emerald-950/40 text-stone-300 hover:text-white border border-emerald-900/60" data-filter="Insurance">TPA Insurance</button>
+              </div>
             </div>
 
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 text-xs">
-              <div class="p-3.5 rounded-xl bg-emerald-950/40 border border-emerald-800/40">
-                <p class="font-bold text-amber-300">Mahanarayana Taila</p>
-                <p class="text-stone-300 text-[11px] mt-0.5">54 Herbal extracts in pure Sesame oil</p>
-                <div class="mt-2 text-[10px] text-emerald-400 font-mono">Stock: 18 Liters • Heated to 39°C</div>
-              </div>
-
-              <div class="p-3.5 rounded-xl bg-emerald-950/40 border border-emerald-800/40">
-                <p class="font-bold text-cyan-300">Ksheerabala 101 Drops</p>
-                <p class="text-stone-300 text-[11px] mt-0.5">Bala herb infused 101 times in Cow milk</p>
-                <div class="mt-2 text-[10px] text-emerald-400 font-mono">Stock: 42 Phials • Active Nasya</div>
-              </div>
-
-              <div class="p-3.5 rounded-xl bg-emerald-950/40 border border-emerald-800/40">
-                <p class="font-bold text-emerald-300">Sukumara Ghrita</p>
-                <p class="text-stone-300 text-[11px] mt-0.5">Snehana ghee for deep tissue oleation</p>
-                <div class="mt-2 text-[10px] text-emerald-400 font-mono">Stock: 8.5 kg • Morning Dosages</div>
-              </div>
-
-              <div class="p-3.5 rounded-xl bg-emerald-950/40 border border-emerald-800/40">
-                <p class="font-bold text-purple-300">Triphala & Dashamula Kashaya</p>
-                <p class="text-stone-300 text-[11px] mt-0.5">Fresh decoction brewed in copper vessels</p>
-                <div class="mt-2 text-[10px] text-emerald-400 font-mono">Batch: Fresh 06:00 AM Brew</div>
-              </div>
+            <!-- Invoices Table -->
+            <div class="overflow-x-auto rounded-xl border border-emerald-900/50">
+              <table class="w-full text-left text-xs">
+                <thead class="bg-emerald-950/90 text-stone-300 uppercase tracking-wider font-semibold border-b border-emerald-900/60">
+                  <tr>
+                    <th class="px-5 py-3.5">Invoice # & Date</th>
+                    <th class="px-5 py-3.5">Patient Details</th>
+                    <th class="px-5 py-3.5">Panchakarma Package</th>
+                    <th class="px-5 py-3.5">Amount (₹ INR)</th>
+                    <th class="px-5 py-3.5">Payment Method</th>
+                    <th class="px-5 py-3.5">Status</th>
+                    <th class="px-5 py-3.5 text-right">Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="invoice-table-body" class="divide-y divide-emerald-900/40 bg-emerald-950/20"></tbody>
+              </table>
             </div>
           </div>
         </section>
-
       </main>
     </div>
   </div>
 
-  <!-- MODAL: ADMIT PANCHAKARMA PATIENT -->
-  <div id="modal-admit-patient" class="fixed inset-0 bg-black/75 backdrop-blur-md flex items-center justify-center p-4 z-50 hidden">
-    <div class="glass-panel bg-[#052117]/95 border border-emerald-700/60 max-w-lg w-full p-6 shadow-2xl space-y-4">
+  <!-- MODAL: ADMIT PATIENT -->
+  <div id="modal-admit-patient" class="fixed inset-0 bg-black/70 backdrop-blur-md z-50 flex items-center justify-center p-4 hidden">
+    <div class="bg-[#041a12] border border-emerald-700/80 rounded-2xl max-w-lg w-full p-6 shadow-2xl space-y-5">
       <div class="flex items-center justify-between pb-3 border-b border-emerald-900/70">
-        <div>
-          <h3 class="text-lg font-bold font-serif gold-gradient-text">Admit Panchakarma Patient</h3>
-          <p class="text-xs text-emerald-400/80">Configure clinical Prakriti, assign therapy & room.</p>
+        <div class="flex items-center gap-2">
+          <i data-lucide="user-plus" class="w-5 h-5 text-amber-400"></i>
+          <h3 class="font-bold text-lg font-serif text-white">Admit Inpatient / OPD</h3>
         </div>
-        <button id="btn-close-modal" class="p-1 rounded-lg text-stone-400 hover:text-white hover:bg-emerald-900/60">
+        <button id="btn-close-modal" class="text-stone-400 hover:text-white p-1 rounded-lg">
           <i data-lucide="x" class="w-5 h-5"></i>
         </button>
       </div>
 
       <form id="form-admit-patient" class="space-y-4 text-xs">
         <div>
-          <label class="block font-semibold text-stone-300 mb-1">Patient Full Name</label>
-          <input
-            type="text"
-            id="input-patient-name"
-            required
-            placeholder="e.g. Ramesh Kulkarni"
-            class="w-full px-3.5 py-2.5 bg-emerald-950/80 border border-emerald-800/80 rounded-xl text-stone-100 placeholder-emerald-400/30 focus:outline-none focus:border-amber-400"
-          />
+          <label class="block font-semibold text-stone-300 mb-1">Full Name</label>
+          <input type="text" id="input-patient-name" required placeholder="e.g. Vikramaditya Rathore" class="w-full px-3.5 py-2.5 bg-emerald-950/80 border border-emerald-800/80 rounded-xl text-stone-100 placeholder-stone-400 focus:outline-none focus:border-amber-400" />
         </div>
-
-        <div class="grid grid-cols-2 gap-3">
+        <div class="grid grid-cols-3 gap-3">
           <div>
             <label class="block font-semibold text-stone-300 mb-1">Age</label>
-            <input
-              type="number"
-              id="input-patient-age"
-              required
-              min="1"
-              max="115"
-              placeholder="e.g. 42"
-              class="w-full px-3.5 py-2.5 bg-emerald-950/80 border border-emerald-800/80 rounded-xl text-stone-100 focus:outline-none focus:border-amber-400"
-            />
+            <input type="number" id="input-patient-age" required min="1" max="110" value="38" class="w-full px-3.5 py-2.5 bg-emerald-950/80 border border-emerald-800/80 rounded-xl text-stone-100 focus:outline-none focus:border-amber-400" />
           </div>
           <div>
             <label class="block font-semibold text-stone-300 mb-1">Gender</label>
             <select id="input-patient-gender" class="w-full px-3.5 py-2.5 bg-emerald-950/80 border border-emerald-800/80 rounded-xl text-stone-100 focus:outline-none focus:border-amber-400">
-              <option>Male</option>
-              <option>Female</option>
-              <option>Other</option>
+              <option>Male</option><option>Female</option><option>Other</option>
             </select>
           </div>
-        </div>
-
-        <div class="grid grid-cols-2 gap-3">
           <div>
-            <label class="block font-semibold text-stone-300 mb-1">Prakriti (Dosha)</label>
+            <label class="block font-semibold text-stone-300 mb-1">Prakriti Dosha</label>
             <select id="input-patient-dosha" class="w-full px-3.5 py-2.5 bg-emerald-950/80 border border-emerald-800/80 rounded-xl text-stone-100 focus:outline-none focus:border-amber-400">
-              <option>Vata Predominant</option>
-              <option>Pitta Predominant</option>
-              <option>Kapha Predominant</option>
-              <option selected>Vata-Pitta</option>
-              <option>Pitta-Kapha</option>
-              <option>Vata-Kapha</option>
-              <option>Tridoshic (V-P-K)</option>
+              <option>Vata Predominant</option><option>Pitta Predominant</option><option>Kapha Predominant</option><option>Vata-Pitta</option><option>Tridoshic</option>
             </select>
           </div>
-          <div>
-            <label class="block font-semibold text-stone-300 mb-1">Contact Number</label>
-            <input
-              type="text"
-              id="input-patient-contact"
-              required
-              placeholder="+91 98765 00000"
-              class="w-full px-3.5 py-2.5 bg-emerald-950/80 border border-emerald-800/80 rounded-xl text-stone-100 focus:outline-none focus:border-amber-400"
-            />
-          </div>
         </div>
-
+        <div>
+          <label class="block font-semibold text-stone-300 mb-1">Phone / WhatsApp</label>
+          <input type="text" id="input-patient-contact" required placeholder="+91 98765 00000" class="w-full px-3.5 py-2.5 bg-emerald-950/80 border border-emerald-800/80 rounded-xl text-stone-100 placeholder-stone-400 focus:outline-none focus:border-amber-400" />
+        </div>
         <div class="grid grid-cols-2 gap-3">
           <div>
             <label class="block font-semibold text-stone-300 mb-1">Assigned Karma</label>
             <select id="input-patient-therapy" class="w-full px-3.5 py-2.5 bg-emerald-950/80 border border-emerald-800/80 rounded-xl text-stone-100 focus:outline-none focus:border-amber-400">
-              <option>Shirodhara & Abhyanga</option>
-              <option>Takradhara Protocol</option>
-              <option>Vamana Karma</option>
-              <option>Virechana Karma</option>
-              <option>Kashaya & Sneha Basti</option>
-              <option>Nasya & Shirovasti</option>
+              <option>Shirodhara & Abhyanga</option><option>Takradhara Protocol</option><option>Vamana Karma</option><option>Virechana Karma</option><option>Kashaya & Sneha Basti</option>
             </select>
           </div>
           <div>
             <label class="block font-semibold text-stone-300 mb-1">Chikitsa Suite</label>
             <select id="input-patient-room" class="w-full px-3.5 py-2.5 bg-emerald-950/80 border border-emerald-800/80 rounded-xl text-stone-100 focus:outline-none focus:border-amber-400">
-              <option>Chikitsa Suite 1</option>
-              <option>Chikitsa Suite 2</option>
-              <option>Chikitsa Suite 3</option>
-              <option>Karma Hall A</option>
-              <option>Swedana Chamber</option>
-              <option>Recovery Sanctuary</option>
+              <option>Chikitsa Suite 1</option><option>Chikitsa Suite 2</option><option>Chikitsa Suite 3</option><option>Karma Hall A</option><option>Recovery Sanctuary</option>
             </select>
           </div>
         </div>
-
         <div>
           <label class="block font-semibold text-stone-300 mb-1">Supervising Vaidya</label>
           <select id="input-patient-therapist" class="w-full px-3.5 py-2.5 bg-emerald-950/80 border border-emerald-800/80 rounded-xl text-stone-100 focus:outline-none focus:border-amber-400">
-            <option>Dr. Ramesh Vaidya (Senior Acharya)</option>
-            <option>Vaidya Sneha Nair (Panchakarma Specialist)</option>
-            <option>Vaidya Harish Chandra (Nadi Pariksha Expert)</option>
+            <option>Dr. Ramesh Vaidya (Senior Acharya)</option><option>Vaidya Sneha Nair (Panchakarma Specialist)</option><option>Vaidya Harish Chandra (Nadi Pariksha Expert)</option>
           </select>
         </div>
-
         <div class="flex items-center justify-end gap-3 pt-3 border-t border-emerald-900/60">
-          <button type="button" id="btn-cancel-modal" class="px-4 py-2.5 rounded-xl border border-emerald-800 text-stone-300 hover:text-white hover:bg-emerald-900/40">
-            Cancel
-          </button>
-          <button type="submit" class="btn-gold px-5 py-2.5 rounded-xl font-bold shadow-lg">
-            Save & Schedule Care
-          </button>
+          <button type="button" id="btn-cancel-modal" class="px-4 py-2.5 rounded-xl border border-emerald-800 text-stone-300 hover:text-white">Cancel</button>
+          <button type="submit" class="btn-gold px-5 py-2.5 rounded-xl font-bold shadow-lg">Save & Schedule Care</button>
         </div>
       </form>
     </div>
@@ -943,952 +680,868 @@
         </button>
       </div>
 
-      <!-- Prakriti Balance Meter -->
       <div class="glass-card p-4 space-y-3">
         <h4 class="font-bold text-xs text-emerald-300 font-serif">Prakriti & Dosha Ratio</h4>
         <div class="space-y-2 text-xs">
-          <div>
-            <div class="flex justify-between text-stone-300 mb-1">
-              <span>Vata (Air & Space)</span>
-              <span id="drawer-vata-pct" class="font-mono text-emerald-400">55%</span>
-            </div>
-            <div class="w-full bg-emerald-950 h-2 rounded-full overflow-hidden">
-              <div id="drawer-vata-bar" class="bg-emerald-400 h-full w-[55%]"></div>
-            </div>
-          </div>
-          <div>
-            <div class="flex justify-between text-stone-300 mb-1">
-              <span>Pitta (Fire & Water)</span>
-              <span id="drawer-pitta-pct" class="font-mono text-amber-400">35%</span>
-            </div>
-            <div class="w-full bg-emerald-950 h-2 rounded-full overflow-hidden">
-              <div id="drawer-pitta-bar" class="bg-amber-400 h-full w-[35%]"></div>
-            </div>
-          </div>
-          <div>
-            <div class="flex justify-between text-stone-300 mb-1">
-              <span>Kapha (Earth & Water)</span>
-              <span id="drawer-kapha-pct" class="font-mono text-cyan-400">10%</span>
-            </div>
-            <div class="w-full bg-emerald-950 h-2 rounded-full overflow-hidden">
-              <div id="drawer-kapha-bar" class="bg-cyan-400 h-full w-[10%]"></div>
-            </div>
-          </div>
+          <div><div class="flex justify-between text-stone-300 mb-1"><span>Vata</span><span id="drawer-vata-pct" class="font-mono text-emerald-400">55%</span></div><div class="w-full bg-emerald-950 h-2 rounded-full overflow-hidden"><div id="drawer-vata-bar" class="bg-emerald-400 h-full w-[55%]"></div></div></div>
+          <div><div class="flex justify-between text-stone-300 mb-1"><span>Pitta</span><span id="drawer-pitta-pct" class="font-mono text-amber-400">35%</span></div><div class="w-full bg-emerald-950 h-2 rounded-full overflow-hidden"><div id="drawer-pitta-bar" class="bg-amber-400 h-full w-[35%]"></div></div></div>
+          <div><div class="flex justify-between text-stone-300 mb-1"><span>Kapha</span><span id="drawer-kapha-pct" class="font-mono text-cyan-400">10%</span></div><div class="w-full bg-emerald-950 h-2 rounded-full overflow-hidden"><div id="drawer-kapha-bar" class="bg-cyan-400 h-full w-[10%]"></div></div></div>
         </div>
       </div>
 
-      <!-- Nadi & Therapy Protocol -->
       <div class="glass-card p-4 space-y-2 text-xs">
-        <h4 class="font-bold text-emerald-300 font-serif">Nadi Pariksha & Pulse Diagnosis</h4>
+        <h4 class="font-bold text-emerald-300 font-serif">Nadi Pulse Diagnosis</h4>
         <p class="text-stone-200" id="drawer-nadi-pulse">Vata-Pitta (Chapa & Sarpa Gati)</p>
-        <div class="pt-2 border-t border-emerald-900/50">
-          <span class="text-stone-400 text-[11px]">Assigned Therapy:</span>
-          <p class="font-semibold text-amber-300 mt-0.5" id="drawer-therapy">Shirodhara & Abhyanga</p>
+        <div class="pt-2 border-t border-emerald-900/50"><span class="text-stone-400 text-[11px]">Assigned Therapy:</span><p class="font-semibold text-amber-300 mt-0.5" id="drawer-therapy">Shirodhara & Abhyanga</p></div>
+      </div>
+      <div class="glass-card p-4 space-y-2 text-xs"><h4 class="font-bold text-emerald-300 font-serif">Prescribed Formulations</h4><ul class="list-disc list-inside text-stone-300 space-y-1" id="drawer-formulations-list"></ul></div>
+      <div class="glass-card p-4 space-y-2 text-xs"><h4 class="font-bold text-emerald-300 font-serif">Pathya Ahara</h4><p class="text-stone-300" id="drawer-diet">Samsarjana Stage 2</p></div>
+      <div class="p-3.5 rounded-xl bg-amber-950/30 border border-amber-500/30 text-xs text-amber-200/90"><strong class="text-amber-300 block mb-1">Vaidya Note:</strong><p id="drawer-notes">Significant relief observed.</p></div>
+    </div>
+  </div>
+
+  <!-- MODAL: PAYMENT CHECKOUT -->
+  <div id="modal-payment-checkout" class="fixed inset-0 bg-black/80 backdrop-blur-md flex items-center justify-center p-4 z-50 hidden">
+    <div class="glass-panel bg-[#052117]/98 border border-emerald-700/80 max-w-2xl w-full p-6 shadow-2xl space-y-5 max-h-[92vh] overflow-y-auto">
+      <div class="flex items-center justify-between pb-3 border-b border-emerald-900/70">
+        <div class="flex items-center gap-2.5">
+          <div class="w-9 h-9 rounded-xl bg-amber-500/20 border border-amber-500/40 flex items-center justify-center text-amber-300">
+            <i data-lucide="shield-check" class="w-5 h-5"></i>
+          </div>
+          <div>
+            <h3 class="text-lg font-bold font-serif gold-gradient-text">AyurPay Secure Checkout</h3>
+            <p class="text-[11px] text-stone-300">256-Bit Encrypted Healthcare POS Gateway</p>
+          </div>
+        </div>
+        <button id="btn-close-pay-modal" class="text-stone-400 hover:text-white p-1 rounded-lg">
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+      </div>
+
+      <div class="p-4 rounded-xl bg-emerald-950/70 border border-emerald-800/70 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <div>
+          <span class="text-[10px] uppercase font-bold text-stone-400 tracking-wider font-mono" id="pay-summary-invid">INV-2026-102</span>
+          <h4 class="text-sm font-bold text-white font-serif" id="pay-summary-patient">Rajesh Verma</h4>
+          <p class="text-xs text-emerald-400 mt-0.5" id="pay-summary-package">5-Day Purva Karma & Vamana Shodhana</p>
+        </div>
+        <div class="text-right sm:border-l sm:border-emerald-900 sm:pl-5">
+          <span class="text-[10px] uppercase font-bold text-stone-400 tracking-wider">Total Payable</span>
+          <div class="text-2xl font-bold font-mono gold-gradient-text" id="pay-summary-amount">₹28,400</div>
         </div>
       </div>
 
-      <!-- Prescribed Formulations -->
-      <div class="glass-card p-4 space-y-2 text-xs">
-        <h4 class="font-bold text-emerald-300 font-serif">Prescribed Formulations (Kashaya & Tailam)</h4>
-        <ul class="list-disc list-inside text-stone-300 space-y-1" id="drawer-formulations-list"></ul>
+      <div class="grid grid-cols-3 sm:grid-cols-5 gap-2" id="pay-methods-tabs">
+        <button class="pay-tab-btn active p-2.5 rounded-xl border border-emerald-800 bg-emerald-950/50 flex flex-col items-center gap-1.5 text-xs text-stone-300" data-tab="upi">
+          <i data-lucide="qr-code" class="w-4 h-4 text-emerald-400"></i>
+          <span class="text-[11px] font-semibold">UPI / QR</span>
+        </button>
+        <button class="pay-tab-btn p-2.5 rounded-xl border border-emerald-800 bg-emerald-950/50 flex flex-col items-center gap-1.5 text-xs text-stone-300" data-tab="card">
+          <i data-lucide="credit-card" class="w-4 h-4 text-amber-400"></i>
+          <span class="text-[11px] font-semibold">Card</span>
+        </button>
+        <button class="pay-tab-btn p-2.5 rounded-xl border border-emerald-800 bg-emerald-950/50 flex flex-col items-center gap-1.5 text-xs text-stone-300" data-tab="netbanking">
+          <i data-lucide="landmark" class="w-4 h-4 text-cyan-400"></i>
+          <span class="text-[11px] font-semibold">NetBanking</span>
+        </button>
+        <button class="pay-tab-btn p-2.5 rounded-xl border border-emerald-800 bg-emerald-950/50 flex flex-col items-center gap-1.5 text-xs text-stone-300" data-tab="insurance">
+          <i data-lucide="shield-plus" class="w-4 h-4 text-purple-400"></i>
+          <span class="text-[11px] font-semibold">Ayush TPA</span>
+        </button>
+        <button class="pay-tab-btn p-2.5 rounded-xl border border-emerald-800 bg-emerald-950/50 flex flex-col items-center gap-1.5 text-xs text-stone-300" data-tab="cash">
+          <i data-lucide="banknote" class="w-4 h-4 text-green-400"></i>
+          <span class="text-[11px] font-semibold">Cash / POS</span>
+        </button>
       </div>
 
-      <!-- Pathya Diet Guidelines -->
-      <div class="glass-card p-4 space-y-2 text-xs">
-        <h4 class="font-bold text-emerald-300 font-serif">Pathya Ahara (Dietary Krama)</h4>
-        <p class="text-stone-300 leading-relaxed" id="drawer-diet">Samsarjana Stage 2</p>
+      <div id="pay-content-upi" class="pay-tab-content space-y-4">
+        <div class="p-5 rounded-2xl bg-emerald-950/50 border border-emerald-800/60 flex flex-col sm:flex-row items-center gap-6">
+          <div class="p-3 bg-white rounded-xl shadow-lg flex flex-col items-center text-center shrink-0 border border-amber-500/40">
+            <div class="w-32 h-32 bg-[#03150e] rounded-lg flex items-center justify-center p-2 text-amber-400 font-serif text-2xl font-bold">
+              ॐ QR
+            </div>
+            <span class="text-[10px] text-gray-800 font-bold mt-1.5 font-mono">BHIM UPI Dynamic QR</span>
+          </div>
+          <div class="space-y-3 flex-1 text-xs">
+            <p class="text-stone-200">Scan using GPay, PhonePe, Paytm, or BHIM to authorize instantly.</p>
+            <div class="flex gap-2">
+              <input type="text" value="patient@okhdfcbank" class="flex-1 px-3 py-2 bg-emerald-950/80 border border-emerald-800 rounded-xl text-stone-100 text-xs focus:outline-none focus:border-amber-400" />
+              <button onclick="showToast('UPI VPA Verified')" class="px-3 py-2 rounded-xl bg-emerald-900 text-emerald-200 text-xs font-semibold">Verify</button>
+            </div>
+          </div>
+        </div>
       </div>
 
-      <!-- Clinical Notes -->
-      <div class="p-3.5 rounded-xl bg-amber-950/30 border border-amber-500/30 text-xs text-amber-200/90">
-        <strong class="text-amber-300 block mb-1">Vaidya Clinical Note:</strong>
-        <p id="drawer-notes">Significant relief in chronic migraines and sleep dysregulation.</p>
+      <div id="pay-content-card" class="pay-tab-content space-y-4 hidden">
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
+          <div><label class="block text-stone-300 mb-1">Card Number</label><input type="text" value="4532 8901 2345 8821" class="w-full px-3 py-2 bg-emerald-950/80 border border-emerald-800 rounded-xl text-stone-100 font-mono" /></div>
+          <div><label class="block text-stone-300 mb-1">Cardholder Name</label><input type="text" value="Rajesh Verma" class="w-full px-3 py-2 bg-emerald-950/80 border border-emerald-800 rounded-xl text-stone-100" /></div>
+          <div><label class="block text-stone-300 mb-1">Expiry</label><input type="text" value="08/29" class="w-full px-3 py-2 bg-emerald-950/80 border border-emerald-800 rounded-xl text-stone-100 font-mono" /></div>
+          <div><label class="block text-stone-300 mb-1">CVV</label><input type="password" value="882" class="w-full px-3 py-2 bg-emerald-950/80 border border-emerald-800 rounded-xl text-stone-100 font-mono" /></div>
+        </div>
+      </div>
+
+      <div id="pay-content-netbanking" class="pay-tab-content space-y-3 hidden">
+        <div class="grid grid-cols-2 sm:grid-cols-3 gap-2 text-xs">
+          <label class="p-3 rounded-xl bg-emerald-950/60 border border-emerald-800 flex items-center gap-2 cursor-pointer"><input type="radio" checked name="nb" /><span class="text-stone-200 font-bold">SBI</span></label>
+          <label class="p-3 rounded-xl bg-emerald-950/60 border border-emerald-800 flex items-center gap-2 cursor-pointer"><input type="radio" name="nb" /><span class="text-stone-200 font-bold">HDFC Bank</span></label>
+          <label class="p-3 rounded-xl bg-emerald-950/60 border border-emerald-800 flex items-center gap-2 cursor-pointer"><input type="radio" name="nb" /><span class="text-stone-200 font-bold">ICICI Bank</span></label>
+        </div>
+      </div>
+
+      <div id="pay-content-insurance" class="pay-tab-content space-y-3 hidden">
+        <div class="p-3 rounded-xl bg-purple-950/40 border border-purple-800/60 text-xs text-purple-200">
+          Ayush Pre-Auth Cashless Network (Star Health / Care Health Insurance)
+        </div>
+      </div>
+
+      <div id="pay-content-cash" class="pay-tab-content space-y-3 hidden">
+        <div class="p-3 rounded-xl bg-emerald-950/60 border border-emerald-800 text-xs text-stone-300">
+          Payment received at hospital cash counter / POS physical terminal.
+        </div>
+      </div>
+
+      <div class="flex items-center justify-between pt-3 border-t border-emerald-900/60">
+        <button id="btn-cancel-pay" class="px-4 py-2 rounded-xl border border-emerald-800 text-stone-300 hover:text-white text-xs">Cancel</button>
+        <button id="btn-execute-payment" class="btn-gold px-6 py-2.5 rounded-xl font-bold text-xs flex items-center gap-2 shadow-xl">
+          <i data-lucide="lock" class="w-3.5 h-3.5"></i>
+          <span>Authorize & Complete Payment</span>
+        </button>
       </div>
     </div>
   </div>
 
-  <!-- Toast Notification Container -->
+  <!-- MODAL: INVOICE VIEWER -->
+  <div id="modal-invoice-viewer" class="fixed inset-0 bg-black/80 backdrop-blur-md flex items-center justify-center p-4 z-50 hidden">
+    <div class="bg-[#03150e] border border-emerald-700/80 max-w-3xl w-full p-6 sm:p-8 rounded-2xl shadow-2xl space-y-6 max-h-[92vh] overflow-y-auto invoice-print-area text-stone-100">
+      <div class="flex items-center justify-between pb-4 border-b border-emerald-900/70 invoice-print-hide">
+        <div class="flex items-center gap-2">
+          <i data-lucide="receipt" class="w-5 h-5 text-amber-400"></i>
+          <h3 class="font-bold text-base font-serif gold-gradient-text">Hospital Tax Invoice Preview</h3>
+        </div>
+        <div class="flex items-center gap-3">
+          <button onclick="window.print()" class="btn-gold px-4 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1.5 shadow">
+            <i data-lucide="printer" class="w-3.5 h-3.5"></i>
+            <span>Print / Save PDF</span>
+          </button>
+          <button id="btn-close-invoice-viewer" class="p-1.5 text-stone-400 hover:text-white rounded-lg hover:bg-emerald-900/40">
+            <i data-lucide="x" class="w-5 h-5"></i>
+          </button>
+        </div>
+      </div>
+
+      <div class="space-y-6">
+        <div class="flex flex-col sm:flex-row justify-between items-start gap-4 border-b border-emerald-900/70 pb-5">
+          <div>
+            <div class="flex items-center gap-2">
+              <span class="text-2xl font-serif text-amber-400">ॐ</span>
+              <h1 class="text-xl font-bold font-serif gold-gradient-text">AyurSutra Panchakarma Sanctorum</h1>
+            </div>
+            <p class="text-xs text-emerald-400/90 mt-0.5">NABH-Ayurveda Accredited Hospital & Research Center</p>
+            <p class="text-[11px] text-stone-400 mt-1">Vaidya Marg, Civil Lines, Jaipur, Rajasthan - 302006</p>
+            <p class="text-[10px] text-stone-400 font-mono mt-0.5">GSTIN: 08AAACA1234F1Z5 • AYUSH Reg: AYUSH-RJ-2026-881</p>
+          </div>
+
+          <div class="text-left sm:text-right space-y-1">
+            <span class="text-xs uppercase font-bold tracking-widest text-stone-400 block font-mono">ORIGINAL TAX INVOICE</span>
+            <div class="text-lg font-bold font-mono text-amber-300" id="inv-view-id">INV-2026-101</div>
+            <div class="text-xs text-stone-300">Date: <strong id="inv-view-date" class="font-mono">2026-08-16</strong></div>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 p-4 rounded-xl bg-emerald-950/40 border border-emerald-900/50 text-xs">
+          <div>
+            <span class="text-[10px] font-bold text-stone-400 uppercase tracking-wider block">Billed To (Patient):</span>
+            <h4 class="font-bold text-sm text-stone-100 font-serif mt-0.5" id="inv-view-patient-name">Ananya Sharma</h4>
+            <p class="text-stone-300 font-mono mt-0.5" id="inv-view-patient-id">Patient ID: AY-2026-001</p>
+          </div>
+          <div>
+            <span class="text-[10px] font-bold text-stone-400 uppercase tracking-wider block">Supervising Vaidya:</span>
+            <h4 class="font-bold text-sm text-amber-300 font-serif mt-0.5" id="inv-view-doctor">Dr. Ramesh Vaidya</h4>
+            <p class="text-stone-300 mt-0.5" id="inv-view-package">7-Day Shirodhara & Abhyanga Intensive</p>
+          </div>
+        </div>
+
+        <div class="overflow-x-auto rounded-xl border border-emerald-900/60">
+          <table class="w-full text-left text-xs">
+            <thead class="bg-emerald-950/90 text-stone-300 uppercase tracking-wider font-semibold border-b border-emerald-900/60">
+              <tr>
+                <th class="px-4 py-3">#</th>
+                <th class="px-4 py-3">Item Description</th>
+                <th class="px-4 py-3 text-center">Qty</th>
+                <th class="px-4 py-3 text-right">Rate (₹)</th>
+                <th class="px-4 py-3 text-right">Amount (₹)</th>
+              </tr>
+            </thead>
+            <tbody id="inv-view-items-body" class="divide-y divide-emerald-900/40 bg-emerald-950/20"></tbody>
+          </table>
+        </div>
+
+        <div class="flex justify-end pt-2">
+          <div class="w-72 space-y-2 text-xs font-mono">
+            <div class="flex justify-between text-stone-300"><span>Subtotal:</span><span id="inv-view-subtotal">₹57,100</span></div>
+            <div class="flex justify-between text-stone-300"><span>GST (5%):</span><span id="inv-view-gst">₹2,855</span></div>
+            <div class="flex justify-between text-base font-bold text-white pt-2 border-t border-emerald-800">
+              <span class="font-serif">Total Amount:</span><span id="inv-view-total" class="gold-gradient-text">₹57,955</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: CREATE INVOICE -->
+  <div id="modal-create-invoice" class="fixed inset-0 bg-black/80 backdrop-blur-md flex items-center justify-center p-4 z-50 hidden">
+    <div class="glass-panel bg-[#052117]/98 border border-emerald-700/80 max-w-xl w-full p-6 shadow-2xl space-y-5">
+      <div class="flex items-center justify-between pb-3 border-b border-emerald-900/70">
+        <h3 class="text-lg font-bold font-serif gold-gradient-text">Generate New Tax Invoice</h3>
+        <button id="btn-close-create-inv-modal" class="text-stone-400 hover:text-white p-1 rounded-lg">
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+      </div>
+
+      <form id="form-create-invoice" class="space-y-4 text-xs">
+        <div>
+          <label class="block font-semibold text-stone-300 mb-1">Select Patient</label>
+          <select id="create-inv-patient-select" class="w-full px-3.5 py-2.5 bg-emerald-950/80 border border-emerald-800 rounded-xl text-stone-100 focus:outline-none focus:border-amber-400"></select>
+        </div>
+        <div>
+          <label class="block font-semibold text-stone-300 mb-1">Therapy Package Title</label>
+          <input type="text" id="create-inv-package" required value="7-Day Shirodhara & Abhyanga Intensive" class="w-full px-3.5 py-2.5 bg-emerald-950/80 border border-emerald-800 rounded-xl text-stone-100 focus:outline-none focus:border-amber-400" />
+        </div>
+        <div class="grid grid-cols-2 gap-3">
+          <div><label class="block text-stone-300 mb-1">Therapy Charges (₹)</label><input type="number" id="create-inv-therapy-charge" value="35000" class="w-full px-3.5 py-2 bg-emerald-950/80 border border-emerald-800 rounded-xl text-stone-100 font-mono" /></div>
+          <div><label class="block text-stone-300 mb-1">Room Stay Charges (₹)</label><input type="number" id="create-inv-room-charge" value="12000" class="w-full px-3.5 py-2 bg-emerald-950/80 border border-emerald-800 rounded-xl text-stone-100 font-mono" /></div>
+        </div>
+        <div class="flex items-center justify-end gap-3 pt-3 border-t border-emerald-900/60">
+          <button type="button" id="btn-cancel-create-inv" class="px-4 py-2.5 rounded-xl border border-emerald-800 text-stone-300">Cancel</button>
+          <button type="submit" class="btn-gold px-5 py-2.5 rounded-xl font-bold shadow-lg">Save Invoice</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
   <div id="toast-container" class="fixed bottom-6 right-6 z-50 space-y-2 pointer-events-none"></div>
 
-  <!-- Embedded Application Logic -->
+  <!-- Application Logic -->
   <script>
-    // --- 1. DATA MODEL ---
     const initialPatients = [
-      {
-        id: 'AY-2026-001',
-        name: 'Ananya Sharma',
-        age: 34,
-        gender: 'Female',
-        contact: '+91 98765 43210',
-        dosha: 'Vata-Pitta',
-        doshaBalance: { vata: 55, pitta: 35, kapha: 10 },
-        currentTherapy: 'Shirodhara & Abhyanga',
-        phase: 'Pradhana Karma',
-        dayCount: 'Day 4 of 7',
-        progressPercent: 57,
-        status: 'In Progress',
-        room: 'Chikitsa Suite 2',
-        therapist: 'Dr. Ramesh Vaidya',
-        nadiPulse: 'Vata-Pitta (Chapa & Sarpa Gati)',
-        formulations: ['Mahanarayana Taila', 'Ksheerabala 101 Drops', 'Brahmi Ghrita'],
-        diet: 'Samsarjana Stage 2 (Mudga Yusha - Green Gram Soup with Cumin & Ghee)',
-        notes: 'Significant relief in chronic migraines and sleep dysregulation. Shirodhara oil temperature strictly 38.5°C.'
-      },
-      {
-        id: 'AY-2026-002',
-        name: 'Rajesh Verma',
-        age: 48,
-        gender: 'Male',
-        contact: '+91 91234 56789',
-        dosha: 'Kapha Predominant',
-        doshaBalance: { vata: 15, pitta: 25, kapha: 60 },
-        currentTherapy: 'Vamana Karma Prep',
-        phase: 'Purva Karma',
-        dayCount: 'Day 2 of 5',
-        progressPercent: 40,
-        status: 'Scheduled',
-        room: 'Karma Hall A',
-        therapist: 'Vaidya Sneha Nair',
-        nadiPulse: 'Kapha (Mando Gati / Hamsa)',
-        formulations: ['Sukumara Ghrita', 'Pippali Churna', 'Triphala Kashayam'],
-        diet: 'Deepana-Pachana (Hot Water with Ginger & Honey, Light Peya)',
-        notes: 'Snehapana dose increased to 60ml. Digestibility being monitored every 3 hours.'
-      },
-      {
-        id: 'AY-2026-003',
-        name: 'Sunita Joshi',
-        age: 52,
-        gender: 'Female',
-        contact: '+91 99887 76655',
-        dosha: 'Pitta-Vata',
-        doshaBalance: { vata: 40, pitta: 50, kapha: 10 },
-        currentTherapy: 'Kashaya & Sneha Basti',
-        phase: 'Pradhana Karma',
-        dayCount: 'Day 6 of 8',
-        progressPercent: 75,
-        status: 'In Progress',
-        room: 'Recovery Room 1',
-        therapist: 'Dr. Ramesh Vaidya',
-        nadiPulse: 'Pitta (Manduka Gati)',
-        formulations: ['Dhanwantharam 101', 'Sahacharadi Kashayam', 'Chandanadi Oil'],
-        diet: 'Cooling Pitta-pacifying diet with boiled rice and Amalaki ghrita',
-        notes: 'Joint inflammation reduced by 60%. Good retention time for Anuvasana Basti (4.5 hours).'
-      },
-      {
-        id: 'AY-2026-004',
-        name: 'Vikramaditya Rao',
-        age: 41,
-        gender: 'Male',
-        contact: '+91 94455 66778',
-        dosha: 'Tridoshic (V-P-K)',
-        doshaBalance: { vata: 35, pitta: 35, kapha: 30 },
-        currentTherapy: 'Nasya & Shirovasti',
-        phase: 'Pradhana Karma',
-        dayCount: 'Day 3 of 7',
-        progressPercent: 42,
-        status: 'In Progress',
-        room: 'Chikitsa Suite 1',
-        therapist: 'Vaidya Harish Chandra',
-        nadiPulse: 'Tridosha Samata',
-        formulations: ['Anu Taila', 'Karpasastyadi Tailam', 'Ashwagandharishta'],
-        diet: 'Laghu Ahara (Warm barley gruel with roasted jeera)',
-        notes: 'Sinus clearance confirmed. Administering 8 drops of Anu Taila per nostril with steam.'
-      },
-      {
-        id: 'AY-2026-005',
-        name: 'Meera Nambiar',
-        age: 29,
-        gender: 'Female',
-        contact: '+91 97711 22334',
-        dosha: 'Vata Predominant',
-        doshaBalance: { vata: 65, pitta: 20, kapha: 15 },
-        currentTherapy: 'Takradhara & Rasayana',
-        phase: 'Paschat Karma',
-        dayCount: 'Day 7 of 7',
-        progressPercent: 100,
-        status: 'Completed',
-        room: 'Recovery Suite 3',
-        therapist: 'Vaidya Sneha Nair',
-        nadiPulse: 'Vata pacified (Samana Vayu)',
-        formulations: ['Chyawanprash Awaleha', 'Kalyanaka Ghrita', 'Dashamularishta'],
-        diet: 'Rasayana regenerative diet, warm organic milk with saffron and cardamom',
-        notes: 'Full cycle completed successfully. Stress markers normalized. Discharging tomorrow with home protocol.'
-      },
-      {
-        id: 'AY-2026-006',
-        name: 'Arjun Singhania',
-        age: 56,
-        gender: 'Male',
-        contact: '+91 98822 33445',
-        dosha: 'Pitta-Kapha',
-        doshaBalance: { vata: 15, pitta: 50, kapha: 35 },
-        currentTherapy: 'Virechana Karma',
-        phase: 'Pradhana Karma',
-        dayCount: 'Day 5 of 6',
-        progressPercent: 83,
-        status: 'In Progress',
-        room: 'Chikitsa Suite 3',
-        therapist: 'Dr. Ramesh Vaidya',
-        nadiPulse: 'Pitta-Tikshna',
-        formulations: ['Trivrit Lehyam', 'Avipattikar Churna', 'Amruthotharam Kashaya'],
-        diet: 'Strict boiled rice water (Vilepi) with roasted pomegranate seeds',
-        notes: 'Virechana vega count reached 12 bouts smoothly. Adequate hydration maintained.'
-      }
+      { id: 'AY-2026-001', name: 'Ananya Sharma', age: 34, gender: 'Female', contact: '+91 98765 43210', dosha: 'Vata-Pitta', doshaBalance: { vata: 55, pitta: 35, kapha: 10 }, currentTherapy: 'Shirodhara & Abhyanga', phase: 'Pradhana Karma', dayCount: 'Day 4 of 7', progressPercent: 57, status: 'In Progress', room: 'Chikitsa Suite 2', therapist: 'Dr. Ramesh Vaidya', nadiPulse: 'Vata-Pitta (Chapa & Sarpa Gati)', formulations: ['Mahanarayana Taila', 'Ksheerabala 101 Drops'], diet: 'Samsarjana Stage 2', notes: 'Significant relief in migraines.' },
+      { id: 'AY-2026-002', name: 'Rajesh Verma', age: 48, gender: 'Male', contact: '+91 91234 56789', dosha: 'Kapha Predominant', doshaBalance: { vata: 15, pitta: 25, kapha: 60 }, currentTherapy: 'Vamana Karma Prep', phase: 'Purva Karma', dayCount: 'Day 2 of 5', progressPercent: 40, status: 'Scheduled', room: 'Karma Hall A', therapist: 'Vaidya Sneha Nair', nadiPulse: 'Kapha (Mando Gati)', formulations: ['Sukumara Ghrita', 'Triphala Kashayam'], diet: 'Deepana-Pachana diet', notes: 'Snehapana dose 60ml.' },
+      { id: 'AY-2026-003', name: 'Sunita Joshi', age: 52, gender: 'Female', contact: '+91 99887 76655', dosha: 'Pitta-Vata', doshaBalance: { vata: 40, pitta: 50, kapha: 10 }, currentTherapy: 'Kashaya & Sneha Basti', phase: 'Pradhana Karma', dayCount: 'Day 6 of 8', progressPercent: 75, status: 'In Progress', room: 'Recovery Room 1', therapist: 'Dr. Ramesh Vaidya', nadiPulse: 'Pitta (Manduka Gati)', formulations: ['Dhanwantharam 101'], diet: 'Cooling Pitta-pacifying diet', notes: 'Joint inflammation reduced.' },
+      { id: 'AY-2026-004', name: 'Arjun Menon', age: 29, gender: 'Male', contact: '+91 97766 55443', dosha: 'Vata Predominant', doshaBalance: { vata: 70, pitta: 20, kapha: 10 }, currentTherapy: 'Greeva Basti & Kati Basti', phase: 'Pradhana Karma', dayCount: 'Day 3 of 7', progressPercent: 42, status: 'In Progress', room: 'Chikitsa Suite 1', therapist: 'Vaidya Harish Chandra', nadiPulse: 'Vata (Sarpa Gati)', formulations: ['Murivenna Taila', 'Yogaraja Guggulu'], diet: 'Warm Vata diet', notes: 'Lumbar stiffness.' },
+      { id: 'AY-2026-005', name: 'Meera Nambiar', age: 41, gender: 'Female', contact: '+91 94433 22110', dosha: 'Tridoshic Balanced', doshaBalance: { vata: 35, pitta: 35, kapha: 30 }, currentTherapy: 'Samsarjana Krama Diet', phase: 'Paschat Karma', dayCount: 'Day 7 of 7', progressPercent: 100, status: 'Completed', room: 'Outpatient Consult', therapist: 'Dr. Ramesh Vaidya', nadiPulse: 'Sama Prakriti', formulations: ['Chyawanprash Awaleha', 'Brahmi Rasayana'], diet: 'Laghu Ahara', notes: 'Full recovery.' }
+    ];
+
+    const initialInvoices = [
+      { id: 'INV-2026-101', patientId: 'AY-2026-001', patientName: 'Ananya Sharma', contact: '+91 98765 43210', date: '2026-08-16', doctorName: 'Dr. Ramesh Vaidya', packageTitle: '7-Day Shirodhara & Abhyanga Intensive Package', status: 'Paid', paymentMethod: 'UPI (GPay / PhonePe)', transactionId: 'TXN-AYUR-882194', paidAt: '2026-08-16 10:45 AM', items: [{ description: 'Shirodhara Medicated Therapy (7 Sessions)', qty: 7, rate: 3500, amount: 24500 }, { description: 'Sarvanga Abhyanga Medicated Massage (7 Sessions)', qty: 7, rate: 2200, amount: 15400 }, { description: 'Ksheerabala 101 & Mahanarayana Tailam', qty: 2, rate: 1850, amount: 3700 }, { description: 'Senior Acharya Initial Consult', qty: 1, rate: 1500, amount: 1500 }, { description: 'Chikitsa Suite 2 Room Facility (4 Days)', qty: 4, rate: 3000, amount: 12000 }], subtotal: 57100, taxGst: 2855, discount: 2000, totalAmount: 57955, amountPaid: 57955, balanceDue: 0 },
+      { id: 'INV-2026-102', patientId: 'AY-2026-002', patientName: 'Rajesh Verma', contact: '+91 91234 56789', date: '2026-08-17', doctorName: 'Vaidya Sneha Nair', packageTitle: '5-Day Purva Karma & Vamana Shodhana Protocol', status: 'Pending', paymentMethod: 'Pending Payment', transactionId: 'N/A', paidAt: 'Unpaid', items: [{ description: 'Snehapana Internal Oleation with Sukumara Ghrita', qty: 5, rate: 2400, amount: 12000 }, { description: 'Swedana Herbal Steam Chamber Facility', qty: 3, rate: 1800, amount: 5400 }, { description: 'Vamana Karma Classical Shodhana Session', qty: 1, rate: 8500, amount: 8500 }], subtotal: 28000, taxGst: 1400, discount: 1000, totalAmount: 28400, amountPaid: 0, balanceDue: 28400 },
+      { id: 'INV-2026-103', patientId: 'AY-2026-003', patientName: 'Sunita Joshi', contact: '+91 99887 76655', date: '2026-08-15', doctorName: 'Dr. Ramesh Vaidya', packageTitle: '8-Day Kashaya & Sneha Basti Protocol', status: 'Paid', paymentMethod: 'HDFC Credit Card (•••• 4092)', transactionId: 'TXN-AYUR-773821', paidAt: '2026-08-15 03:20 PM', items: [{ description: 'Kashaya Basti Decoction Administration (4 Sessions)', qty: 4, rate: 3200, amount: 12800 }, { description: 'Anuvasana Sneha Basti (4 Sessions)', qty: 4, rate: 2800, amount: 11200 }], subtotal: 42400, taxGst: 2120, discount: 1500, totalAmount: 43020, amountPaid: 43020, balanceDue: 0 }
     ];
 
     const scheduledTherapies = [
-      { id: 1, time: '08:00 AM', patient: 'Ananya Sharma', therapy: 'Abhyanga (Herbal Medicated Massage)', room: 'Chikitsa Suite 2', therapist: 'Vaidya Sneha', phase: 'Purva' },
-      { id: 2, time: '09:30 AM', patient: 'Ananya Sharma', therapy: 'Shirodhara (Takradhara Protocol)', room: 'Chikitsa Suite 2', therapist: 'Vaidya Sneha', phase: 'Pradhana' },
-      { id: 3, time: '10:45 AM', patient: 'Vikramaditya Rao', therapy: 'Nasya (Pratimarsa Nasya Karma)', room: 'Chikitsa Suite 1', therapist: 'Vaidya Harish', phase: 'Pradhana' },
-      { id: 4, time: '11:30 AM', patient: 'Rajesh Verma', therapy: 'Snehapana (Internal Oleation Ghee)', room: 'Karma Hall A', therapist: 'Dr. Ramesh', phase: 'Purva' },
-      { id: 5, time: '02:00 PM', patient: 'Sunita Joshi', therapy: 'Kashaya Basti (Herbal Decoction Enema)', room: 'Recovery Room 1', therapist: 'Dr. Ramesh', phase: 'Pradhana' },
-      { id: 6, time: '04:30 PM', patient: 'Meera Nambiar', therapy: 'Samsarjana Krama Diet Consultation', room: 'Consultation Room 3', therapist: 'Vaidya Sneha', phase: 'Paschat' }
+      { id: 1, time: '08:00 AM', patient: 'Ananya Sharma', therapy: 'Abhyanga (Herbal Massage)', room: 'Chikitsa Suite 2', therapist: 'Vaidya Sneha', phase: 'Purva' },
+      { id: 2, time: '09:30 AM', patient: 'Ananya Sharma', therapy: 'Shirodhara (Takradhara Protocol)', room: 'Chikitsa Suite 2', therapist: 'Vaidya Sneha', phase: 'Pradhana' }
     ];
 
     const chikitsaRooms = [
-      { id: 'RM-101', name: 'Chikitsa Suite 1', type: 'Shirodhara & Head Therapies', status: 'Occupied', patient: 'Vikramaditya Rao', oilTemp: '38.2°C', heater: 'Active', ambient: '24°C / 45% RH' },
-      { id: 'RM-102', name: 'Chikitsa Suite 2', type: 'Full Body Abhyanga & Takradhara', status: 'Occupied', patient: 'Ananya Sharma', oilTemp: '39.0°C', heater: 'Active', ambient: '25°C / 48% RH' },
-      { id: 'RM-103', name: 'Karma Hall A', type: 'Purva Karma & Vamana Facility', status: 'In Preparation', patient: 'Rajesh Verma', oilTemp: '37.5°C', heater: 'Pre-heating', ambient: '23°C / 50% RH' },
-      { id: 'RM-104', name: 'Chikitsa Suite 3', type: 'Virechana & Basti Sanctuary', status: 'Occupied', patient: 'Arjun Singhania', oilTemp: '38.0°C', heater: 'Active', ambient: '24°C / 46% RH' },
-      { id: 'RM-105', name: 'Swedana Steam Chamber', type: 'Nadi & Bashpa Swedan', status: 'Available', patient: 'None (Sanitized)', oilTemp: 'Ready', heater: 'Standby', ambient: '22°C / 40% RH' },
-      { id: 'RM-106', name: 'Recovery Sanctuary', type: 'Post-Karma Deep Rest & Samsarjana', status: 'Occupied', patient: 'Meera Nambiar', oilTemp: 'N/A', heater: 'Off', ambient: '23.5°C / 52% RH' }
+      { id: 'RM-101', name: 'Chikitsa Suite 1', type: 'Shirodhara & Head Therapies', status: 'Available', patient: 'Sanitized', oilTemp: 'Ready' },
+      { id: 'RM-102', name: 'Chikitsa Suite 2', type: 'Full Body Abhyanga & Takradhara', status: 'Occupied', patient: 'Ananya Sharma', oilTemp: '39.0°C' }
     ];
 
     const ayurvedicElements = [
-      { name: 'Prithvi', english: 'Earth', sanskrit: 'पृथिवी', dosha: 'Kapha', color: '#eab308', geometry: 'Cube / Stambha', property: 'Stability, Density & Structure' },
-      { name: 'Jala', english: 'Water', sanskrit: 'जल', dosha: 'Kapha-Pitta', color: '#06b6d4', geometry: 'Icosahedron / Drava', property: 'Cohesion, Fluidity & Moisture' },
-      { name: 'Agni', english: 'Fire', sanskrit: 'अग्नि', dosha: 'Pitta', color: '#f97316', geometry: 'Tetrahedron / Tejas', property: 'Transformation, Metabolism & Vision' },
-      { name: 'Vayu', english: 'Air', sanskrit: 'वायु', dosha: 'Vata', color: '#10b981', geometry: 'Octahedron / Chala', property: 'Movement, Respiration & Nerve Pulses' },
-      { name: 'Akasha', english: 'Ether / Space', sanskrit: 'आकाश', dosha: 'Vata', color: '#a855f7', geometry: 'Dodecahedron / Avakasha', property: 'Consciousness, Channels & Sound' }
+      { name: 'Prithvi', english: 'Earth', sanskrit: 'पृथिवी', dosha: 'Kapha', color: '#eab308', property: 'Stability, Density & Bone Structure' },
+      { name: 'Jala', english: 'Water', sanskrit: 'जल', dosha: 'Kapha-Pitta', color: '#06b6d4', property: 'Cohesion, Fluidity & Rasa Dhatu' },
+      { name: 'Agni', english: 'Fire', sanskrit: 'अग्नि', dosha: 'Pitta', color: '#f97316', property: 'Transformation, Metabolism & Digestion' },
+      { name: 'Vayu', english: 'Air', sanskrit: 'वायु', dosha: 'Vata', color: '#10b981', property: 'Movement, Respiration & Nerve Pulses' },
+      { name: 'Akasha', english: 'Ether / Space', sanskrit: 'आकाश', dosha: 'Vata', color: '#a855f7', property: 'Consciousness, Bodily Channels (Srotas)' }
     ];
 
-    // --- 2. WEB AUDIO API SYNTHESIZER ---
-    class AyurSoundscape {
-      constructor() {
-        this.ctx = null;
-        this.isPlaying = false;
-        this.masterGain = null;
-        this.oscillators = [];
-      }
-      initContext() {
-        if (!this.ctx) {
-          const AudioCtx = window.AudioContext || window.webkitAudioContext;
-          this.ctx = new AudioCtx();
-          this.masterGain = this.ctx.createGain();
-          this.masterGain.gain.setValueAtTime(0.08, this.ctx.currentTime);
-          this.masterGain.connect(this.ctx.destination);
-        }
-        if (this.ctx.state === 'suspended') this.ctx.resume();
-      }
-      toggle() {
-        this.initContext();
-        if (this.isPlaying) this.stop();
-        else this.start();
-        return this.isPlaying;
-      }
-      start() {
-        this.initContext();
-        this.stop();
-        const baseFreq = 108.0;
-        const freqs = [baseFreq, baseFreq * 1.5, baseFreq * 2.0, baseFreq * 3.0, 432.0];
-        freqs.forEach((f, idx) => {
-          const osc = this.ctx.createOscillator();
-          const gain = this.ctx.createGain();
-          osc.type = idx % 2 === 0 ? 'sine' : 'triangle';
-          osc.frequency.setValueAtTime(f, this.ctx.currentTime);
-          const lfo = this.ctx.createOscillator();
-          const lfoGain = this.ctx.createGain();
-          lfo.frequency.value = 0.1 + idx * 0.05;
-          lfoGain.gain.value = 1.2;
-          lfo.connect(osc.frequency);
-          lfo.start();
-          gain.gain.setValueAtTime(0.015 / (idx + 1), this.ctx.currentTime);
-          osc.connect(gain);
-          gain.connect(this.masterGain);
-          osc.start();
-          this.oscillators.push({ osc, lfo });
-        });
-        this.isPlaying = true;
-        this.playSingingBowlChime(432, 2.5);
-      }
-      stop() {
-        this.oscillators.forEach(({ osc, lfo }) => {
-          try { osc.stop(); lfo.stop(); } catch (e) {}
-        });
-        this.oscillators = [];
-        this.isPlaying = false;
-      }
-      playSingingBowlChime(freq = 528, duration = 3.5) {
-        if (!this.ctx) return;
-        try {
-          const now = this.ctx.currentTime;
-          const osc = this.ctx.createOscillator();
-          const gain = this.ctx.createGain();
-          osc.type = 'sine';
-          osc.frequency.setValueAtTime(freq, now);
-          osc.frequency.exponentialRampToValueAtTime(freq * 0.998, now + duration);
-          gain.gain.setValueAtTime(0.35, now);
-          gain.gain.exponentialRampToValueAtTime(0.0001, now + duration);
-          osc.connect(gain);
-          gain.connect(this.ctx.destination);
-          osc.start(now);
-          osc.stop(now + duration);
-        } catch (e) {}
-      }
-    }
-    const soundEngine = new AyurSoundscape();
-
-    // --- 3. THREE.JS 3D ROTATING EARTH & AYURVEDIC GEOMETRY ---
-    class AyurCosmosBackground {
-      constructor(canvasContainerId) {
-        this.container = document.getElementById(canvasContainerId);
-        if (!this.container) return;
-        this.scene = null;
-        this.camera = null;
-        this.renderer = null;
-        this.earthGroup = null;
-        this.earthMesh = null;
-        this.cloudsMesh = null;
-        this.orbitingElements = [];
-        this.particles = null;
-        this.yantraRings = [];
-        this.scrollProgress = 0;
-        this.mouseX = 0;
-        this.mouseY = 0;
-        this.targetMouseX = 0;
-        this.targetMouseY = 0;
-        this.clock = new THREE.Clock();
-        this.init();
-      }
-
-      init() {
-        this.scene = new THREE.Scene();
-        this.scene.fog = new THREE.FogExp2(0x04130d, 0.0018);
-        const width = window.innerWidth;
-        const height = window.innerHeight;
-        this.camera = new THREE.PerspectiveCamera(45, width / height, 0.1, 2000);
-        this.camera.position.set(0, 0, 32);
-
-        this.renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true, powerPreference: 'high-performance' });
-        this.renderer.setSize(width, height);
-        this.renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-        this.renderer.toneMapping = THREE.ACESFilmicToneMapping;
-        this.renderer.toneMappingExposure = 1.25;
-        this.container.appendChild(this.renderer.domElement);
-
-        this.setupLights();
-        this.createEarth();
-        this.createClouds();
-        this.createMahabhutaGeometries();
-        this.createYantraOrbits();
-        this.createPranaCosmicParticles();
-
-        window.addEventListener('resize', () => this.onWindowResize());
-        window.addEventListener('mousemove', (e) => this.onMouseMove(e));
-        this.animate();
-      }
-
-      setupLights() {
-        const ambientLight = new THREE.AmbientLight(0x0e2e22, 1.4);
-        this.scene.add(ambientLight);
-        const sunLight = new THREE.DirectionalLight(0xfffaed, 2.5);
-        sunLight.position.set(25, 12, 18);
-        this.scene.add(sunLight);
-        const pranaLight = new THREE.DirectionalLight(0xdfaf37, 1.8);
-        pranaLight.position.set(-20, -10, -10);
-        this.scene.add(pranaLight);
-      }
-
-      generateEarthTexture() {
-        const canvas = document.createElement('canvas');
-        canvas.width = 2048; canvas.height = 1024;
-        const ctx = canvas.getContext('2d');
-        const oceanGrad = ctx.createLinearGradient(0, 0, 0, canvas.height);
-        oceanGrad.addColorStop(0, '#041d1a');
-        oceanGrad.addColorStop(0.5, '#0a4237');
-        oceanGrad.addColorStop(1, '#041d1a');
-        ctx.fillStyle = oceanGrad;
-        ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-        const drawLandMass = (cx, cy, rx, ry, bumps, color) => {
-          ctx.beginPath(); ctx.fillStyle = color;
-          for (let i = 0; i <= 360; i += 6) {
-            const rad = (i * Math.PI) / 180;
-            const noise = Math.sin(rad * bumps * 1.5) * 18 + Math.cos(rad * (bumps + 2)) * 12;
-            const x = cx + Math.cos(rad) * (rx + noise);
-            const y = cy + Math.sin(rad) * (ry + noise * 0.7);
-            if (i === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
-          }
-          ctx.closePath(); ctx.fill();
-        };
-
-        drawLandMass(1320, 480, 240, 190, 7, '#2d6a4f');
-        drawLandMass(1380, 530, 80, 110, 5, '#40916c');
-        drawLandMass(1420, 440, 130, 70, 6, '#d4af37');
-        drawLandMass(1020, 540, 140, 220, 6, '#2d6a4f');
-        drawLandMass(460, 360, 160, 180, 7, '#2d6a4f');
-        drawLandMass(560, 640, 120, 210, 6, '#1b4332');
-
-        ctx.strokeStyle = 'rgba(212, 175, 55, 0.15)';
-        ctx.lineWidth = 1.5;
-        for (let x = 0; x < canvas.width; x += 128) {
-          ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, canvas.height); ctx.stroke();
-        }
-        return new THREE.CanvasTexture(canvas);
-      }
-
-      generateCloudTexture() {
-        const canvas = document.createElement('canvas');
-        canvas.width = 1024; canvas.height = 512;
-        const ctx = canvas.getContext('2d');
-        ctx.fillStyle = 'rgba(0,0,0,0)';
-        ctx.fillRect(0, 0, canvas.width, canvas.height);
-        for (let i = 0; i < 90; i++) {
-          const x = Math.random() * canvas.width;
-          const y = Math.random() * canvas.height;
-          const radius = 30 + Math.random() * 80;
-          const grad = ctx.createRadialGradient(x, y, 0, x, y, radius);
-          grad.addColorStop(0, 'rgba(255, 255, 255, 0.45)');
-          grad.addColorStop(1, 'rgba(255, 255, 255, 0)');
-          ctx.fillStyle = grad;
-          ctx.beginPath(); ctx.arc(x, y, radius, 0, Math.PI * 2); ctx.fill();
-        }
-        return new THREE.CanvasTexture(canvas);
-      }
-
-      createEarth() {
-        this.earthGroup = new THREE.Group();
-        this.scene.add(this.earthGroup);
-        const geometry = new THREE.SphereGeometry(9, 64, 64);
-        const texture = this.generateEarthTexture();
-        const material = new THREE.MeshStandardMaterial({
-          map: texture, roughness: 0.65, metalness: 0.15, emissive: 0x06281e, emissiveIntensity: 0.25
-        });
-        this.earthMesh = new THREE.Mesh(geometry, material);
-        this.earthMesh.rotation.z = (23.5 * Math.PI) / 180;
-        this.earthGroup.add(this.earthMesh);
-      }
-
-      createClouds() {
-        const geometry = new THREE.SphereGeometry(9.18, 48, 48);
-        const cloudTexture = this.generateCloudTexture();
-        const material = new THREE.MeshStandardMaterial({
-          map: cloudTexture, transparent: true, opacity: 0.6, blending: THREE.AdditiveBlending, depthWrite: false
-        });
-        this.cloudsMesh = new THREE.Mesh(geometry, material);
-        this.earthGroup.add(this.cloudsMesh);
-      }
-
-      createMahabhutaGeometries() {
-        const elementsData = [
-          { name: 'Prithvi', color: 0xf59e0b, emissive: 0xd97706, geom: new THREE.BoxGeometry(1.6, 1.6, 1.6), radius: 14.5, speed: 0.45, yOffset: 2.2, symbol: '🜃', sanskrit: 'पृथिवी' },
-          { name: 'Jala', color: 0x06b6d4, emissive: 0x0891b2, geom: new THREE.IcosahedronGeometry(1.2, 0), radius: 16.8, speed: -0.38, yOffset: -3.5, symbol: '🜄', sanskrit: 'जल' },
-          { name: 'Agni', color: 0xef4444, emissive: 0xb91c1c, geom: new THREE.TetrahedronGeometry(1.4, 0), radius: 19.2, speed: 0.52, yOffset: 4.8, symbol: '🜂', sanskrit: 'अग्नि' },
-          { name: 'Vayu', color: 0x10b981, emissive: 0x059669, geom: new THREE.OctahedronGeometry(1.3, 0), radius: 21.5, speed: -0.32, yOffset: -1.8, symbol: '🜁', sanskrit: 'वायु' },
-          { name: 'Akasha', color: 0xa855f7, emissive: 0x7e22ce, geom: new THREE.DodecahedronGeometry(1.35, 0), radius: 23.8, speed: 0.28, yOffset: 1.0, symbol: 'ॐ', sanskrit: 'आकाश' }
-        ];
-
-        elementsData.forEach((el, index) => {
-          const group = new THREE.Group();
-          const coreMat = new THREE.MeshStandardMaterial({
-            color: el.color, emissive: el.emissive, emissiveIntensity: 0.8, roughness: 0.2, metalness: 0.8, transparent: true, opacity: 0.88
-          });
-          const wireMat = new THREE.MeshBasicMaterial({ color: 0xffffff, wireframe: true, transparent: true, opacity: 0.4 });
-          group.add(new THREE.Mesh(el.geom, coreMat));
-          group.add(new THREE.Mesh(el.geom.clone().scale(1.08, 1.08, 1.08), wireMat));
-          const elLight = new THREE.PointLight(el.color, 1.2, 12);
-          group.add(elLight);
-          this.scene.add(group);
-
-          this.orbitingElements.push({
-            group, radius: el.radius, speed: el.speed, angle: (index * Math.PI * 2) / elementsData.length,
-            yOffset: el.yOffset, rotSpeedX: 0.015 + index * 0.005, rotSpeedY: 0.02 + index * 0.003
-          });
-        });
-      }
-
-      createYantraOrbits() {
-        const radii = [14.5, 16.8, 19.2, 21.5, 23.8];
-        const colors = [0xf59e0b, 0x06b6d4, 0xef4444, 0x10b981, 0xa855f7];
-        radii.forEach((r, idx) => {
-          const ringGeom = new THREE.RingGeometry(r - 0.05, r + 0.05, 96);
-          const ringMat = new THREE.MeshBasicMaterial({
-            color: colors[idx], side: THREE.DoubleSide, transparent: true, opacity: 0.22, blending: THREE.AdditiveBlending
-          });
-          const ringMesh = new THREE.Mesh(ringGeom, ringMat);
-          ringMesh.rotation.x = Math.PI / 2 + (idx * 0.12 - 0.24);
-          ringMesh.rotation.y = idx * 0.15;
-          this.scene.add(ringMesh);
-          this.yantraRings.push(ringMesh);
-        });
-      }
-
-      createPranaCosmicParticles() {
-        const count = 650;
-        const geometry = new THREE.BufferGeometry();
-        const positions = new Float32Array(count * 3);
-        const colors = new Float32Array(count * 3);
-        const palette = [new THREE.Color(0xd4af37), new THREE.Color(0x10b981), new THREE.Color(0x06b6d4), new THREE.Color(0xf59e0b), new THREE.Color(0xa855f7)];
-
-        for (let i = 0; i < count; i++) {
-          const r = 10 + Math.random() * 26;
-          const theta = Math.random() * Math.PI * 2;
-          const phi = Math.acos(Math.random() * 2 - 1);
-          positions[i * 3] = r * Math.sin(phi) * Math.cos(theta);
-          positions[i * 3 + 1] = r * Math.sin(phi) * Math.sin(theta);
-          positions[i * 3 + 2] = r * Math.cos(phi);
-          const col = palette[Math.floor(Math.random() * palette.length)];
-          colors[i * 3] = col.r; colors[i * 3 + 1] = col.g; colors[i * 3 + 2] = col.b;
-        }
-
-        geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
-        geometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
-        const mat = new THREE.PointsMaterial({ size: 0.5, vertexColors: true, transparent: true, opacity: 0.75, blending: THREE.AdditiveBlending });
-        this.particles = new THREE.Points(geometry, mat);
-        this.scene.add(this.particles);
-      }
-
-      setScrollProgress(progress) {
-        this.scrollProgress = Math.max(0, Math.min(1, progress));
-      }
-
-      onMouseMove(e) {
-        this.targetMouseX = (e.clientX / window.innerWidth - 0.5) * 2;
-        this.targetMouseY = (e.clientY / window.innerHeight - 0.5) * 2;
-      }
-
-      onWindowResize() {
-        if (!this.camera || !this.renderer) return;
-        const width = window.innerWidth;
-        const height = window.innerHeight;
-        this.camera.aspect = width / height;
-        this.camera.updateProjectionMatrix();
-        this.renderer.setSize(width, height);
-      }
-
-      animate() {
-        requestAnimationFrame(() => this.animate());
-        const delta = this.clock.getDelta();
-        const elapsedTime = this.clock.getElapsedTime();
-
-        this.mouseX += (this.targetMouseX - this.mouseX) * 0.05;
-        this.mouseY += (this.targetMouseY - this.mouseY) * 0.05;
-
-        if (this.earthMesh) this.earthMesh.rotation.y += 0.0035;
-        if (this.cloudsMesh) this.cloudsMesh.rotation.y += 0.0048;
-
-        this.orbitingElements.forEach((el) => {
-          el.angle += el.speed * delta * 0.6;
-          el.group.position.x = Math.cos(el.angle) * el.radius;
-          el.group.position.z = Math.sin(el.angle) * el.radius;
-          el.group.position.y = el.yOffset + Math.sin(elapsedTime * 1.5 + el.angle) * 0.8;
-          el.group.rotation.x += el.rotSpeedX;
-          el.group.rotation.y += el.rotSpeedY;
-        });
-
-        const p = this.scrollProgress;
-        const targetEarthX = p * 11.0;
-        const targetEarthY = -p * 3.5;
-        const targetEarthZ = -p * 8.0;
-
-        this.earthGroup.position.x += (targetEarthX - this.earthGroup.position.x) * 0.08;
-        this.earthGroup.position.y += (targetEarthY - this.earthGroup.position.y) * 0.08;
-        this.earthGroup.position.z += (targetEarthZ - this.earthGroup.position.z) * 0.08;
-
-        this.camera.position.x = this.mouseX * 2.5;
-        this.camera.position.y = -this.mouseY * 2.0;
-        this.camera.lookAt(this.earthGroup.position.x * 0.4, this.earthGroup.position.y * 0.4, this.earthGroup.position.z * 0.4);
-
-        this.renderer.render(this.scene, this.camera);
-      }
-    }
-
-    // --- 4. APP CONTROLLER & SCROLL SYNCHRONIZATION ---
     const state = {
       patients: [...initialPatients],
+      invoices: [...initialInvoices],
       searchQuery: '',
       selectedDoshaFilter: 'All',
-      activeSection: 'hero',
+      invoiceSearchQuery: '',
+      invoiceFilter: 'All',
+      selectedInvoiceForPayment: null,
+      activeSection: 'overview',
       timerRemaining: 45 * 60,
       timerRunning: false,
       timerInterval: null
     };
 
-    const sectionMeta = {
-      'hero': { title: 'Cosmic Origin & Earth', subtitle: 'The 5 Mahabhutas & Sacred Panchakarma Harmony' },
-      'overview': { title: 'Operations & Session Overview', subtitle: 'Real-Time Panchakarma Clinical Telemetry & Workflows' },
-      'patients': { title: 'Clinical Patient Records', subtitle: 'Comprehensive Prakriti, Nadi Diagnostics & Treatment Cycles' },
-      'schedule': { title: 'Therapy Protocols & Three-Stage Tracker', subtitle: 'Purva Karma • Pradhana Karma • Paschat Karma Management' },
-      'suites': { title: 'Chikitsa Suites & Herbarium Telemetry', subtitle: 'Active Therapy Chambers, Temperature Monitoring & Siddha Pharmacy' }
-    };
-
     document.addEventListener('DOMContentLoaded', () => {
       if (window.lucide) window.lucide.createIcons();
-      const bgEngine = new AyurCosmosBackground('bg-canvas-container');
 
-      renderMahabhutaElements();
-      renderPatientTable();
-      renderPipeline();
+      window.addEventListener('scroll', () => {
+        const scrollY = window.scrollY;
+        const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+        const p = docHeight > 0 ? scrollY / docHeight : 0;
+        const bar = document.getElementById('scroll-progress-bar');
+        if (bar) bar.style.width = `${p * 100}%`;
+      });
+
+      renderTable();
+      renderInvoices();
+      renderRevenueKPIs();
       renderRooms();
-      updateKPIs();
-      setupScrollSync(bgEngine);
-      setupEventListeners();
+      renderMahabhutas();
+      setupTimer();
+      setupSearchAndFilters();
+      setupBillingListeners();
       startLiveClock();
     });
 
-    function setupScrollSync(bgEngine) {
-      const sections = document.querySelectorAll('.content-section');
-      const navLinks = document.querySelectorAll('.nav-item');
-      const progressBar = document.getElementById('scroll-progress-bar');
-      const topbarTitle = document.getElementById('topbar-title');
-      const topbarSubtitle = document.getElementById('topbar-subtitle');
-
-      const onScroll = () => {
-        const scrollY = window.scrollY;
-        const docHeight = document.documentElement.scrollHeight - window.innerHeight;
-        const progress = docHeight > 0 ? scrollY / docHeight : 0;
-
-        if (progressBar) progressBar.style.width = `${progress * 100}%`;
-        if (bgEngine) bgEngine.setScrollProgress(progress);
-
-        let currentActiveId = 'hero';
-        sections.forEach((section) => {
-          const top = section.offsetTop - 140;
-          const height = section.offsetHeight;
-          if (scrollY >= top && scrollY < top + height) {
-            currentActiveId = section.getAttribute('id');
-          }
-        });
-
-        if (scrollY + window.innerHeight >= document.documentElement.scrollHeight - 50) {
-          currentActiveId = 'suites';
-        }
-
-        if (state.activeSection !== currentActiveId) {
-          state.activeSection = currentActiveId;
-          navLinks.forEach((link) => {
-            const href = link.getAttribute('href').replace('#', '');
-            if (href === currentActiveId) link.classList.add('active');
-            else link.classList.remove('active');
-          });
-
-          const meta = sectionMeta[currentActiveId] || sectionMeta['hero'];
-          if (topbarTitle && topbarSubtitle) {
-            topbarTitle.textContent = meta.title;
-            topbarSubtitle.textContent = meta.subtitle;
-          }
-        }
-      };
-
-      window.addEventListener('scroll', onScroll, { passive: true });
-      onScroll();
+    function renderTable() {
+      const tb = document.getElementById('patient-table-body');
+      if (!tb) return;
+      tb.innerHTML = state.patients.map(p => `
+        <tr class="hover:bg-emerald-900/30 transition-colors">
+          <td class="px-5 py-4 font-bold text-stone-100">${p.name} (${p.id})</td>
+          <td class="px-5 py-4 text-emerald-300 font-semibold">${p.dosha}</td>
+          <td class="px-5 py-4 text-stone-200">${p.currentTherapy}</td>
+          <td class="px-5 py-4">${p.dayCount} (${p.progressPercent}%)</td>
+          <td class="px-5 py-4"><span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-500/20 text-emerald-300">${p.status}</span></td>
+          <td class="px-5 py-4 text-right"><button onclick="openDrawer('${p.id}')" class="px-2.5 py-1 rounded bg-emerald-900 text-emerald-200 text-xs font-semibold">Chart</button></td>
+        </tr>
+      `).join('');
     }
 
-    function setupEventListeners() {
-      const searchInput = document.getElementById('patient-search-input');
-      if (searchInput) {
-        searchInput.addEventListener('input', (e) => {
-          state.searchQuery = e.target.value.trim().toLowerCase();
-          renderPatientTable();
-        });
-      }
+    function renderInvoices() {
+      const tb = document.getElementById('invoice-table-body');
+      if (!tb) return;
+      tb.innerHTML = state.invoices.map(inv => `
+        <tr class="hover:bg-emerald-900/30 transition-colors">
+          <td class="px-5 py-3.5"><span class="font-bold text-amber-300 font-mono">${inv.id}</span><p class="text-stone-400 text-[11px]">${inv.date}</p></td>
+          <td class="px-5 py-3.5 font-bold text-stone-100">${inv.patientName}</td>
+          <td class="px-5 py-3.5 text-stone-200">${inv.packageTitle}</td>
+          <td class="px-5 py-3.5 font-mono font-bold text-white">₹${inv.totalAmount.toLocaleString('en-IN')}</td>
+          <td class="px-5 py-3.5 text-stone-300">${inv.paymentMethod}</td>
+          <td class="px-5 py-3.5"><span class="px-2.5 py-0.5 rounded-full text-[10px] font-bold ${inv.status === 'Paid' ? 'bg-emerald-500/20 text-emerald-300' : 'bg-amber-500/20 text-amber-300'}">${inv.status}</span></td>
+          <td class="px-5 py-3.5 text-right space-x-1">
+            <button onclick="openInvoiceViewer('${inv.id}')" class="px-2.5 py-1 rounded bg-emerald-950 text-emerald-300 text-[11px] font-semibold border border-emerald-800">View</button>
+            ${inv.status === 'Pending' ? `<button onclick="openPaymentModal('${inv.id}')" class="btn-gold px-3 py-1 rounded text-[11px] font-bold shadow">Pay Now</button>` : ''}
+          </td>
+        </tr>
+      `).join('');
+    }
 
-      const doshaContainer = document.getElementById('dosha-filter-container');
-      if (doshaContainer) {
-        doshaContainer.addEventListener('click', (e) => {
-          const btn = e.target.closest('.dosha-filter-btn');
-          if (!btn) return;
-          document.querySelectorAll('.dosha-filter-btn').forEach(b => {
-            b.classList.remove('active', 'bg-emerald-800/80', 'text-white');
-            b.classList.add('bg-emerald-950/40');
-          });
-          btn.classList.add('active', 'bg-emerald-800/80', 'text-white');
-          btn.classList.remove('bg-emerald-950/40');
-          state.selectedDoshaFilter = btn.dataset.filter;
-          renderPatientTable();
-        });
-      }
+    function renderRevenueKPIs() {
+      const total = state.invoices.reduce((a, b) => a + b.totalAmount, 0);
+      const collected = state.invoices.filter(i => i.status === 'Paid').reduce((a, b) => a + b.amountPaid, 0);
+      const pending = state.invoices.filter(i => i.status === 'Pending').reduce((a, b) => a + b.balanceDue, 0);
+      document.getElementById('kpi-total-invoiced').textContent = `₹${total.toLocaleString('en-IN')}`;
+      document.getElementById('kpi-total-collected').textContent = `₹${collected.toLocaleString('en-IN')}`;
+      document.getElementById('kpi-pending-balance').textContent = `₹${pending.toLocaleString('en-IN')}`;
+    }
 
-      const modal = document.getElementById('modal-admit-patient');
-      const form = document.getElementById('form-admit-patient');
-      const openModal = () => modal.classList.remove('hidden');
-      const closeModal = () => { modal.classList.add('hidden'); form.reset(); };
+    function setupBillingListeners() {
+      document.getElementById('btn-close-pay-modal')?.addEventListener('click', () => document.getElementById('modal-payment-checkout').classList.add('hidden'));
+      document.getElementById('btn-cancel-pay')?.addEventListener('click', () => document.getElementById('modal-payment-checkout').classList.add('hidden'));
+      document.getElementById('btn-close-invoice-viewer')?.addEventListener('click', () => document.getElementById('modal-invoice-viewer').classList.add('hidden'));
+      document.getElementById('btn-close-create-inv-modal')?.addEventListener('click', () => document.getElementById('modal-create-invoice').classList.add('hidden'));
+      document.getElementById('btn-cancel-create-inv')?.addEventListener('click', () => document.getElementById('modal-create-invoice').classList.add('hidden'));
 
-      document.getElementById('btn-open-admit-modal')?.addEventListener('click', openModal);
-      document.getElementById('btn-admit-trigger-2')?.addEventListener('click', openModal);
-      document.getElementById('btn-close-modal')?.addEventListener('click', closeModal);
-      document.getElementById('btn-cancel-modal')?.addEventListener('click', closeModal);
+      document.getElementById('btn-execute-payment')?.addEventListener('click', () => {
+        if (!state.selectedInvoiceForPayment) return;
+        const inv = state.selectedInvoiceForPayment;
+        inv.status = 'Paid';
+        inv.paymentMethod = 'UPI / Online POS Realization';
+        inv.transactionId = `TXN-AYUR-${Math.floor(100000 + Math.random() * 900000)}`;
+        inv.amountPaid = inv.totalAmount;
+        inv.balanceDue = 0;
+        renderInvoices();
+        renderRevenueKPIs();
+        document.getElementById('modal-payment-checkout').classList.add('hidden');
+        showToast(`Payment of ₹${inv.totalAmount} Received!`, 'success');
+        openInvoiceViewer(inv.id);
+      });
 
-      form?.addEventListener('submit', (e) => {
+      document.getElementById('form-create-invoice')?.addEventListener('submit', (e) => {
         e.preventDefault();
-        const name = document.getElementById('input-patient-name').value.trim();
-        const age = parseInt(document.getElementById('input-patient-age').value);
-        const gender = document.getElementById('input-patient-gender').value;
-        const dosha = document.getElementById('input-patient-dosha').value;
-        const contact = document.getElementById('input-patient-contact').value.trim();
-        const therapy = document.getElementById('input-patient-therapy').value;
-        const room = document.getElementById('input-patient-room').value;
-        const therapist = document.getElementById('input-patient-therapist').value;
-
-        const newId = `AY-2026-00${state.patients.length + 1}`;
-        const newPatient = {
-          id: newId, name, age, gender, contact, dosha,
-          doshaBalance: { vata: dosha.includes('Vata') ? 50 : 25, pitta: dosha.includes('Pitta') ? 45 : 30, kapha: dosha.includes('Kapha') ? 45 : 20 },
-          currentTherapy: therapy, phase: 'Purva Karma', dayCount: 'Day 1 of 7', progressPercent: 14,
-          status: 'Scheduled', room, therapist, nadiPulse: `${dosha} (Samata Gati)`,
-          formulations: ['Mahanarayana Taila', 'Triphala Kashayam'],
-          diet: 'Deepana-Pachana laghu ahara (warm herbal rice broth)',
-          notes: 'Initial clinical assessment recorded. Starting snehana preparatory protocol.'
+        const pSelect = document.getElementById('create-inv-patient-select');
+        const p = state.patients.find(pt => pt.id === pSelect.value) || state.patients[0];
+        const pkg = document.getElementById('create-inv-package').value;
+        const th = parseFloat(document.getElementById('create-inv-therapy-charge').value) || 0;
+        const rm = parseFloat(document.getElementById('create-inv-room-charge').value) || 0;
+        const sub = th + rm;
+        const total = Math.round(sub * 1.05);
+        const newInv = {
+          id: `INV-2026-${100 + state.invoices.length + 1}`,
+          patientId: p.id, patientName: p.name, contact: p.contact,
+          date: new Date().toISOString().split('T')[0], doctorName: p.therapist,
+          packageTitle: pkg, status: 'Pending', paymentMethod: 'Pending Payment',
+          transactionId: 'N/A', paidAt: 'Unpaid',
+          items: [{ description: pkg, qty: 1, rate: th, amount: th }, { description: 'Room Stay', qty: 1, rate: rm, amount: rm }],
+          subtotal: sub, taxGst: Math.round(sub * 0.05), discount: 0, totalAmount: total, amountPaid: 0, balanceDue: total
         };
-
-        state.patients.unshift(newPatient);
-        renderPatientTable();
-        updateKPIs();
-        closeModal();
-        soundEngine.playSingingBowlChime(640, 2.0);
-        showToast(`Admitted patient ${name} (${newId}) successfully!`, 'success');
+        state.invoices.unshift(newInv);
+        renderInvoices();
+        renderRevenueKPIs();
+        document.getElementById('modal-create-invoice').classList.add('hidden');
+        showToast(`Invoice ${newInv.id} created successfully!`);
       });
-
-      document.getElementById('btn-close-drawer')?.addEventListener('click', () => {
-        document.getElementById('drawer-patient-details')?.classList.add('hidden');
-      });
-
-      document.getElementById('btn-audio-toggle')?.addEventListener('click', () => {
-        const isPlaying = soundEngine.toggle();
-        const status = document.getElementById('audio-status');
-        if (isPlaying) {
-          status.textContent = 'ON';
-          status.className = 'text-[10px] font-bold px-2 py-0.5 rounded bg-amber-500 text-stone-950 font-bold';
-          showToast('Vedic Tanpura Soundscape (432Hz) Activated', 'info');
-        } else {
-          status.textContent = 'OFF';
-          status.className = 'text-[10px] font-bold px-2 py-0.5 rounded bg-emerald-900/90 text-emerald-300';
-          showToast('Soundscape Muted', 'info');
-        }
-      });
-
-      document.getElementById('btn-timer-toggle')?.addEventListener('click', toggleTimer);
-      document.getElementById('btn-timer-reset')?.addEventListener('click', resetTimer);
     }
 
-    function renderMahabhutaElements() {
-      const grid = document.getElementById('mahabhuta-grid');
-      if (!grid) return;
-      grid.innerHTML = ayurvedicElements.map(el => `
-        <button class="mahabhuta-card glass-card p-3 text-left transition-all hover:scale-105 border-emerald-800/60" data-name="${el.name}">
-          <div class="flex items-center justify-between">
-            <span class="text-base font-serif font-bold text-amber-300">${el.sanskrit}</span>
-            <span class="text-[10px] font-mono px-1.5 py-0.5 rounded bg-emerald-950 text-emerald-300 border border-emerald-800/60">${el.english}</span>
-          </div>
-          <p class="text-xs font-bold text-stone-100 mt-1">${el.name}</p>
-          <p class="text-[10px] text-emerald-400/80 mt-0.5">${el.dosha} • ${el.geometry.split('/')[0]}</p>
-        </button>
+    window.openPaymentModal = function(id) {
+      const inv = state.invoices.find(i => i.id === id);
+      if (!inv) return;
+      state.selectedInvoiceForPayment = inv;
+      document.getElementById('pay-summary-invid').textContent = inv.id;
+      document.getElementById('pay-summary-patient').textContent = inv.patientName;
+      document.getElementById('pay-summary-package').textContent = inv.packageTitle;
+      document.getElementById('pay-summary-amount').textContent = `₹${inv.balanceDue.toLocaleString('en-IN')}`;
+      document.getElementById('modal-payment-checkout').classList.remove('hidden');
+    };
+
+    window.openInvoiceViewer = function(id) {
+      const inv = state.invoices.find(i => i.id === id);
+      if (!inv) return;
+      document.getElementById('inv-view-id').textContent = inv.id;
+      document.getElementById('inv-view-date').textContent = inv.date;
+      document.getElementById('inv-view-patient-name').textContent = inv.patientName;
+      document.getElementById('inv-view-patient-id').textContent = `Patient ID: ${inv.patientId}`;
+      document.getElementById('inv-view-doctor').textContent = inv.doctorName;
+      document.getElementById('inv-view-package').textContent = inv.packageTitle;
+      document.getElementById('inv-view-subtotal').textContent = `₹${inv.subtotal.toLocaleString('en-IN')}`;
+      document.getElementById('inv-view-gst').textContent = `₹${inv.taxGst.toLocaleString('en-IN')}`;
+      document.getElementById('inv-view-total').textContent = `₹${inv.totalAmount.toLocaleString('en-IN')}`;
+      document.getElementById('inv-view-items-body').innerHTML = inv.items.map((item, idx) => `
+        <tr>
+          <td class="px-4 py-2 text-stone-400 font-mono">${idx + 1}</td>
+          <td class="px-4 py-2 font-medium text-stone-100">${item.description}</td>
+          <td class="px-4 py-2 text-center text-stone-300">${item.qty}</td>
+          <td class="px-4 py-2 text-right text-stone-300">₹${item.rate.toLocaleString('en-IN')}</td>
+          <td class="px-4 py-2 text-right font-bold text-white">₹${item.amount.toLocaleString('en-IN')}</td>
+        </tr>
       `).join('');
+      document.getElementById('modal-invoice-viewer').classList.remove('hidden');
+    };
 
-      document.querySelectorAll('.mahabhuta-card').forEach(card => {
-        card.addEventListener('click', () => {
-          const el = ayurvedicElements.find(item => item.name === card.dataset.name);
-          if (el) {
-            soundEngine.playSingingBowlChime(528, 1.8);
-            showToast(`${el.name} (${el.sanskrit}) — ${el.property}`, 'info');
-          }
-        });
-      });
-    }
-
-    function renderPatientTable() {
-      const body = document.getElementById('patient-table-body');
-      if (!body) return;
-
-      const filtered = state.patients.filter(p => {
-        const matchSearch = p.name.toLowerCase().includes(state.searchQuery) ||
-          p.id.toLowerCase().includes(state.searchQuery) ||
-          p.dosha.toLowerCase().includes(state.searchQuery) ||
-          p.therapist.toLowerCase().includes(state.searchQuery);
-
-        let matchDosha = true;
-        if (state.selectedDoshaFilter === 'Vata') matchDosha = p.dosha.includes('Vata');
-        else if (state.selectedDoshaFilter === 'Pitta') matchDosha = p.dosha.includes('Pitta');
-        else if (state.selectedDoshaFilter === 'Kapha') matchDosha = p.dosha.includes('Kapha');
-        else if (state.selectedDoshaFilter === 'Dual') matchDosha = p.dosha.includes('-') || p.dosha.includes('Tridoshic');
-
-        return matchSearch && matchDosha;
-      });
-
-      if (filtered.length === 0) {
-        body.innerHTML = `<tr><td colspan="7" class="px-5 py-8 text-center text-stone-400">No matching patient records found.</td></tr>`;
-        return;
-      }
-
-      body.innerHTML = filtered.map(p => {
-        let doshaColor = p.dosha.includes('Vata') ? 'bg-emerald-500/15 text-emerald-300 border-emerald-500/30' :
-          p.dosha.includes('Pitta') ? 'bg-amber-500/15 text-amber-300 border-amber-500/30' : 'bg-cyan-500/15 text-cyan-300 border-cyan-500/30';
-        let statusColor = p.status === 'Scheduled' ? 'bg-amber-500/20 text-amber-300 border-amber-500/40' :
-          p.status === 'Completed' ? 'bg-blue-500/20 text-blue-300 border-blue-500/40' : 'bg-emerald-500/20 text-emerald-300 border-emerald-500/40';
-
-        return `
-          <tr class="hover:bg-emerald-900/20 transition-colors">
-            <td class="px-5 py-3.5">
-              <p class="font-bold text-stone-100">${p.name}</p>
-              <p class="text-emerald-400/80 text-[11px] font-mono">${p.id} • ${p.age}y, ${p.gender}</p>
-            </td>
-            <td class="px-5 py-3.5">
-              <span class="inline-block px-2.5 py-0.5 rounded-lg font-semibold text-[11px] border ${doshaColor}">${p.dosha}</span>
-            </td>
-            <td class="px-5 py-3.5 font-medium text-stone-200">${p.currentTherapy}</td>
-            <td class="px-5 py-3.5">
-              <div class="flex items-center gap-2">
-                <span class="text-stone-300 font-medium">${p.dayCount}</span>
-                <div class="w-16 bg-emerald-950 h-1.5 rounded-full overflow-hidden">
-                  <div class="bg-emerald-400 h-full" style="width: ${p.progressPercent}%"></div>
-                </div>
-              </div>
-            </td>
-            <td class="px-5 py-3.5"><p class="font-semibold text-stone-200">${p.therapist.split('(')[0]}</p><p class="text-stone-400 text-[11px]">${p.room}</p></td>
-            <td class="px-5 py-3.5"><span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[11px] font-semibold border ${statusColor}"><span class="w-1.5 h-1.5 rounded-full bg-current"></span>${p.status}</span></td>
-            <td class="px-5 py-3.5 text-right">
-              <button class="btn-view-chart px-3 py-1.5 rounded-lg bg-emerald-950/80 hover:bg-emerald-800 text-emerald-300 hover:text-white border border-emerald-800 text-[11px] font-semibold" data-id="${p.id}">View Chart</button>
-            </td>
-          </tr>
-        `;
-      }).join('');
-
-      document.querySelectorAll('.btn-view-chart').forEach(btn => {
-        btn.addEventListener('click', () => openPatientDrawer(btn.dataset.id));
-      });
-      if (window.lucide) window.lucide.createIcons();
-    }
-
-    function openPatientDrawer(patientId) {
-      const p = state.patients.find(item => item.id === patientId);
-      if (!p) return;
-      document.getElementById('drawer-patient-id').textContent = p.id;
-      document.getElementById('drawer-patient-name').textContent = `${p.name} (${p.age}y, ${p.gender})`;
-      document.getElementById('drawer-vata-pct').textContent = `${p.doshaBalance.vata}%`;
-      document.getElementById('drawer-vata-bar').style.width = `${p.doshaBalance.vata}%`;
-      document.getElementById('drawer-pitta-pct').textContent = `${p.doshaBalance.pitta}%`;
-      document.getElementById('drawer-pitta-bar').style.width = `${p.doshaBalance.pitta}%`;
-      document.getElementById('drawer-kapha-pct').textContent = `${p.doshaBalance.kapha}%`;
-      document.getElementById('drawer-kapha-bar').style.width = `${p.doshaBalance.kapha}%`;
-      document.getElementById('drawer-nadi-pulse').textContent = p.nadiPulse;
-      document.getElementById('drawer-therapy').textContent = `${p.currentTherapy} (${p.phase})`;
-      document.getElementById('drawer-formulations-list').innerHTML = p.formulations.map(f => `<li>${f}</li>`).join('');
-      document.getElementById('drawer-diet').textContent = p.diet;
-      document.getElementById('drawer-notes').textContent = p.notes;
-      document.getElementById('drawer-patient-details').classList.remove('hidden');
-      soundEngine.playSingingBowlChime(720, 1.2);
-    }
-
-    function renderPipeline() {
-      const c = document.getElementById('pipeline-container');
-      if (!c) return;
-      c.innerHTML = scheduledTherapies.map(item => `
-        <div class="flex items-center justify-between p-3 rounded-xl bg-emerald-950/40 border border-emerald-900/40 hover:border-emerald-700/60 transition-all">
-          <div class="flex items-start gap-3">
-            <span class="text-xs font-bold text-amber-300 bg-amber-950/60 border border-amber-800/60 px-2.5 py-1 rounded-lg font-mono">${item.time}</span>
-            <div><p class="text-xs font-bold text-stone-100">${item.therapy}</p><p class="text-[11px] text-emerald-400/80">${item.patient} • ${item.room}</p></div>
-          </div>
-          <span class="text-[11px] font-medium text-stone-300 bg-emerald-900/50 px-2.5 py-0.5 rounded-lg border border-emerald-800/40">${item.therapist}</span>
-        </div>
-      `).join('');
-    }
+    window.openCreateInvoiceModal = function() {
+      const sel = document.getElementById('create-inv-patient-select');
+      if (sel) sel.innerHTML = state.patients.map(p => `<option value="${p.id}">${p.name} (${p.id})</option>`).join('');
+      document.getElementById('modal-create-invoice').classList.remove('hidden');
+    };
 
     function renderRooms() {
       const g = document.getElementById('rooms-grid');
       if (!g) return;
       g.innerHTML = chikitsaRooms.map(rm => `
-        <div class="glass-card p-5 space-y-3 ${rm.status === 'Occupied' ? 'border-emerald-700/50' : 'border-stone-700/40'}">
+        <div class="glass-card p-5 space-y-3">
           <div class="flex items-start justify-between">
-            <div><span class="text-[10px] font-mono text-stone-400">${rm.id}</span><h4 class="font-bold text-sm text-stone-100 font-serif">${rm.name}</h4></div>
-            <span class="text-[10px] font-bold px-2 py-0.5 rounded-full ${rm.status === 'Occupied' ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/40' : 'bg-stone-800 text-stone-300 border border-stone-700'}">${rm.status}</span>
+            <h4 class="font-bold text-sm text-stone-100 font-serif">${rm.name}</h4>
+            <span class="text-[10px] font-bold px-2 py-0.5 rounded-full ${rm.status === 'Occupied' ? 'bg-emerald-500/20 text-emerald-300' : 'bg-stone-800 text-stone-300'}">${rm.status}</span>
           </div>
           <p class="text-xs text-stone-300">${rm.type}</p>
-          <div class="pt-2 border-t border-emerald-900/50 text-xs space-y-1">
-            <div class="flex justify-between text-stone-400"><span>Current Patient:</span><span class="font-semibold text-stone-200">${rm.patient}</span></div>
-            <div class="flex justify-between text-stone-400"><span>Oil Temperature:</span><span class="font-mono text-amber-300 font-semibold">${rm.oilTemp}</span></div>
-            <div class="flex justify-between text-stone-400"><span>Micro-climate:</span><span class="text-stone-300">${rm.ambient}</span></div>
-          </div>
         </div>
       `).join('');
     }
 
-    function updateKPIs() {
-      const count = state.patients.length;
-      const b = document.getElementById('badge-patient-count');
-      const k = document.getElementById('kpi-patient-count');
-      if (b) b.textContent = count;
-      if (k) k.textContent = count;
+    function renderMahabhutas() {
+      const grid = document.getElementById('mahabhuta-grid');
+      if (!grid) return;
+      grid.innerHTML = ayurvedicElements.map(el => `
+        <button onclick="showToast('${el.name} (${el.sanskrit}): ${el.property}')" class="glass-card p-3 text-left transition-all hover:scale-105 border-emerald-800/60">
+          <span class="text-base font-serif font-bold text-amber-300">${el.sanskrit}</span>
+          <p class="text-xs font-bold text-stone-100 mt-1">${el.name} (${el.english})</p>
+        </button>
+      `).join('');
     }
 
-    function toggleTimer() {
-      const btnText = document.getElementById('timer-btn-text');
-      const btnIcon = document.getElementById('timer-btn-icon');
-      if (state.timerRunning) {
-        clearInterval(state.timerInterval);
-        state.timerRunning = false;
-        btnText.textContent = 'Resume';
-        btnIcon.setAttribute('data-lucide', 'play');
-      } else {
-        state.timerRunning = true;
-        btnText.textContent = 'Pause';
-        btnIcon.setAttribute('data-lucide', 'pause');
-        soundEngine.playSingingBowlChime(432, 2.0);
-        state.timerInterval = setInterval(() => {
-          if (state.timerRemaining > 0) {
-            state.timerRemaining--;
-            updateTimerDisplay();
-          } else {
-            clearInterval(state.timerInterval);
-            state.timerRunning = false;
-            btnText.textContent = 'Start';
-            btnIcon.setAttribute('data-lucide', 'play');
-            soundEngine.playSingingBowlChime(528, 4.0);
-            showToast('Shirodhara Session Completed for Ananya Sharma!', 'success');
-          }
-        }, 1000);
-      }
-      if (window.lucide) window.lucide.createIcons();
+    function setupSearchAndFilters() {
+      const modal = document.getElementById('modal-admit-patient');
+      document.getElementById('btn-open-admit-modal')?.addEventListener('click', () => modal.classList.remove('hidden'));
+      document.getElementById('btn-close-modal')?.addEventListener('click', () => modal.classList.add('hidden'));
+      document.getElementById('btn-cancel-modal')?.addEventListener('click', () => modal.classList.add('hidden'));
+      document.getElementById('btn-close-drawer')?.addEventListener('click', () => document.getElementById('drawer-patient-details')?.classList.add('hidden'));
     }
 
-    function resetTimer() {
-      clearInterval(state.timerInterval);
-      state.timerRunning = false;
-      state.timerRemaining = 45 * 60;
-      document.getElementById('timer-btn-text').textContent = 'Start';
-      document.getElementById('timer-btn-icon').setAttribute('data-lucide', 'play');
-      updateTimerDisplay();
-      if (window.lucide) window.lucide.createIcons();
+    function setupTimer() {
+      document.getElementById('btn-timer-toggle')?.addEventListener('click', () => showToast('Shirodhara Stream Active'));
     }
 
-    function updateTimerDisplay() {
-      const m = Math.floor(state.timerRemaining / 60);
-      const s = state.timerRemaining % 60;
-      document.getElementById('therapy-timer-display').textContent = `${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
-    }
+    window.openDrawer = function(id) {
+      const p = state.patients.find(pt => pt.id === id);
+      if (!p) return;
+      document.getElementById('drawer-patient-id').textContent = p.id;
+      document.getElementById('drawer-patient-name').textContent = p.name;
+      document.getElementById('drawer-therapy').textContent = p.currentTherapy;
+      document.getElementById('drawer-patient-details').classList.remove('hidden');
+    };
 
     function startLiveClock() {
-      const tick = () => {
-        const timeStr = new Date().toLocaleTimeString('en-US', { hour12: false });
-        const c = document.getElementById('live-clock');
-        if (c) c.textContent = `${timeStr} IST`;
-      };
-      tick();
-      setInterval(tick, 1000);
+      const el = document.getElementById('live-clock');
+      setInterval(() => {
+        const now = new Date();
+        if (el) el.textContent = now.toLocaleTimeString('en-US', { hour12: false, timeZone: 'Asia/Kolkata' }) + ' IST';
+      }, 1000);
     }
 
-    function showToast(message, type = 'info') {
-      const container = document.getElementById('toast-container');
-      if (!container) return;
-      const toast = document.createElement('div');
-      toast.className = `px-4 py-3 rounded-xl shadow-2xl border text-xs font-semibold flex items-center gap-2.5 transition-all transform translate-y-2 opacity-0 pointer-events-auto ${type === 'success' ? 'bg-emerald-950/95 text-emerald-200 border-emerald-500/60 shadow-emerald-900/50' : 'bg-stone-900/95 text-amber-200 border-amber-500/60 shadow-amber-900/50'}`;
-      toast.innerHTML = `<span class="w-2 h-2 rounded-full ${type === 'success' ? 'bg-emerald-400' : 'bg-amber-400'}"></span><span>${message}</span>`;
-      container.appendChild(toast);
-      requestAnimationFrame(() => toast.classList.remove('translate-y-2', 'opacity-0'));
-      setTimeout(() => {
-        toast.classList.add('opacity-0', 'translate-y-2');
-        setTimeout(() => toast.remove(), 400);
-      }, 3500);
+    function showToast(msg) {
+      const c = document.getElementById('toast-container');
+      if (!c) return;
+      const t = document.createElement('div');
+      t.className = 'px-4 py-3 rounded-xl bg-emerald-950 text-emerald-200 border border-emerald-500/60 shadow-2xl text-xs font-semibold';
+      t.textContent = msg;
+      c.appendChild(t);
+      setTimeout(() => t.remove(), 3000);
     }
+
+    // --- CINEMATIC AYURVEDIC MEDICINE-MAKING ENTRANCE ANIMATION ---
+    class AyurIntroCinematic {
+      constructor() {
+        this.overlay = document.getElementById('ayur-intro-overlay');
+        this.canvas = document.getElementById('ayur-intro-canvas');
+        this.skipBtn = document.getElementById('ayur-intro-skip');
+        if (!this.overlay || !this.canvas) return;
+
+        this.ctx = this.canvas.getContext('2d');
+        this.width = window.innerWidth;
+        this.height = window.innerHeight;
+        this.dpr = Math.min(window.devicePixelRatio || 1, 2);
+
+        this.startTime = null;
+        this.elapsedTime = 0;
+        this.duration = 8.0;
+        this.isComplete = false;
+        this.animFrameId = null;
+
+        this.mouseX = 0; this.mouseY = 0;
+        this.targetMouseX = 0; this.targetMouseY = 0;
+
+        this.herbs = [];
+        this.impactDust = [];
+        this.vaporParticles = [];
+        this.textParticles = [];
+
+        this.init();
+      }
+
+      init() {
+        this.resize();
+        window.addEventListener('resize', () => this.resize());
+        window.addEventListener('mousemove', (e) => {
+          this.targetMouseX = (e.clientX / this.width - 0.5) * 2;
+          this.targetMouseY = (e.clientY / this.height - 0.5) * 2;
+        });
+
+        this.skipBtn?.addEventListener('click', (e) => { e.stopPropagation(); this.finishIntro(); });
+        window.addEventListener('keydown', (e) => { if (e.key === 'Escape' && !this.isComplete) this.finishIntro(); });
+
+        this.initHerbs();
+        this.initTextParticles();
+        this.startTime = performance.now();
+        this.animate();
+      }
+
+      resize() {
+        this.width = window.innerWidth;
+        this.height = window.innerHeight;
+        this.canvas.width = this.width * this.dpr;
+        this.canvas.height = this.height * this.dpr;
+        this.canvas.style.width = `${this.width}px`;
+        this.canvas.style.height = `${this.height}px`;
+        this.ctx.scale(this.dpr, this.dpr);
+      }
+
+      initHerbs() {
+        const cx = this.width / 2;
+        const cy = this.height * 0.54;
+        const types = [
+          { type: 'tulsi', color: '#2d6a4f', accent: '#40916c', size: 28, count: 5 },
+          { type: 'neem', color: '#1b4332', accent: '#52b788', size: 34, count: 4 },
+          { type: 'turmeric', color: '#e09f3e', accent: '#d4af37', size: 22, count: 3 },
+          { type: 'root', color: '#8d6e63', accent: '#a1887f', size: 26, count: 4 }
+        ];
+
+        types.forEach(g => {
+          for (let i = 0; i < g.count; i++) {
+            const angle = Math.random() * Math.PI * 2;
+            const r = Math.random() * 45;
+            this.herbs.push({
+              type: g.type, color: g.color, accent: g.accent, size: g.size * (0.8 + Math.random() * 0.4),
+              x: cx + Math.cos(angle) * (260 + Math.random() * 200),
+              y: cy - 280 - Math.random() * 180,
+              targetX: cx + Math.cos(angle) * r,
+              targetY: cy + 10 + Math.sin(angle) * (r * 0.35),
+              rotation: Math.random() * Math.PI * 2,
+              wobble: Math.random() * Math.PI,
+              delay: 0.8 + Math.random() * 1.2,
+              isCrushed: 0
+            });
+          }
+        });
+      }
+
+      initTextParticles() {
+        const off = document.createElement('canvas');
+        off.width = 1000; off.height = 300;
+        const octx = off.getContext('2d');
+        octx.textAlign = 'center'; octx.textBaseline = 'middle';
+        octx.font = 'bold 72px "Cinzel", serif';
+        octx.fillStyle = '#fff';
+        octx.fillText('AYURSUTRA', 500, 110);
+        octx.font = '500 22px "Plus Jakarta Sans", sans-serif';
+        octx.fillText('Ancient Wisdom. Modern Wellness.', 500, 180);
+
+        const imgData = octx.getImageData(0, 0, 1000, 300);
+        const data = imgData.data;
+        const cx = this.width / 2;
+        const cy = this.height * 0.38;
+
+        for (let y = 0; y < 300; y += 6) {
+          for (let x = 0; x < 1000; x += 6) {
+            if (data[(y * 1000 + x) * 4 + 3] > 140) {
+              const isSub = y > 140;
+              this.textParticles.push({
+                tx: cx + (x - 500) * 0.82,
+                ty: cy + (y - 150) * 0.82,
+                x: cx + (Math.random() - 0.5) * 120,
+                y: this.height * 0.56 + Math.random() * 30,
+                color: isSub ? 'rgba(214, 230, 220, ' : (Math.random() > 0.3 ? 'rgba(212, 175, 55, ' : 'rgba(167, 243, 208, '),
+                size: isSub ? 1.2 : 2.0,
+                swirlAngle: Math.random() * Math.PI * 2,
+                swirlRadius: 15 + Math.random() * 40
+              });
+            }
+          }
+        }
+      }
+
+      triggerImpact(cx, cy) {
+        for (let i = 0; i < 16; i++) {
+          const a = Math.random() * Math.PI * 2;
+          const s = 1.5 + Math.random() * 4.0;
+          this.impactDust.push({
+            x: cx, y: cy, vx: Math.cos(a) * s, vy: Math.sin(a) * s - 1.2,
+            size: 1.5 + Math.random() * 2.5,
+            color: Math.random() > 0.4 ? '#d4af37' : '#52b788',
+            alpha: 0.85, decay: 0.025
+          });
+        }
+      }
+
+      spawnVapor(cx, cy) {
+        if (Math.random() > 0.35) return;
+        this.vaporParticles.push({
+          x: cx + (Math.random() - 0.5) * 60, y: cy, vx: (Math.random() - 0.5) * 0.5, vy: -1.0 - Math.random() * 1.2,
+          radius: 12 + Math.random() * 20, maxRadius: 60, growth: 0.45,
+          color: Math.random() > 0.5 ? 'rgba(52, 211, 153, ' : 'rgba(212, 175, 55, ',
+          alpha: 0.45, decay: 0.006, seed: Math.random() * 100
+        });
+      }
+
+      animate() {
+        if (this.isComplete) return;
+        this.animFrameId = requestAnimationFrame(() => this.animate());
+        this.elapsedTime = (performance.now() - this.startTime) / 1000;
+
+        this.mouseX += (this.targetMouseX - this.mouseX) * 0.05;
+        this.mouseY += (this.targetMouseY - this.mouseY) * 0.05;
+        this.ctx.clearRect(0, 0, this.width, this.height);
+
+        const t = this.elapsedTime;
+        const cx = this.width / 2;
+        const cy = this.height * 0.54;
+
+        const bgGrad = this.ctx.createRadialGradient(cx, this.height * 0.45, 50, cx, this.height / 2, this.width * 0.8);
+        bgGrad.addColorStop(0, '#0a2e21'); bgGrad.addColorStop(0.5, '#052117'); bgGrad.addColorStop(1, '#010906');
+        this.ctx.fillStyle = bgGrad; this.ctx.fillRect(0, 0, this.width, this.height);
+
+        const mAlpha = Math.min(t / 0.9, 1.0);
+        this.drawMortar(cx, cy, mAlpha);
+        this.drawHerbs(cx, cy, t);
+        if (t >= 3.0) this.drawPowder(cx, cy, t);
+        if (t >= 2.2 && t <= 5.8) this.drawPestle(cx, cy, t);
+        this.drawDust();
+        if (t >= 5.0) this.drawVapor(cx, cy, t);
+        if (t >= 6.0) this.drawLogo(cx, cy, t);
+
+        if (t >= this.duration && !this.isComplete) this.finishIntro();
+      }
+
+      drawMortar(cx, cy, alpha) {
+        if (alpha <= 0) return;
+        this.ctx.save();
+        this.ctx.globalAlpha = alpha;
+        const mX = cx + this.mouseX * 12;
+        const mY = cy + this.mouseY * 8;
+
+        this.ctx.fillStyle = 'rgba(0,0,0,0.6)';
+        this.ctx.beginPath(); this.ctx.ellipse(mX, mY + 65, 140, 32, 0, 0, Math.PI * 2); this.ctx.fill();
+
+        const bGrad = this.ctx.createLinearGradient(mX - 110, mY, mX + 110, mY + 60);
+        bGrad.addColorStop(0, '#5a3d28'); bGrad.addColorStop(0.5, '#3e2718'); bGrad.addColorStop(1, '#1d1108');
+        this.ctx.fillStyle = bGrad;
+        this.ctx.beginPath();
+        this.ctx.moveTo(mX - 100, mY);
+        this.ctx.bezierCurveTo(mX - 110, mY + 45, mX - 60, mY + 62, mX - 45, mY + 62);
+        this.ctx.lineTo(mX + 45, mY + 62);
+        this.ctx.bezierCurveTo(mX + 60, mY + 62, mX + 110, mY + 45, mX + 100, mY);
+        this.ctx.fill();
+
+        this.ctx.fillStyle = '#6d4c33';
+        this.ctx.beginPath(); this.ctx.ellipse(mX, mY, 100, 26, 0, 0, Math.PI * 2); this.ctx.fill();
+        this.ctx.fillStyle = '#150d07';
+        this.ctx.beginPath(); this.ctx.ellipse(mX, mY + 4, 88, 20, 0, 0, Math.PI * 2); this.ctx.fill();
+        this.ctx.restore();
+      }
+
+      drawHerbs(cx, cy, t) {
+        const pX = this.mouseX * 15;
+        const pY = this.mouseY * 10;
+        this.herbs.forEach(h => {
+          if (t < h.delay) return;
+          const prog = Math.min((t - h.delay) / 1.1, 1.0);
+          const ease = 1 - Math.pow(1 - prog, 3);
+          const curX = h.x + (h.targetX - h.x) * ease + pX;
+          const curY = h.y + (h.targetY - h.y) * ease + pY;
+
+          if (t >= 2.8) h.isCrushed = Math.min((t - 2.8) / 1.8, 1.0);
+
+          this.ctx.save();
+          this.ctx.translate(curX, curY);
+          this.ctx.rotate(h.rotation + Math.sin(t * 3 + h.wobble) * 0.3);
+          const s = 1 - h.isCrushed * 0.75;
+          this.ctx.scale(s, s);
+          this.ctx.globalAlpha = Math.max(0.08, 1 - h.isCrushed * 0.9);
+
+          this.ctx.fillStyle = h.color;
+          this.ctx.strokeStyle = h.accent;
+          this.ctx.beginPath();
+          this.ctx.ellipse(0, 0, h.size * 0.6, h.size * 0.35, 0, 0, Math.PI * 2);
+          this.ctx.fill(); this.ctx.stroke();
+          this.ctx.restore();
+        });
+      }
+
+      drawPestle(cx, cy, t) {
+        const mX = cx + this.mouseX * 14;
+        const mY = cy + this.mouseY * 9;
+        let pX = mX, pY = mY - 140, pAngle = -0.18, pAlpha = 1.0;
+
+        if (t < 2.8) {
+          const pr = (t - 2.2) / 0.6;
+          pY = (mY - 260) + 140 * pr;
+          pAlpha = Math.min(pr * 1.5, 1.0);
+        } else if (t >= 2.8 && t <= 4.8) {
+          const gt = (t - 2.8) * 4.2;
+          pX = mX + Math.cos(gt) * 28;
+          pY = mY - 5 + Math.sin(gt) * 10;
+          pAngle = -0.15 + Math.sin(gt) * 0.22;
+          if (Math.sin(gt) > 0.85 && Math.random() > 0.45) this.triggerImpact(pX, pY + 12);
+        } else if (t > 4.8) {
+          const pr = (t - 4.8) / 0.7;
+          pY = (mY - 5) - 220 * pr;
+          pAlpha = Math.max(0, 1 - pr);
+        }
+
+        if (pAlpha <= 0) return;
+        this.ctx.save();
+        this.ctx.globalAlpha = pAlpha;
+        this.ctx.translate(pX, pY);
+        this.ctx.rotate(pAngle);
+
+        this.ctx.fillStyle = '#8c5934';
+        this.ctx.beginPath();
+        this.ctx.moveTo(-12, -180); this.ctx.lineTo(12, -180);
+        this.ctx.bezierCurveTo(14, -80, 24, -20, 22, 10);
+        this.ctx.bezierCurveTo(20, 28, -20, 28, -22, 10);
+        this.ctx.bezierCurveTo(-24, -20, -14, -80, -12, -180);
+        this.ctx.fill();
+
+        this.ctx.fillStyle = '#f5d76e';
+        this.ctx.fillRect(-14, -100, 28, 12);
+        this.ctx.restore();
+      }
+
+      drawPowder(cx, cy, t) {
+        const pr = Math.min((t - 3.0) / 2.0, 1.0);
+        if (pr <= 0) return;
+        this.ctx.save();
+        this.ctx.globalAlpha = pr * 0.95;
+        const mX = cx + this.mouseX * 12;
+        const mY = cy + this.mouseY * 8;
+        const pGrad = this.ctx.createRadialGradient(mX, mY + 6, 5, mX, mY + 6, 75);
+        pGrad.addColorStop(0, '#d4af37'); pGrad.addColorStop(0.5, '#52796f'); pGrad.addColorStop(1, '#2f3e46');
+        this.ctx.fillStyle = pGrad;
+        this.ctx.beginPath();
+        this.ctx.ellipse(mX, mY + 6, 78 * pr, 18 * pr, 0, 0, Math.PI * 2);
+        this.ctx.fill();
+        this.ctx.restore();
+      }
+
+      drawDust() {
+        for (let i = this.impactDust.length - 1; i >= 0; i--) {
+          const p = this.impactDust[i];
+          p.x += p.vx; p.y += p.vy; p.vy += 0.08; p.alpha -= p.decay;
+          if (p.alpha <= 0) { this.impactDust.splice(i, 1); continue; }
+          this.ctx.fillStyle = p.color; this.ctx.globalAlpha = p.alpha;
+          this.ctx.beginPath(); this.ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2); this.ctx.fill();
+        }
+        this.ctx.globalAlpha = 1.0;
+      }
+
+      drawVapor(cx, cy, t) {
+        this.spawnVapor(cx + this.mouseX * 12, cy + this.mouseY * 8);
+        for (let i = this.vaporParticles.length - 1; i >= 0; i--) {
+          const v = this.vaporParticles[i];
+          v.x += v.vx + Math.sin(t * 2 + v.seed) * 0.4; v.y += v.vy;
+          v.radius = Math.min(v.radius + v.growth, v.maxRadius); v.alpha -= v.decay;
+          if (v.alpha <= 0) { this.vaporParticles.splice(i, 1); continue; }
+          const g = this.ctx.createRadialGradient(v.x, v.y, 0, v.x, v.y, v.radius);
+          g.addColorStop(0, `${v.color}${v.alpha})`); g.addColorStop(1, `${v.color}0)`);
+          this.ctx.fillStyle = g;
+          this.ctx.beginPath(); this.ctx.arc(v.x, v.y, v.radius, 0, Math.PI * 2); this.ctx.fill();
+        }
+      }
+
+      drawLogo(cx, cy, t) {
+        const pr = Math.min((t - 6.2) / 1.2, 1.0);
+        const ease = 1 - Math.pow(1 - pr, 3);
+        const pX = this.mouseX * 8;
+        const pY = this.mouseY * 6;
+
+        this.textParticles.forEach(tp => {
+          const curX = tp.x + (tp.tx - tp.x) * ease + Math.cos(tp.swirlAngle + t * 4) * tp.swirlRadius * (1 - ease) + pX;
+          const curY = tp.y + (tp.ty - tp.y) * ease + Math.sin(tp.swirlAngle + t * 4) * (tp.swirlRadius * 0.4) * (1 - ease) + pY;
+          this.ctx.fillStyle = `${tp.color}${Math.min(ease * 1.3, 1.0)})`;
+          this.ctx.beginPath(); this.ctx.arc(curX, curY, tp.size, 0, Math.PI * 2); this.ctx.fill();
+        });
+
+        if (pr > 0.8) {
+          this.ctx.save();
+          this.ctx.globalAlpha = (pr - 0.8) / 0.2;
+          this.ctx.textAlign = 'center'; this.ctx.textBaseline = 'middle';
+          this.ctx.shadowColor = 'rgba(212, 175, 55, 0.75)'; this.ctx.shadowBlur = 18;
+          this.ctx.font = 'bold 58px "Cinzel", serif';
+          this.ctx.fillStyle = '#d4af37';
+          this.ctx.fillText('AYURSUTRA', cx + pX, this.height * 0.38 + pY - 24);
+          this.ctx.shadowBlur = 8;
+          this.ctx.font = '500 18px "Plus Jakarta Sans", sans-serif';
+          this.ctx.fillStyle = '#a7f3d0';
+          this.ctx.fillText('Ancient Wisdom. Modern Wellness.', cx + pX, this.height * 0.38 + pY + 32);
+          this.ctx.restore();
+        }
+      }
+
+      finishIntro() {
+        if (this.isComplete) return;
+        this.isComplete = true;
+        if (this.overlay) {
+          this.overlay.classList.add('fade-out');
+          setTimeout(() => {
+            this.overlay.style.display = 'none';
+            if (this.animFrameId) cancelAnimationFrame(this.animFrameId);
+          }, 700);
+        }
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      new AyurIntroCinematic();
+    });
   </script>
 </body>
 </html>

@@ -1,4 +1,4 @@
-// AyurSutra Clinical & Panchakarma Data Model
+// AyurSutra Clinical, Panchakarma, and Billing & Invoices Data Model
 
 export const initialPatients = [
   {
@@ -147,4 +147,190 @@ export const ayurvedicElements = [
   { name: 'Agni', english: 'Fire', sanskrit: 'अग्नि', dosha: 'Pitta', color: '#f97316', geometry: 'Tetrahedron / Tejas', property: 'Transformation, Metabolism & Vision' },
   { name: 'Vayu', english: 'Air', sanskrit: 'वायु', dosha: 'Vata', color: '#10b981', geometry: 'Octahedron / Chala', property: 'Movement, Respiration & Nerve Pulses' },
   { name: 'Akasha', english: 'Ether / Space', sanskrit: 'आकाश', dosha: 'Vata', color: '#a855f7', geometry: 'Dodecahedron / Avakasha', property: 'Consciousness, Channels & Sound' }
+];
+
+// ============================================================================
+// AYURSUTRA BILLING, INVOICE & PAYMENT DATA MODEL
+// ============================================================================
+
+export const initialInvoices = [
+  {
+    id: 'INV-2026-101',
+    patientId: 'AY-2026-001',
+    patientName: 'Ananya Sharma',
+    contact: '+91 98765 43210',
+    date: '2026-08-16',
+    dueDate: '2026-08-20',
+    doctorName: 'Dr. Ramesh Vaidya',
+    packageTitle: '7-Day Shirodhara & Abhyanga Intensive Package',
+    status: 'Paid',
+    paymentMethod: 'UPI (GPay / PhonePe)',
+    transactionId: 'TXN-AYUR-882194',
+    paidAt: '2026-08-16 10:45 AM',
+    items: [
+      { description: 'Shirodhara Medicated Therapy (7 Sessions)', qty: 7, rate: 3500, amount: 24500 },
+      { description: 'Sarvanga Abhyanga Medicated Massage (7 Sessions)', qty: 7, rate: 2200, amount: 15400 },
+      { description: 'Ksheerabala 101 & Mahanarayana Tailam', qty: 2, rate: 1850, amount: 3700 },
+      { description: 'Senior Acharya Initial Consult & Nadi Pariksha', qty: 1, rate: 1500, amount: 1500 },
+      { description: 'Chikitsa Suite 2 Room Facility (4 Days Inpatient)', qty: 4, rate: 3000, amount: 12000 }
+    ],
+    subtotal: 57100,
+    gstPercent: 5,
+    taxGst: 2855,
+    discount: 2000,
+    totalAmount: 57955,
+    amountPaid: 57955,
+    balanceDue: 0
+  },
+  {
+    id: 'INV-2026-102',
+    patientId: 'AY-2026-002',
+    patientName: 'Rajesh Verma',
+    contact: '+91 91234 56789',
+    date: '2026-08-17',
+    dueDate: '2026-08-22',
+    doctorName: 'Vaidya Sneha Nair',
+    packageTitle: '5-Day Purva Karma & Vamana Shodhana Protocol',
+    status: 'Pending',
+    paymentMethod: 'Pending Payment',
+    transactionId: 'N/A',
+    paidAt: 'Unpaid',
+    items: [
+      { description: 'Snehapana Internal Oleation with Sukumara Ghrita', qty: 5, rate: 2400, amount: 12000 },
+      { description: 'Swedana Herbal Steam Chamber Facility', qty: 3, rate: 1800, amount: 5400 },
+      { description: 'Vamana Karma Classical Shodhana Session', qty: 1, rate: 8500, amount: 8500 },
+      { description: 'Classical Triphala & Pippali Formulations', qty: 1, rate: 2100, amount: 2100 }
+    ],
+    subtotal: 28000,
+    gstPercent: 5,
+    taxGst: 1400,
+    discount: 1000,
+    totalAmount: 28400,
+    amountPaid: 0,
+    balanceDue: 28400
+  },
+  {
+    id: 'INV-2026-103',
+    patientId: 'AY-2026-003',
+    patientName: 'Sunita Joshi',
+    contact: '+91 99887 76655',
+    date: '2026-08-15',
+    dueDate: '2026-08-19',
+    doctorName: 'Dr. Ramesh Vaidya',
+    packageTitle: '8-Day Kashaya & Sneha Basti Protocol',
+    status: 'Paid',
+    paymentMethod: 'HDFC Credit Card (•••• 4092)',
+    transactionId: 'TXN-AYUR-773821',
+    paidAt: '2026-08-15 03:20 PM',
+    items: [
+      { description: 'Kashaya Basti Decoction Administration (4 Sessions)', qty: 4, rate: 3200, amount: 12800 },
+      { description: 'Anuvasana Sneha Basti (4 Sessions)', qty: 4, rate: 2800, amount: 11200 },
+      { description: 'Dhanwantharam 101 & Sahacharadi Formulations', qty: 1, rate: 3400, amount: 3400 },
+      { description: 'Recovery Room Inpatient Stay (6 Days)', qty: 6, rate: 2500, amount: 15000 }
+    ],
+    subtotal: 42400,
+    gstPercent: 5,
+    taxGst: 2120,
+    discount: 1500,
+    totalAmount: 43020,
+    amountPaid: 43020,
+    balanceDue: 0
+  },
+  {
+    id: 'INV-2026-104',
+    patientId: 'AY-2026-004',
+    patientName: 'Vikramaditya Rao',
+    contact: '+91 94455 66778',
+    date: '2026-08-17',
+    dueDate: '2026-08-21',
+    doctorName: 'Vaidya Harish Chandra',
+    packageTitle: '7-Day Nasya & Shirovasti Neurological Care',
+    status: 'Pending',
+    paymentMethod: 'Ayush TPA Insurance Claim (Star Health)',
+    transactionId: 'TPA-CLAIM-44812',
+    paidAt: 'Processing Claim',
+    items: [
+      { description: 'Pratimarsa & Marsha Nasya Karma Therapy', qty: 7, rate: 1800, amount: 12600 },
+      { description: 'Shirovasti Medicated Cap Retention Therapy', qty: 3, rate: 4200, amount: 12600 },
+      { description: 'Anu Taila & Karpasastyadi Herbal Extracts', qty: 1, rate: 2800, amount: 2800 },
+      { description: 'Chikitsa Suite 1 Chamber Allocation (3 Days)', qty: 3, rate: 3000, amount: 9000 }
+    ],
+    subtotal: 37000,
+    gstPercent: 5,
+    taxGst: 1850,
+    discount: 0,
+    totalAmount: 38850,
+    amountPaid: 0,
+    balanceDue: 38850
+  },
+  {
+    id: 'INV-2026-105',
+    patientId: 'AY-2026-005',
+    patientName: 'Meera Nambiar',
+    contact: '+91 97711 22334',
+    date: '2026-08-14',
+    dueDate: '2026-08-18',
+    doctorName: 'Vaidya Sneha Nair',
+    packageTitle: 'Complete 7-Day Rasayana Rejuvenation Cycle',
+    status: 'Paid',
+    paymentMethod: 'Net Banking (SBI Bank)',
+    transactionId: 'TXN-AYUR-661902',
+    paidAt: '2026-08-14 11:10 AM',
+    items: [
+      { description: 'Takradhara Medicated Buttermilk Stream (7 Sessions)', qty: 7, rate: 3200, amount: 22400 },
+      { description: 'Rasayana Organic Rejuvenation Diet & Formulations', qty: 1, rate: 6500, amount: 6500 },
+      { description: 'Gold Grade Chyawanprash & Brahmi Rasayana', qty: 2, rate: 2200, amount: 4400 },
+      { description: 'Recovery Sanctuary VIP Suite (7 Days)', qty: 7, rate: 3500, amount: 24500 }
+    ],
+    subtotal: 57800,
+    gstPercent: 5,
+    taxGst: 2890,
+    discount: 3000,
+    totalAmount: 57690,
+    amountPaid: 57690,
+    balanceDue: 0
+  },
+  {
+    id: 'INV-2026-106',
+    patientId: 'AY-2026-006',
+    patientName: 'Arjun Singhania',
+    contact: '+91 98822 33445',
+    date: '2026-08-17',
+    dueDate: '2026-08-23',
+    doctorName: 'Dr. Ramesh Vaidya',
+    packageTitle: '6-Day Classical Virechana Shodhana Karma',
+    status: 'Paid',
+    paymentMethod: 'UPI (Paytm / BHIM)',
+    transactionId: 'TXN-AYUR-994012',
+    paidAt: '2026-08-17 09:15 AM',
+    items: [
+      { description: 'Virechana Karma Preparation & Purgation Session', qty: 1, rate: 7500, amount: 7500 },
+      { description: 'Abhyanga & Swedana Pre-Karma (4 Sessions)', qty: 4, rate: 2200, amount: 8800 },
+      { description: 'Trivrit Lehyam & Classical Kashayam Package', qty: 1, rate: 3200, amount: 3200 },
+      { description: 'Chikitsa Suite 3 Private Room (5 Days)', qty: 5, rate: 3000, amount: 15000 }
+    ],
+    subtotal: 34500,
+    gstPercent: 5,
+    taxGst: 1725,
+    discount: 1500,
+    totalAmount: 34725,
+    amountPaid: 34725,
+    balanceDue: 0
+  }
+];
+
+export const pricingCatalog = [
+  { code: 'TH-01', name: 'Shirodhara Medicated Therapy', type: 'Therapy', price: 3500, gst: 5 },
+  { code: 'TH-02', name: 'Sarvanga Abhyanga Massage', type: 'Therapy', price: 2200, gst: 5 },
+  { code: 'TH-03', name: 'Vamana Karma Full Procedure', type: 'Therapy', price: 8500, gst: 5 },
+  { code: 'TH-04', name: 'Virechana Karma Shodhana', type: 'Therapy', price: 7500, gst: 5 },
+  { code: 'TH-05', name: 'Kashaya / Sneha Basti', type: 'Therapy', price: 3200, gst: 5 },
+  { code: 'TH-06', name: 'Nasya & Shirovasti Karma', type: 'Therapy', price: 2800, gst: 5 },
+  { code: 'TH-07', name: 'Takradhara Buttermilk Protocol', type: 'Therapy', price: 3200, gst: 5 },
+  { code: 'CS-01', name: 'Senior Vaidya Nadi Pariksha Consult', type: 'Consultation', price: 1500, gst: 0 },
+  { code: 'CS-02', name: 'Follow-up Clinical Review', type: 'Consultation', price: 800, gst: 0 },
+  { code: 'MED-01', name: 'Ksheerabala 101 Drops (50ml)', type: 'Pharmacy', price: 1850, gst: 5 },
+  { code: 'MED-02', name: 'Mahanarayana Tailam (500ml)', type: 'Pharmacy', price: 1200, gst: 5 },
+  { code: 'MED-03', name: 'Gold Grade Chyawanprash (1kg)', type: 'Pharmacy', price: 1450, gst: 5 },
+  { code: 'RM-01', name: 'Chikitsa Private Suite (Per Day)', type: 'Room', price: 3000, gst: 5 }
 ];
