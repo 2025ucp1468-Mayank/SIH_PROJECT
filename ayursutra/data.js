@@ -1,0 +1,150 @@
+// AyurSutra Clinical & Panchakarma Data Model
+
+export const initialPatients = [
+  {
+    id: 'AY-2026-001',
+    name: 'Ananya Sharma',
+    age: 34,
+    gender: 'Female',
+    contact: '+91 98765 43210',
+    dosha: 'Vata-Pitta',
+    doshaBalance: { vata: 55, pitta: 35, kapha: 10 },
+    currentTherapy: 'Shirodhara & Abhyanga',
+    phase: 'Pradhana Karma',
+    dayCount: 'Day 4 of 7',
+    progressPercent: 57,
+    status: 'In Progress',
+    room: 'Chikitsa Suite 2',
+    therapist: 'Dr. Ramesh Vaidya',
+    nadiPulse: 'Vata-Pitta (Chapa & Sarpa Gati)',
+    formulations: ['Mahanarayana Taila', 'Ksheerabala 101 Drops', 'Brahmi Ghrita'],
+    diet: 'Samsarjana Stage 2 (Mudga Yusha - Green Gram Soup with Cumin & Ghee)',
+    notes: 'Significant relief in chronic migraines and sleep dysregulation. Shirodhara oil temperature strictly 38.5°C.'
+  },
+  {
+    id: 'AY-2026-002',
+    name: 'Rajesh Verma',
+    age: 48,
+    gender: 'Male',
+    contact: '+91 91234 56789',
+    dosha: 'Kapha Predominant',
+    doshaBalance: { vata: 15, pitta: 25, kapha: 60 },
+    currentTherapy: 'Vamana Karma Prep',
+    phase: 'Purva Karma',
+    dayCount: 'Day 2 of 5',
+    progressPercent: 40,
+    status: 'Scheduled',
+    room: 'Karma Hall A',
+    therapist: 'Vaidya Sneha Nair',
+    nadiPulse: 'Kapha (Mando Gati / Hamsa)',
+    formulations: ['Sukumara Ghrita', 'Pippali Churna', 'Triphala Kashayam'],
+    diet: 'Deepana-Pachana (Hot Water with Ginger & Honey, Light Peya)',
+    notes: 'Snehapana dose increased to 60ml. Digestibility being monitored every 3 hours.'
+  },
+  {
+    id: 'AY-2026-003',
+    name: 'Sunita Joshi',
+    age: 52,
+    gender: 'Female',
+    contact: '+91 99887 76655',
+    dosha: 'Pitta-Vata',
+    doshaBalance: { vata: 40, pitta: 50, kapha: 10 },
+    currentTherapy: 'Kashaya & Sneha Basti',
+    phase: 'Pradhana Karma',
+    dayCount: 'Day 6 of 8',
+    progressPercent: 75,
+    status: 'In Progress',
+    room: 'Recovery Room 1',
+    therapist: 'Dr. Ramesh Vaidya',
+    nadiPulse: 'Pitta (Manduka Gati)',
+    formulations: ['Dhanwantharam 101', 'Sahacharadi Kashayam', 'Chandanadi Oil'],
+    diet: 'Cooling Pitta-pacifying diet with boiled rice and Amalaki ghrita',
+    notes: 'Joint inflammation reduced by 60%. Good retention time for Anuvasana Basti (4.5 hours).'
+  },
+  {
+    id: 'AY-2026-004',
+    name: 'Vikramaditya Rao',
+    age: 41,
+    gender: 'Male',
+    contact: '+91 94455 66778',
+    dosha: 'Tridoshic (V-P-K)',
+    doshaBalance: { vata: 35, pitta: 35, kapha: 30 },
+    currentTherapy: 'Nasya & Shirovasti',
+    phase: 'Pradhana Karma',
+    dayCount: 'Day 3 of 7',
+    progressPercent: 42,
+    status: 'In Progress',
+    room: 'Chikitsa Suite 1',
+    therapist: 'Vaidya Harish Chandra',
+    nadiPulse: 'Tridosha Samata',
+    formulations: ['Anu Taila', 'Karpasastyadi Tailam', 'Ashwagandharishta'],
+    diet: 'Laghu Ahara (Warm barley gruel with roasted jeera)',
+    notes: 'Sinus clearance confirmed. Administering 8 drops of Anu Taila per nostril with steam.'
+  },
+  {
+    id: 'AY-2026-005',
+    name: 'Meera Nambiar',
+    age: 29,
+    gender: 'Female',
+    contact: '+91 97711 22334',
+    dosha: 'Vata Predominant',
+    doshaBalance: { vata: 65, pitta: 20, kapha: 15 },
+    currentTherapy: 'Takradhara & Rasayana',
+    phase: 'Paschat Karma',
+    dayCount: 'Day 7 of 7',
+    progressPercent: 100,
+    status: 'Completed',
+    room: 'Recovery Suite 3',
+    therapist: 'Vaidya Sneha Nair',
+    nadiPulse: 'Vata pacified (Samana Vayu)',
+    formulations: ['Chyawanprash Awaleha', 'Kalyanaka Ghrita', 'Dashamularishta'],
+    diet: 'Rasayana regenerative diet, warm organic milk with saffron and cardamom',
+    notes: 'Full cycle completed successfully. Stress markers normalized. Discharging tomorrow with home protocol.'
+  },
+  {
+    id: 'AY-2026-006',
+    name: 'Arjun Singhania',
+    age: 56,
+    gender: 'Male',
+    contact: '+91 98822 33445',
+    dosha: 'Pitta-Kapha',
+    doshaBalance: { vata: 15, pitta: 50, kapha: 35 },
+    currentTherapy: 'Virechana Karma',
+    phase: 'Pradhana Karma',
+    dayCount: 'Day 5 of 6',
+    progressPercent: 83,
+    status: 'In Progress',
+    room: 'Chikitsa Suite 3',
+    therapist: 'Dr. Ramesh Vaidya',
+    nadiPulse: 'Pitta-Tikshna',
+    formulations: ['Trivrit Lehyam', 'Avipattikar Churna', 'Amruthotharam Kashaya'],
+    diet: 'Strict boiled rice water (Vilepi) with roasted pomegranate seeds',
+    notes: 'Virechana vega count reached 12 bouts smoothly. Adequate hydration maintained.'
+  }
+];
+
+export const scheduledTherapies = [
+  { id: 1, time: '08:00 AM', patient: 'Ananya Sharma', therapy: 'Abhyanga (Herbal Medicated Massage)', room: 'Chikitsa Suite 2', therapist: 'Vaidya Sneha', phase: 'Purva' },
+  { id: 2, time: '09:30 AM', patient: 'Ananya Sharma', therapy: 'Shirodhara (Takradhara Protocol)', room: 'Chikitsa Suite 2', therapist: 'Vaidya Sneha', phase: 'Pradhana' },
+  { id: 3, time: '10:45 AM', patient: 'Vikramaditya Rao', therapy: 'Nasya (Pratimarsa Nasya Karma)', room: 'Chikitsa Suite 1', therapist: 'Vaidya Harish', phase: 'Pradhana' },
+  { id: 4, time: '11:30 AM', patient: 'Rajesh Verma', therapy: 'Snehapana (Internal Oleation Ghee)', room: 'Karma Hall A', therapist: 'Dr. Ramesh', phase: 'Purva' },
+  { id: 5, time: '02:00 PM', patient: 'Sunita Joshi', therapy: 'Kashaya Basti (Herbal Decoction Enema)', room: 'Recovery Room 1', therapist: 'Dr. Ramesh', phase: 'Pradhana' },
+  { id: 6, time: '04:30 PM', patient: 'Meera Nambiar', therapy: 'Samsarjana Krama Diet Consultation', room: 'Consultation Room 3', therapist: 'Vaidya Sneha', phase: 'Paschat' }
+];
+
+export const chikitsaRooms = [
+  { id: 'RM-101', name: 'Chikitsa Suite 1', type: 'Shirodhara & Head Therapies', status: 'Occupied', patient: 'Vikramaditya Rao', oilTemp: '38.2°C', heater: 'Active', ambient: '24°C / 45% RH' },
+  { id: 'RM-102', name: 'Chikitsa Suite 2', type: 'Full Body Abhyanga & Takradhara', status: 'Occupied', patient: 'Ananya Sharma', oilTemp: '39.0°C', heater: 'Active', ambient: '25°C / 48% RH' },
+  { id: 'RM-103', name: 'Karma Hall A', type: 'Purva Karma & Vamana Facility', status: 'In Preparation', patient: 'Rajesh Verma', oilTemp: '37.5°C', heater: 'Pre-heating', ambient: '23°C / 50% RH' },
+  { id: 'RM-104', name: 'Chikitsa Suite 3', type: 'Virechana & Basti Sanctuary', status: 'Occupied', patient: 'Arjun Singhania', oilTemp: '38.0°C', heater: 'Active', ambient: '24°C / 46% RH' },
+  { id: 'RM-105', name: 'Swedana Steam Chamber', type: 'Nadi & Bashpa Swedan', status: 'Available', patient: 'None (Sanitized)', oilTemp: 'Ready', heater: 'Standby', ambient: '22°C / 40% RH' },
+  { id: 'RM-106', name: 'Recovery Sanctuary', type: 'Post-Karma Deep Rest & Samsarjana', status: 'Occupied', patient: 'Meera Nambiar', oilTemp: 'N/A', heater: 'Off', ambient: '23.5°C / 52% RH' }
+];
+
+export const ayurvedicElements = [
+  { name: 'Prithvi', english: 'Earth', sanskrit: 'पृथिवी', dosha: 'Kapha', color: '#eab308', geometry: 'Cube / Stambha', property: 'Stability, Density & Structure' },
+  { name: 'Jala', english: 'Water', sanskrit: 'जल', dosha: 'Kapha-Pitta', color: '#06b6d4', geometry: 'Icosahedron / Drava', property: 'Cohesion, Fluidity & Moisture' },
+  { name: 'Agni', english: 'Fire', sanskrit: 'अग्नि', dosha: 'Pitta', color: '#f97316', geometry: 'Tetrahedron / Tejas', property: 'Transformation, Metabolism & Vision' },
+  { name: 'Vayu', english: 'Air', sanskrit: 'वायु', dosha: 'Vata', color: '#10b981', geometry: 'Octahedron / Chala', property: 'Movement, Respiration & Nerve Pulses' },
+  { name: 'Akasha', english: 'Ether / Space', sanskrit: 'आकाश', dosha: 'Vata', color: '#a855f7', geometry: 'Dodecahedron / Avakasha', property: 'Consciousness, Channels & Sound' }
+];

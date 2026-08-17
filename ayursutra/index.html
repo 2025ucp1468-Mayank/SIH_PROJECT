@@ -1,0 +1,851 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AyurSutra — Panchakarma Clinical Management & Vedic Cosmic Portal</title>
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            ayur: {
+              950: '#03150e',
+              900: '#062016',
+              850: '#0a2c1f',
+              800: '#0d3829',
+              700: '#14533d',
+              600: '#10b981',
+              500: '#34d399',
+              gold: '#d4af37',
+              goldLight: '#f5d76e',
+              amber: '#f59e0b',
+              cyan: '#06b6d4'
+            }
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Google Fonts: Cinzel & Plus Jakarta Sans -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700;800;900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <!-- Three.js CDN -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+
+  <!-- Custom Styles -->
+  <link rel="stylesheet" href="./styles.css" />
+</head>
+<body class="bg-[#03150e] text-stone-100 antialiased selection:bg-emerald-500/30 selection:text-emerald-200">
+
+  <!-- 3D WebGL Three.js Canvas Layer for Rotating Earth & Ayurvedic Geometry -->
+  <div id="bg-canvas-container"></div>
+
+  <!-- Top Global Scroll Progress Bar -->
+  <div id="scroll-progress-container">
+    <div id="scroll-progress-bar"></div>
+  </div>
+
+  <!-- Main App Shell -->
+  <div class="relative z-10 flex min-h-screen">
+
+    <!-- Left Sticky Glassmorphic Sidebar -->
+    <aside class="sticky top-0 h-screen w-72 shrink-0 flex flex-col justify-between p-5 bg-[#041a12]/80 backdrop-blur-2xl border-r border-emerald-900/40 shadow-2xl z-30">
+      
+      <!-- Brand & Sacred Emblem -->
+      <div>
+        <div class="flex items-center gap-3.5 px-2 py-3 mb-6 border-b border-emerald-900/50">
+          <div class="relative flex items-center justify-center w-11 h-11 rounded-xl bg-gradient-to-br from-emerald-800 to-emerald-950 border border-amber-500/40 shadow-lg text-amber-300">
+            <span class="text-2xl font-serif">ॐ</span>
+            <div class="absolute -top-1 -right-1 w-2.5 h-2.5 rounded-full bg-amber-400 animate-ping"></div>
+            <div class="absolute -top-1 -right-1 w-2.5 h-2.5 rounded-full bg-amber-400"></div>
+          </div>
+          <div>
+            <div class="flex items-center gap-1.5">
+              <h1 class="text-lg font-bold tracking-wider font-serif gold-gradient-text">AyurSutra</h1>
+              <span class="text-[9px] font-bold px-1.5 py-0.5 rounded bg-amber-500/20 text-amber-300 border border-amber-500/30">VEDIC</span>
+            </div>
+            <p class="text-[11px] text-emerald-400/80 font-medium">Panchakarma Sanctuary</p>
+          </div>
+        </div>
+
+        <!-- Automatic Scroll-Driven Navigation Menu -->
+        <div class="px-2 mb-2">
+          <p class="text-[10px] font-bold uppercase tracking-widest text-emerald-500/60">Live Navigation (Scroll-Synced)</p>
+        </div>
+
+        <nav class="space-y-1.5" id="sidebar-nav">
+          <a href="#hero" id="nav-hero" class="nav-item active flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-semibold text-stone-300 hover:text-white border border-transparent transition-all">
+            <i data-lucide="globe" class="w-4 h-4 text-amber-400"></i>
+            <span>Cosmic Origin & Earth</span>
+          </a>
+
+          <a href="#overview" id="nav-overview" class="nav-item flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-semibold text-stone-300 hover:text-white border border-transparent transition-all">
+            <i data-lucide="layout-dashboard" class="w-4 h-4 text-emerald-400"></i>
+            <span>Operations Overview</span>
+          </a>
+
+          <a href="#patients" id="nav-patients" class="nav-item flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-semibold text-stone-300 hover:text-white border border-transparent transition-all">
+            <i data-lucide="users" class="w-4 h-4 text-cyan-400"></i>
+            <span>Patient Records</span>
+            <span class="ml-auto text-[10px] px-1.5 py-0.2 rounded-full bg-emerald-900/80 text-emerald-300 border border-emerald-700/50" id="badge-patient-count">6</span>
+          </a>
+
+          <a href="#schedule" id="nav-schedule" class="nav-item flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-semibold text-stone-300 hover:text-white border border-transparent transition-all">
+            <i data-lucide="calendar-clock" class="w-4 h-4 text-amber-400"></i>
+            <span>Therapy Protocols</span>
+          </a>
+
+          <a href="#suites" id="nav-suites" class="nav-item flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-semibold text-stone-300 hover:text-white border border-transparent transition-all">
+            <i data-lucide="sparkles" class="w-4 h-4 text-purple-400"></i>
+            <span>Chikitsa Suites & Herbarium</span>
+          </a>
+        </nav>
+      </div>
+
+      <!-- Footer Widgets: Ambient Audio & Clinic Status -->
+      <div class="space-y-3">
+        <!-- Soundscape Synthesizer Toggle -->
+        <button id="btn-audio-toggle" class="w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl bg-emerald-950/60 border border-emerald-800/60 hover:border-amber-500/40 text-xs text-stone-200 hover:text-white transition-all group">
+          <div class="flex items-center gap-2.5">
+            <i data-lucide="volume-2" id="audio-icon" class="w-4 h-4 text-amber-400 group-hover:scale-110 transition-transform"></i>
+            <span class="font-medium text-[11px]" id="audio-label">Vedic Tanpura (432Hz)</span>
+          </div>
+          <span class="text-[10px] font-bold px-2 py-0.5 rounded bg-emerald-900/90 text-emerald-300" id="audio-status">OFF</span>
+        </button>
+
+        <!-- Vaidya Sanctorum Info -->
+        <div class="p-3.5 rounded-xl bg-gradient-to-b from-emerald-950/90 to-emerald-900/40 border border-emerald-800/40 text-xs">
+          <div class="flex items-center justify-between">
+            <span class="font-bold text-emerald-200">Jaipur Sanctorum</span>
+            <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+          </div>
+          <p class="text-[11px] text-emerald-400/80 mt-1 font-mono">Chikitsa Wing • 6 Suites Active</p>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main Scrollable Content Area -->
+    <div class="flex-1 flex flex-col min-w-0">
+
+      <!-- Sticky Top Header with Dynamic Section Tracker -->
+      <header class="sticky top-0 z-20 h-16 px-8 flex items-center justify-between bg-[#041a12]/70 backdrop-blur-xl border-b border-emerald-900/40">
+        <div class="flex items-center gap-3">
+          <div class="w-2 h-2 rounded-full bg-amber-400 shadow-[0_0_8px_#f59e0b]"></div>
+          <div>
+            <h2 id="topbar-title" class="text-sm font-bold tracking-wide uppercase text-stone-100 font-serif">Cosmic Origin & Earth</h2>
+            <p id="topbar-subtitle" class="text-[11px] text-emerald-400/90">The 5 Mahabhutas & Sacred Panchakarma Harmony</p>
+          </div>
+        </div>
+
+        <div class="flex items-center gap-4">
+          <!-- Real-time Clock -->
+          <div class="hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-lg bg-emerald-950/60 border border-emerald-800/40 text-xs text-stone-300">
+            <i data-lucide="clock" class="w-3.5 h-3.5 text-amber-400"></i>
+            <span id="live-clock" class="font-mono text-[11px]">08:30:00 IST</span>
+          </div>
+
+          <!-- Admit Patient Action Button -->
+          <button id="btn-open-admit-modal" class="flex items-center gap-2 btn-gold px-4 py-2 rounded-lg text-xs font-bold shadow-lg">
+            <i data-lucide="user-plus" class="w-3.5 h-3.5"></i>
+            <span>Admit Patient</span>
+          </button>
+        </div>
+      </header>
+
+      <!-- Scrollable Main Container -->
+      <main class="flex-1 px-8 py-10 space-y-28">
+
+        <!-- ========================================== -->
+        <!-- 1. HERO SECTION: 3D EARTH & VEDIC SYMBOLS -->
+        <!-- ========================================== -->
+        <section id="hero" class="content-section min-h-[82vh] flex flex-col justify-between">
+          <div class="max-w-3xl space-y-6 pt-6">
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-500/10 border border-amber-500/30 text-amber-300 text-xs font-semibold">
+              <i data-lucide="sparkles" class="w-3.5 h-3.5 text-amber-400"></i>
+              <span>Panchamahabhuta • Tridosha • Shodhana Chikitsa</span>
+            </div>
+
+            <h1 class="text-4xl md:text-5xl lg:text-6xl font-extrabold font-serif leading-tight">
+              Sacred Healing for the <span class="gold-gradient-text">Whole Being</span>
+            </h1>
+
+            <p class="text-base md:text-lg text-emerald-200/90 leading-relaxed font-light">
+              Experience the convergence of timeless Vedic medicine and clinical Panchakarma administration. As the Earth rotates in harmony with the cosmos, balance your Prakriti through scientific purification.
+            </p>
+
+            <!-- Sanskrit Verse Box -->
+            <div class="p-4 rounded-xl bg-emerald-950/40 backdrop-blur-md border border-emerald-800/40 text-xs">
+              <p class="font-serif text-amber-200/90 italic text-sm">
+                “सर्ववेदेषु यत्सारं तदायर्वेद उच्यते। दोषाणां च समत्वेन स्वास्थ्यायुष्यं विवर्धते॥”
+              </p>
+              <p class="text-emerald-400/80 mt-1 text-[11px]">
+                “The essence of all Vedas is Ayurveda; by harmonizing the bodily doshas, longevity and supreme health flourish.”
+              </p>
+            </div>
+          </div>
+
+          <!-- Interactive Mahabhuta Element Bar -->
+          <div class="space-y-3 pt-8">
+            <p class="text-xs font-bold uppercase tracking-wider text-emerald-400/70">Interactive Pancha Mahabhuta (Click an Element)</p>
+            <div class="grid grid-cols-2 sm:grid-cols-5 gap-3" id="mahabhuta-grid">
+              <!-- Dynamically populated or static interactive element buttons -->
+            </div>
+          </div>
+
+          <!-- Downward Scroll Prompt -->
+          <div class="flex items-center justify-center pt-8 pb-4">
+            <a href="#overview" class="flex flex-col items-center gap-2 text-xs font-medium text-emerald-400/80 hover:text-amber-300 transition-colors float-gentle">
+              <span class="text-[11px] tracking-widest uppercase font-semibold">Scroll down to view live clinic operations</span>
+              <div class="w-6 h-10 rounded-full border-2 border-emerald-500/40 flex items-start justify-center p-1">
+                <div class="w-1.5 h-2.5 rounded-full bg-amber-400 animate-bounce"></div>
+              </div>
+            </a>
+          </div>
+        </section>
+
+        <!-- ========================================== -->
+        <!-- 2. OPERATIONS & SESSIONS OVERVIEW -->
+        <!-- ========================================== -->
+        <section id="overview" class="content-section space-y-8">
+          <div class="flex flex-col md:flex-row md:items-end justify-between gap-4 border-b border-emerald-900/60 pb-4">
+            <div>
+              <span class="text-xs font-bold uppercase tracking-wider text-emerald-400">Clinical Overview</span>
+              <h2 class="text-2xl font-bold font-serif text-white mt-1">Operations & Panchakarma Status</h2>
+            </div>
+            <div class="flex items-center gap-2 text-xs text-emerald-300/80">
+              <i data-lucide="shield-check" class="w-4 h-4 text-emerald-400"></i>
+              <span>Live NABH-Ayurveda Validated Protocols</span>
+            </div>
+          </div>
+
+          <!-- 4 Core Metric KPI Cards -->
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            <div class="glass-card p-5">
+              <div class="flex items-center justify-between">
+                <p class="text-xs font-semibold text-stone-400 uppercase tracking-wider">Admitted Patients</p>
+                <i data-lucide="users" class="w-4 h-4 text-emerald-400"></i>
+              </div>
+              <p class="text-3xl font-bold text-white mt-2" id="kpi-patient-count">6</p>
+              <p class="text-xs text-emerald-400 mt-1 flex items-center gap-1 font-medium">
+                <i data-lucide="arrow-up-right" class="w-3 h-3"></i>
+                <span>100% active clinical care</span>
+              </p>
+            </div>
+
+            <div class="glass-card p-5">
+              <div class="flex items-center justify-between">
+                <p class="text-xs font-semibold text-stone-400 uppercase tracking-wider">Scheduled Today</p>
+                <i data-lucide="calendar" class="w-4 h-4 text-amber-400"></i>
+              </div>
+              <p class="text-3xl font-bold text-white mt-2">12 Sessions</p>
+              <p class="text-xs text-amber-400/90 mt-1 font-medium">4 Morning • 8 Afternoon Rotations</p>
+            </div>
+
+            <div class="glass-card p-5">
+              <div class="flex items-center justify-between">
+                <p class="text-xs font-semibold text-stone-400 uppercase tracking-wider">Dominant Phase</p>
+                <i data-lucide="activity" class="w-4 h-4 text-cyan-400"></i>
+              </div>
+              <p class="text-2xl font-bold gold-gradient-text mt-2">Pradhana Karma</p>
+              <p class="text-xs text-emerald-400 mt-1 font-medium">Active Shodhana Detox</p>
+            </div>
+
+            <div class="glass-card p-5">
+              <div class="flex items-center justify-between">
+                <p class="text-xs font-semibold text-stone-400 uppercase tracking-wider">Chikitsa Suites</p>
+                <i data-lucide="door-open" class="w-4 h-4 text-purple-400"></i>
+              </div>
+              <p class="text-3xl font-bold text-white mt-2">4 / 6 Active</p>
+              <p class="text-xs text-stone-400 mt-1 font-medium">2 Sanitized & Ready</p>
+            </div>
+          </div>
+
+          <!-- Operational Panels (Pipeline & 3-Phase Distribution) -->
+          <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+            <!-- Treatment Pipeline -->
+            <div class="lg:col-span-7 glass-panel p-6 space-y-4">
+              <div class="flex items-center justify-between pb-3 border-b border-emerald-900/50">
+                <div class="flex items-center gap-2">
+                  <i data-lucide="clock-3" class="w-4 h-4 text-amber-400"></i>
+                  <h3 class="font-bold text-sm text-stone-100 font-serif">Today's Treatment Pipeline</h3>
+                </div>
+                <span class="text-[11px] font-semibold text-emerald-300 bg-emerald-950/80 border border-emerald-800/80 px-2.5 py-0.5 rounded-full">
+                  Real-time Schedule
+                </span>
+              </div>
+
+              <div class="space-y-2.5" id="pipeline-container">
+                <!-- Injected via JavaScript -->
+              </div>
+            </div>
+
+            <!-- Panchakarma Protocol Distribution & Nadi Telemetry -->
+            <div class="lg:col-span-5 glass-panel p-6 flex flex-col justify-between space-y-6">
+              <div>
+                <div class="flex items-center justify-between pb-3 border-b border-emerald-900/50 mb-4">
+                  <h3 class="font-bold text-sm text-stone-100 font-serif">Panchakarma Phase Distribution</h3>
+                  <i data-lucide="pie-chart" class="w-4 h-4 text-cyan-400"></i>
+                </div>
+
+                <div class="space-y-4">
+                  <div>
+                    <div class="flex justify-between text-xs font-semibold text-stone-300 mb-1.5">
+                      <span class="flex items-center gap-1.5 text-amber-300">
+                        <span class="w-2 h-2 rounded-full bg-amber-400"></span>
+                        Purva Karma (Snehana & Swedana)
+                      </span>
+                      <span>45%</span>
+                    </div>
+                    <div class="w-full bg-emerald-950/80 h-2.5 rounded-full overflow-hidden border border-emerald-900/50">
+                      <div class="bg-gradient-to-r from-amber-500 to-amber-400 h-full w-[45%] rounded-full shadow-[0_0_8px_#f59e0b]"></div>
+                    </div>
+                  </div>
+
+                  <div>
+                    <div class="flex justify-between text-xs font-semibold text-stone-300 mb-1.5">
+                      <span class="flex items-center gap-1.5 text-emerald-300">
+                        <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
+                        Pradhana Karma (Shirodhara / Basti / Vamana)
+                      </span>
+                      <span>40%</span>
+                    </div>
+                    <div class="w-full bg-emerald-950/80 h-2.5 rounded-full overflow-hidden border border-emerald-900/50">
+                      <div class="bg-gradient-to-r from-emerald-500 to-emerald-400 h-full w-[40%] rounded-full shadow-[0_0_8px_#10b981]"></div>
+                    </div>
+                  </div>
+
+                  <div>
+                    <div class="flex justify-between text-xs font-semibold text-stone-300 mb-1.5">
+                      <span class="flex items-center gap-1.5 text-blue-300">
+                        <span class="w-2 h-2 rounded-full bg-blue-400"></span>
+                        Paschat Karma (Samsarjana & Rasayana)
+                      </span>
+                      <span>15%</span>
+                    </div>
+                    <div class="w-full bg-emerald-950/80 h-2.5 rounded-full overflow-hidden border border-emerald-900/50">
+                      <div class="bg-gradient-to-r from-blue-500 to-cyan-400 h-full w-[15%] rounded-full shadow-[0_0_8px_#06b6d4]"></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Clinical Alert Reminder -->
+              <div class="p-3.5 rounded-xl bg-amber-950/30 border border-amber-500/30 text-xs text-amber-200/90 flex items-start gap-2.5">
+                <i data-lucide="alert-circle" class="w-4 h-4 text-amber-400 shrink-0 mt-0.5"></i>
+                <div>
+                  <strong class="text-amber-300">Vaidya Protocol Directive:</strong> Verify Agni digestion status (Niramata) before initiating Pradhana Shodhana procedures.
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ========================================== -->
+        <!-- 3. CLINICAL PATIENT RECORDS -->
+        <!-- ========================================== -->
+        <section id="patients" class="content-section space-y-6">
+          <div class="flex flex-col md:flex-row md:items-end justify-between gap-4 border-b border-emerald-900/60 pb-4">
+            <div>
+              <span class="text-xs font-bold uppercase tracking-wider text-cyan-400">Clinical Management</span>
+              <h2 class="text-2xl font-bold font-serif text-white mt-1">Patient Health Records & Prakriti</h2>
+            </div>
+            <button id="btn-admit-trigger-2" class="flex items-center gap-2 btn-emerald px-4 py-2 rounded-lg text-xs font-semibold shadow">
+              <i data-lucide="plus" class="w-3.5 h-3.5"></i>
+              <span>Admit New Patient</span>
+            </button>
+          </div>
+
+          <!-- Controls: Search & Dosha Filter Bar -->
+          <div class="flex flex-col lg:flex-row items-stretch lg:items-center justify-between gap-4">
+            <!-- Search Bar -->
+            <div class="relative flex-1 max-w-md">
+              <i data-lucide="search" class="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-emerald-400/60"></i>
+              <input
+                type="text"
+                id="patient-search-input"
+                placeholder="Search by Patient Name, ID, Dosha, or Vaidya..."
+                class="w-full pl-10 pr-4 py-2.5 bg-emerald-950/60 border border-emerald-800/60 rounded-xl text-xs text-stone-100 placeholder-emerald-400/40 focus:outline-none focus:border-amber-400/60 transition-colors"
+              />
+            </div>
+
+            <!-- Dosha Filter Buttons -->
+            <div class="flex flex-wrap items-center gap-1.5" id="dosha-filter-container">
+              <button data-filter="All" class="dosha-filter-btn active px-3 py-1.5 rounded-lg text-xs font-medium bg-emerald-800/80 text-white border border-emerald-700">All</button>
+              <button data-filter="Vata" class="dosha-filter-btn px-3 py-1.5 rounded-lg text-xs font-medium bg-emerald-950/40 text-emerald-300 border border-emerald-800/60 hover:bg-emerald-900/50">Vata</button>
+              <button data-filter="Pitta" class="dosha-filter-btn px-3 py-1.5 rounded-lg text-xs font-medium bg-emerald-950/40 text-amber-300 border border-emerald-800/60 hover:bg-emerald-900/50">Pitta</button>
+              <button data-filter="Kapha" class="dosha-filter-btn px-3 py-1.5 rounded-lg text-xs font-medium bg-emerald-950/40 text-cyan-300 border border-emerald-800/60 hover:bg-emerald-900/50">Kapha</button>
+              <button data-filter="Dual" class="dosha-filter-btn px-3 py-1.5 rounded-lg text-xs font-medium bg-emerald-950/40 text-purple-300 border border-emerald-800/60 hover:bg-emerald-900/50">Dual-Dosha</button>
+            </div>
+          </div>
+
+          <!-- Patient Data Table -->
+          <div class="glass-panel overflow-hidden">
+            <div class="overflow-x-auto">
+              <table class="w-full text-left text-xs">
+                <thead class="bg-emerald-950/80 border-b border-emerald-900/70 font-semibold text-emerald-300/80 uppercase tracking-wider">
+                  <tr>
+                    <th class="px-5 py-4">Patient Profile</th>
+                    <th class="px-5 py-4">Prakriti (Dosha)</th>
+                    <th class="px-5 py-4">Assigned Therapy</th>
+                    <th class="px-5 py-4">Cycle Progress</th>
+                    <th class="px-5 py-4">Assigned Vaidya</th>
+                    <th class="px-5 py-4">Status</th>
+                    <th class="px-5 py-4 text-right">Action</th>
+                  </tr>
+                </thead>
+                <tbody class="divide-y divide-emerald-900/40" id="patient-table-body">
+                  <!-- Injected via JavaScript -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- ========================================== -->
+        <!-- 4. THERAPY PROTOCOLS & INTERACTIVE TIMER -->
+        <!-- ========================================== -->
+        <section id="schedule" class="content-section space-y-8">
+          <div class="flex flex-col md:flex-row md:items-end justify-between gap-4 border-b border-emerald-900/60 pb-4">
+            <div>
+              <span class="text-xs font-bold uppercase tracking-wider text-amber-400">Therapy Management</span>
+              <h2 class="text-2xl font-bold font-serif text-white mt-1">Three-Stage Panchakarma Tracker</h2>
+            </div>
+            <div class="flex items-center gap-2 text-xs text-amber-300/80">
+              <i data-lucide="flame" class="w-4 h-4 text-amber-400"></i>
+              <span>Authentic Shastra Regimen</span>
+            </div>
+          </div>
+
+          <!-- 3-Phase Columns -->
+          <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+
+            <!-- Phase 1: Purva Karma -->
+            <div class="glass-card p-5 space-y-4 border-t-2 border-t-amber-400">
+              <div class="flex items-center justify-between pb-3 border-b border-emerald-900/50">
+                <div>
+                  <span class="text-[10px] font-bold uppercase px-2 py-0.5 rounded bg-amber-500/20 text-amber-300 border border-amber-500/30">Phase 1</span>
+                  <h3 class="font-bold text-sm text-stone-100 font-serif mt-1.5">Purva Karma</h3>
+                  <p class="text-[11px] text-stone-400">Preparatory Oleation & Fomentation</p>
+                </div>
+                <div class="p-2 rounded-lg bg-amber-950/60 text-amber-400">
+                  <i data-lucide="droplet" class="w-5 h-5"></i>
+                </div>
+              </div>
+
+              <div class="space-y-3">
+                <div class="p-3.5 rounded-xl bg-emerald-950/50 border border-emerald-800/50">
+                  <div class="flex justify-between items-start">
+                    <p class="text-xs font-bold text-amber-300">Snehapana (Medicated Ghee)</p>
+                    <span class="text-[10px] px-1.5 py-0.5 rounded bg-amber-900/60 text-amber-200">07:00 AM</span>
+                  </div>
+                  <p class="text-xs text-stone-200 mt-1 font-semibold">Rajesh Verma (Kapha Predominant)</p>
+                  <p class="text-[11px] text-stone-400 mt-0.5">50ml Sukumara Ghrita • Day 2 of 5</p>
+                </div>
+
+                <div class="p-3.5 rounded-xl bg-emerald-950/50 border border-emerald-800/50">
+                  <div class="flex justify-between items-start">
+                    <p class="text-xs font-bold text-amber-300">Sarvanga Abhyanga & Bashpa</p>
+                    <span class="text-[10px] px-1.5 py-0.5 rounded bg-emerald-900/60 text-emerald-200">08:30 AM</span>
+                  </div>
+                  <p class="text-xs text-stone-200 mt-1 font-semibold">Ananya Sharma (Vata-Pitta)</p>
+                  <p class="text-[11px] text-stone-400 mt-0.5">Mahanarayana Taila • Chikitsa Suite 2</p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Phase 2: Pradhana Karma -->
+            <div class="glass-card p-5 space-y-4 border-t-2 border-t-emerald-400">
+              <div class="flex items-center justify-between pb-3 border-b border-emerald-900/50">
+                <div>
+                  <span class="text-[10px] font-bold uppercase px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">Phase 2</span>
+                  <h3 class="font-bold text-sm text-stone-100 font-serif mt-1.5">Pradhana Karma</h3>
+                  <p class="text-[11px] text-stone-400">Main Elimination & Purification Therapies</p>
+                </div>
+                <div class="p-2 rounded-lg bg-emerald-950/60 text-emerald-400">
+                  <i data-lucide="sparkle" class="w-5 h-5"></i>
+                </div>
+              </div>
+
+              <div class="space-y-3">
+                <div class="p-3.5 rounded-xl bg-emerald-950/50 border border-emerald-800/50">
+                  <div class="flex justify-between items-start">
+                    <p class="text-xs font-bold text-emerald-300">Takradhara / Shirodhara</p>
+                    <span class="text-[10px] px-1.5 py-0.5 rounded bg-emerald-900/60 text-emerald-200">09:30 AM</span>
+                  </div>
+                  <p class="text-xs text-stone-200 mt-1 font-semibold">Ananya Sharma</p>
+                  <p class="text-[11px] text-stone-400 mt-0.5">Duration: 45 min • Oil Temp: 38.5°C</p>
+                </div>
+
+                <div class="p-3.5 rounded-xl bg-emerald-950/50 border border-emerald-800/50">
+                  <div class="flex justify-between items-start">
+                    <p class="text-xs font-bold text-emerald-300">Kashaya Basti Protocol</p>
+                    <span class="text-[10px] px-1.5 py-0.5 rounded bg-emerald-900/60 text-emerald-200">11:30 AM</span>
+                  </div>
+                  <p class="text-xs text-stone-200 mt-1 font-semibold">Sunita Joshi</p>
+                  <p class="text-[11px] text-stone-400 mt-0.5">Niruha & Anuvasana • Recovery Room 1</p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Phase 3: Paschat Karma -->
+            <div class="glass-card p-5 space-y-4 border-t-2 border-t-cyan-400">
+              <div class="flex items-center justify-between pb-3 border-b border-emerald-900/50">
+                <div>
+                  <span class="text-[10px] font-bold uppercase px-2 py-0.5 rounded bg-cyan-500/20 text-cyan-300 border border-cyan-500/30">Phase 3</span>
+                  <h3 class="font-bold text-sm text-stone-100 font-serif mt-1.5">Paschat Karma</h3>
+                  <p class="text-[11px] text-stone-400">Samsarjana Diet & Rejuvenation</p>
+                </div>
+                <div class="p-2 rounded-lg bg-cyan-950/60 text-cyan-400">
+                  <i data-lucide="leaf" class="w-5 h-5"></i>
+                </div>
+              </div>
+
+              <div class="space-y-3">
+                <div class="p-3.5 rounded-xl bg-emerald-950/50 border border-emerald-800/50">
+                  <div class="flex justify-between items-start">
+                    <p class="text-xs font-bold text-cyan-300">Samsarjana Krama (Diet Phase 2)</p>
+                    <span class="text-[10px] px-1.5 py-0.5 rounded bg-cyan-900/60 text-cyan-200">Continuous</span>
+                  </div>
+                  <p class="text-xs text-stone-200 mt-1 font-semibold">Sunita Joshi & Meera Nambiar</p>
+                  <p class="text-[11px] text-stone-400 mt-0.5">Peya, Vilepi, Akrita & Krita Yusha</p>
+                </div>
+
+                <div class="p-3.5 rounded-xl bg-emerald-950/50 border border-emerald-800/50">
+                  <div class="flex justify-between items-start">
+                    <p class="text-xs font-bold text-cyan-300">Rasayana Consultation</p>
+                    <span class="text-[10px] px-1.5 py-0.5 rounded bg-cyan-900/60 text-cyan-200">04:30 PM</span>
+                  </div>
+                  <p class="text-xs text-stone-200 mt-1 font-semibold">Meera Nambiar</p>
+                  <p class="text-[11px] text-stone-400 mt-0.5">Brahmi Rasayana & Chyawanprash protocol</p>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- Interactive Live Shirodhara Therapy Timer Card -->
+          <div class="glass-panel p-6 flex flex-col md:flex-row items-center justify-between gap-6 border-amber-500/30">
+            <div class="space-y-2 max-w-lg">
+              <div class="flex items-center gap-2">
+                <span class="w-2.5 h-2.5 rounded-full bg-amber-400 animate-ping"></span>
+                <h3 class="font-bold text-base text-white font-serif">Live Shirodhara Session Controller</h3>
+              </div>
+              <p class="text-xs text-emerald-300/80 leading-relaxed">
+                Active Protocol: Medicated Buttermilk & Brahmi Taila stream at rhythmic 1Hz oscillation. Automated singing bowl alert sounds on completion.
+              </p>
+              <div class="flex items-center gap-4 text-[11px] text-stone-300 font-mono">
+                <span>Patient: <strong class="text-white">Ananya Sharma</strong></span>
+                <span>•</span>
+                <span>Room: <strong class="text-amber-300">Chikitsa Suite 2</strong></span>
+              </div>
+            </div>
+
+            <!-- Timer Display and Controls -->
+            <div class="flex items-center gap-5">
+              <div class="text-center">
+                <div id="therapy-timer-display" class="text-3xl sm:text-4xl font-mono font-bold gold-gradient-text tracking-widest">
+                  45:00
+                </div>
+                <span class="text-[10px] text-emerald-400 uppercase font-semibold">Session Remaining</span>
+              </div>
+
+              <div class="flex items-center gap-2">
+                <button id="btn-timer-toggle" class="btn-gold px-4 py-2 rounded-xl text-xs flex items-center gap-1.5 shadow-lg">
+                  <i data-lucide="play" id="timer-btn-icon" class="w-3.5 h-3.5"></i>
+                  <span id="timer-btn-text">Start</span>
+                </button>
+                <button id="btn-timer-reset" class="px-3 py-2 rounded-xl bg-emerald-950 border border-emerald-800 text-stone-300 hover:text-white text-xs">
+                  <i data-lucide="rotate-ccw" class="w-3.5 h-3.5"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ========================================== -->
+        <!-- 5. CHIKITSA SUITES & HERBARIUM DISPENSARY -->
+        <!-- ========================================== -->
+        <section id="suites" class="content-section space-y-6 pb-20">
+          <div class="flex flex-col md:flex-row md:items-end justify-between gap-4 border-b border-emerald-900/60 pb-4">
+            <div>
+              <span class="text-xs font-bold uppercase tracking-wider text-purple-400">Sanctuary Facilities</span>
+              <h2 class="text-2xl font-bold font-serif text-white mt-1">Chikitsa Suites & Herbarium Telemetry</h2>
+            </div>
+            <div class="flex items-center gap-2 text-xs text-purple-300/80">
+              <i data-lucide="thermometer" class="w-4 h-4 text-purple-400"></i>
+              <span>Automated Herbal Oil Temperature Control</span>
+            </div>
+          </div>
+
+          <!-- 6 Therapy Room Cards -->
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5" id="rooms-grid">
+            <!-- Injected via JavaScript -->
+          </div>
+
+          <!-- Herbarium Pharmacy Dispensary Summary -->
+          <div class="glass-panel p-6 space-y-4">
+            <div class="flex items-center justify-between pb-3 border-b border-emerald-900/50">
+              <div class="flex items-center gap-2">
+                <i data-lucide="flask-conical" class="w-4 h-4 text-amber-400"></i>
+                <h3 class="font-bold text-sm text-stone-100 font-serif">Herbarium Formulations & Medicated Tailas in Active Preparation</h3>
+              </div>
+              <span class="text-[11px] text-amber-300 bg-amber-950/60 border border-amber-800/60 px-2.5 py-0.5 rounded-full">
+                Siddha Taila Lab
+              </span>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 text-xs">
+              <div class="p-3.5 rounded-xl bg-emerald-950/40 border border-emerald-800/40">
+                <p class="font-bold text-amber-300">Mahanarayana Taila</p>
+                <p class="text-stone-300 text-[11px] mt-0.5">54 Herbal extracts in pure Sesame oil</p>
+                <div class="mt-2 text-[10px] text-emerald-400 font-mono">Stock: 18 Liters • Heated to 39°C</div>
+              </div>
+
+              <div class="p-3.5 rounded-xl bg-emerald-950/40 border border-emerald-800/40">
+                <p class="font-bold text-cyan-300">Ksheerabala 101 Drops</p>
+                <p class="text-stone-300 text-[11px] mt-0.5">Bala herb infused 101 times in Cow milk</p>
+                <div class="mt-2 text-[10px] text-emerald-400 font-mono">Stock: 42 Phials • Active Nasya</div>
+              </div>
+
+              <div class="p-3.5 rounded-xl bg-emerald-950/40 border border-emerald-800/40">
+                <p class="font-bold text-emerald-300">Sukumara Ghrita</p>
+                <p class="text-stone-300 text-[11px] mt-0.5">Snehana ghee for deep tissue oleation</p>
+                <div class="mt-2 text-[10px] text-emerald-400 font-mono">Stock: 8.5 kg • Morning Dosages</div>
+              </div>
+
+              <div class="p-3.5 rounded-xl bg-emerald-950/40 border border-emerald-800/40">
+                <p class="font-bold text-purple-300">Triphala & Dashamula Kashaya</p>
+                <p class="text-stone-300 text-[11px] mt-0.5">Fresh decoction brewed in copper vessels</p>
+                <div class="mt-2 text-[10px] text-emerald-400 font-mono">Batch: Fresh 06:00 AM Brew</div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+      </main>
+    </div>
+  </div>
+
+  <!-- ========================================== -->
+  <!-- MODAL: ADMIT PANCHAKARMA PATIENT -->
+  <!-- ========================================== -->
+  <div id="modal-admit-patient" class="fixed inset-0 bg-black/75 backdrop-blur-md flex items-center justify-center p-4 z-50 hidden">
+    <div class="glass-panel bg-[#052117]/95 border border-emerald-700/60 max-w-lg w-full p-6 shadow-2xl space-y-4">
+      <div class="flex items-center justify-between pb-3 border-b border-emerald-900/70">
+        <div>
+          <h3 class="text-lg font-bold font-serif gold-gradient-text">Admit Panchakarma Patient</h3>
+          <p class="text-xs text-emerald-400/80">Configure clinical Prakriti, assign therapy & room.</p>
+        </div>
+        <button id="btn-close-modal" class="p-1 rounded-lg text-stone-400 hover:text-white hover:bg-emerald-900/60">
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+      </div>
+
+      <form id="form-admit-patient" class="space-y-4 text-xs">
+        <div>
+          <label class="block font-semibold text-stone-300 mb-1">Patient Full Name</label>
+          <input
+            type="text"
+            id="input-patient-name"
+            required
+            placeholder="e.g. Ramesh Kulkarni"
+            class="w-full px-3.5 py-2.5 bg-emerald-950/80 border border-emerald-800/80 rounded-xl text-stone-100 placeholder-emerald-400/30 focus:outline-none focus:border-amber-400"
+          />
+        </div>
+
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="block font-semibold text-stone-300 mb-1">Age</label>
+            <input
+              type="number"
+              id="input-patient-age"
+              required
+              min="1"
+              max="115"
+              placeholder="e.g. 42"
+              class="w-full px-3.5 py-2.5 bg-emerald-950/80 border border-emerald-800/80 rounded-xl text-stone-100 focus:outline-none focus:border-amber-400"
+            />
+          </div>
+          <div>
+            <label class="block font-semibold text-stone-300 mb-1">Gender</label>
+            <select id="input-patient-gender" class="w-full px-3.5 py-2.5 bg-emerald-950/80 border border-emerald-800/80 rounded-xl text-stone-100 focus:outline-none focus:border-amber-400">
+              <option>Male</option>
+              <option>Female</option>
+              <option>Other</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="block font-semibold text-stone-300 mb-1">Prakriti (Dosha)</label>
+            <select id="input-patient-dosha" class="w-full px-3.5 py-2.5 bg-emerald-950/80 border border-emerald-800/80 rounded-xl text-stone-100 focus:outline-none focus:border-amber-400">
+              <option>Vata Predominant</option>
+              <option>Pitta Predominant</option>
+              <option>Kapha Predominant</option>
+              <option selected>Vata-Pitta</option>
+              <option>Pitta-Kapha</option>
+              <option>Vata-Kapha</option>
+              <option>Tridoshic (V-P-K)</option>
+            </select>
+          </div>
+          <div>
+            <label class="block font-semibold text-stone-300 mb-1">Contact Number</label>
+            <input
+              type="text"
+              id="input-patient-contact"
+              required
+              placeholder="+91 98765 00000"
+              class="w-full px-3.5 py-2.5 bg-emerald-950/80 border border-emerald-800/80 rounded-xl text-stone-100 focus:outline-none focus:border-amber-400"
+            />
+          </div>
+        </div>
+
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="block font-semibold text-stone-300 mb-1">Assigned Karma</label>
+            <select id="input-patient-therapy" class="w-full px-3.5 py-2.5 bg-emerald-950/80 border border-emerald-800/80 rounded-xl text-stone-100 focus:outline-none focus:border-amber-400">
+              <option>Shirodhara & Abhyanga</option>
+              <option>Takradhara Protocol</option>
+              <option>Vamana Karma</option>
+              <option>Virechana Karma</option>
+              <option>Kashaya & Sneha Basti</option>
+              <option>Nasya & Shirovasti</option>
+            </select>
+          </div>
+          <div>
+            <label class="block font-semibold text-stone-300 mb-1">Chikitsa Suite</label>
+            <select id="input-patient-room" class="w-full px-3.5 py-2.5 bg-emerald-950/80 border border-emerald-800/80 rounded-xl text-stone-100 focus:outline-none focus:border-amber-400">
+              <option>Chikitsa Suite 1</option>
+              <option>Chikitsa Suite 2</option>
+              <option>Chikitsa Suite 3</option>
+              <option>Karma Hall A</option>
+              <option>Swedana Chamber</option>
+              <option>Recovery Sanctuary</option>
+            </select>
+          </div>
+        </div>
+
+        <div>
+          <label class="block font-semibold text-stone-300 mb-1">Supervising Vaidya</label>
+          <select id="input-patient-therapist" class="w-full px-3.5 py-2.5 bg-emerald-950/80 border border-emerald-800/80 rounded-xl text-stone-100 focus:outline-none focus:border-amber-400">
+            <option>Dr. Ramesh Vaidya (Senior Acharya)</option>
+            <option>Vaidya Sneha Nair (Panchakarma Specialist)</option>
+            <option>Vaidya Harish Chandra (Nadi Pariksha Expert)</option>
+          </select>
+        </div>
+
+        <div class="flex items-center justify-end gap-3 pt-3 border-t border-emerald-900/60">
+          <button type="button" id="btn-cancel-modal" class="px-4 py-2.5 rounded-xl border border-emerald-800 text-stone-300 hover:text-white hover:bg-emerald-900/40">
+            Cancel
+          </button>
+          <button type="submit" class="btn-gold px-5 py-2.5 rounded-xl font-bold shadow-lg">
+            Save & Schedule Care
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ========================================== -->
+  <!-- SLIDE-OVER DRAWER: PATIENT CLINICAL CHART -->
+  <!-- ========================================== -->
+  <div id="drawer-patient-details" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 hidden">
+    <div class="absolute right-0 top-0 h-full w-full max-w-md bg-[#041a12]/98 border-l border-emerald-800/80 p-6 shadow-2xl overflow-y-auto space-y-6">
+      <div class="flex items-center justify-between pb-4 border-b border-emerald-900/70">
+        <div>
+          <span class="text-[10px] font-bold uppercase tracking-wider text-amber-400 font-mono" id="drawer-patient-id">AY-2026-001</span>
+          <h3 class="text-xl font-bold font-serif text-white mt-0.5" id="drawer-patient-name">Patient Name</h3>
+        </div>
+        <button id="btn-close-drawer" class="p-1.5 rounded-lg text-stone-400 hover:text-white hover:bg-emerald-900/60">
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+      </div>
+
+      <!-- Prakriti Balance Meter -->
+      <div class="glass-card p-4 space-y-3">
+        <h4 class="font-bold text-xs text-emerald-300 font-serif">Prakriti & Dosha Ratio</h4>
+        <div class="space-y-2 text-xs">
+          <div>
+            <div class="flex justify-between text-stone-300 mb-1">
+              <span>Vata (Air & Space)</span>
+              <span id="drawer-vata-pct" class="font-mono text-emerald-400">55%</span>
+            </div>
+            <div class="w-full bg-emerald-950 h-2 rounded-full overflow-hidden">
+              <div id="drawer-vata-bar" class="bg-emerald-400 h-full w-[55%]"></div>
+            </div>
+          </div>
+          <div>
+            <div class="flex justify-between text-stone-300 mb-1">
+              <span>Pitta (Fire & Water)</span>
+              <span id="drawer-pitta-pct" class="font-mono text-amber-400">35%</span>
+            </div>
+            <div class="w-full bg-emerald-950 h-2 rounded-full overflow-hidden">
+              <div id="drawer-pitta-bar" class="bg-amber-400 h-full w-[35%]"></div>
+            </div>
+          </div>
+          <div>
+            <div class="flex justify-between text-stone-300 mb-1">
+              <span>Kapha (Earth & Water)</span>
+              <span id="drawer-kapha-pct" class="font-mono text-cyan-400">10%</span>
+            </div>
+            <div class="w-full bg-emerald-950 h-2 rounded-full overflow-hidden">
+              <div id="drawer-kapha-bar" class="bg-cyan-400 h-full w-[10%]"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Nadi & Therapy Protocol -->
+      <div class="glass-card p-4 space-y-2 text-xs">
+        <h4 class="font-bold text-emerald-300 font-serif">Nadi Pariksha & Pulse Diagnosis</h4>
+        <p class="text-stone-200" id="drawer-nadi-pulse">Vata-Pitta (Chapa & Sarpa Gati)</p>
+        <div class="pt-2 border-t border-emerald-900/50">
+          <span class="text-stone-400 text-[11px]">Assigned Therapy:</span>
+          <p class="font-semibold text-amber-300 mt-0.5" id="drawer-therapy">Shirodhara & Abhyanga</p>
+        </div>
+      </div>
+
+      <!-- Prescribed Tailas & Formulations -->
+      <div class="glass-card p-4 space-y-2 text-xs">
+        <h4 class="font-bold text-emerald-300 font-serif">Prescribed Formulations (Kashaya & Tailam)</h4>
+        <ul class="list-disc list-inside text-stone-300 space-y-1" id="drawer-formulations-list">
+          <!-- Injected dynamically -->
+        </ul>
+      </div>
+
+      <!-- Pathya Diet Guidelines -->
+      <div class="glass-card p-4 space-y-2 text-xs">
+        <h4 class="font-bold text-emerald-300 font-serif">Pathya Ahara (Dietary Krama)</h4>
+        <p class="text-stone-300 leading-relaxed" id="drawer-diet">Samsarjana Stage 2</p>
+      </div>
+
+      <!-- Clinical Notes -->
+      <div class="p-3.5 rounded-xl bg-amber-950/30 border border-amber-500/30 text-xs text-amber-200/90">
+        <strong class="text-amber-300 block mb-1">Vaidya Clinical Note:</strong>
+        <p id="drawer-notes">Significant relief in chronic migraines and sleep dysregulation.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notification Container -->
+  <div id="toast-container" class="fixed bottom-6 right-6 z-50 space-y-2 pointer-events-none"></div>
+
+  <!-- Application Logic Scripts -->
+  <script type="module" src="./data.js"></script>
+  <script src="./audio.js"></script>
+  <script src="./three-bg.js"></script>
+  <script type="module" src="./app.js"></script>
+</body>
+</html>
