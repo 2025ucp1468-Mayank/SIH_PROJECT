@@ -1,0 +1,177 @@
+/* AyurSutra Patient End Portal - Serene Healing Ambiance Stylesheet */
+
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800;900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
+
+:root {
+  --font-serif: 'Cinzel', serif;
+  --font-sans: 'Plus Jakarta Sans', sans-serif;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  overflow: hidden;
+  font-family: var(--font-sans);
+  /* Serene, soothing, organic healing background */
+  background-color: #082419;
+  background-image: 
+    radial-gradient(circle at 10% 20%, rgba(52, 211, 153, 0.12) 0%, transparent 45%),
+    radial-gradient(circle at 90% 80%, rgba(245, 215, 110, 0.12) 0%, transparent 45%),
+    radial-gradient(circle at 50% 50%, rgba(16, 185, 129, 0.08) 0%, transparent 60%);
+  background-attachment: fixed;
+  color: #f5f5f4;
+}
+
+/* Full Viewport Smooth Scroll Snap Container */
+.snap-main-container {
+  height: 100vh;
+  overflow-y: scroll;
+  scroll-snap-type: y mandatory;
+  scroll-behavior: smooth;
+}
+
+/* Individual Viewport Snapping Sections */
+.snap-section {
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
+  min-height: 100vh;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 5rem 1.5rem 3rem 1.5rem;
+  box-sizing: border-box;
+  position: relative;
+}
+
+/* Big White Box Container - Warm, Soft Luxury Card */
+.big-white-box {
+  background: #ffffff;
+  color: #1c1917;
+  border-radius: 2rem;
+  box-shadow: 
+    0 20px 50px -10px rgba(4, 30, 20, 0.4),
+    0 0 0 1px rgba(212, 175, 55, 0.3),
+    0 0 40px rgba(52, 211, 153, 0.15);
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  position: relative;
+  overflow: hidden;
+  max-width: 52rem; /* 832px */
+  width: 100%;
+}
+
+.big-white-box::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 6px;
+  background: linear-gradient(90deg, #10b981 0%, #d4af37 50%, #34d399 100%);
+}
+
+/* Drag & Drop OCR Uploader Box */
+.ocr-drop-zone {
+  border: 2px dashed #cbd5e1;
+  background: #f8fafc;
+  border-radius: 1.5rem;
+  transition: all 0.3s ease;
+}
+
+.ocr-drop-zone:hover, .ocr-drop-zone.dragover {
+  border-color: #10b981;
+  background: #f0fdf4;
+}
+
+/* Form Controls in White Box */
+.wb-input {
+  background-color: #f8fafc;
+  border: 1px solid #e2e8f0;
+  color: #0f172a;
+  border-radius: 0.875rem;
+  padding: 0.75rem 1rem;
+  font-size: 0.875rem;
+  transition: all 0.2s ease;
+}
+
+.wb-input:focus {
+  outline: none;
+  background-color: #ffffff;
+  border-color: #10b981;
+  box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.15);
+}
+
+.wb-label {
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #475569;
+  margin-bottom: 0.375rem;
+  display: block;
+}
+
+/* Gold & Serene Emerald Buttons */
+.gold-text {
+  background: linear-gradient(135deg, #d4af37 0%, #f5d76e 50%, #b8860b 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.btn-emerald {
+  background: linear-gradient(135deg, #059669 0%, #047857 100%);
+  color: #ffffff;
+  font-weight: 700;
+  box-shadow: 0 4px 14px rgba(5, 150, 105, 0.3);
+  transition: all 0.2s ease;
+}
+
+.btn-emerald:hover {
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(5, 150, 105, 0.45);
+}
+
+.btn-gold {
+  background: linear-gradient(135deg, #d4af37 0%, #b8860b 100%);
+  color: #03150e;
+  font-weight: 800;
+  box-shadow: 0 4px 14px rgba(212, 175, 55, 0.3);
+  transition: all 0.2s ease;
+}
+
+.btn-gold:hover {
+  background: linear-gradient(135deg, #f5d76e 0%, #d4af37 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(212, 175, 55, 0.45);
+}
+
+/* Scroll Indicators */
+.scroll-indicator {
+  position: absolute;
+  bottom: 1.5rem;
+  left: 50%;
+  transform: translateX(-50%);
+  animation: bounce 2.5s infinite;
+}
+
+@keyframes bounce {
+  0%, 20%, 50%, 80%, 100% { transform: translate(-50%, 0); }
+  40% { transform: translate(-50%, -8px); }
+  60% { transform: translate(-50%, -4px); }
+}
+
+/* Custom Scrollbars */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: rgba(4, 30, 20, 0.8);
+}
+::-webkit-scrollbar-thumb {
+  background: #10b981;
+  border-radius: 9999px;
+}

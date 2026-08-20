@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AyurSutra Patient Sanctuary — Healing & Intake Portal</title>
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            ayur: {
+              950: '#082419',
+              900: '#0c3324',
+              800: '#124834',
+              gold: '#d4af37',
+              amber: '#f59e0b',
+              cyan: '#06b6d4'
+            }
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Tesseract.js OCR Engine CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
+
+  <!-- Google Fonts: Cinzel & Plus Jakarta Sans -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800;900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <!-- Custom Styles -->
+  <link rel="stylesheet" href="./styles.css" />
+</head>
+<body class="bg-[#082419] text-stone-100 antialiased selection:bg-emerald-500/30">
+
+  <!-- Minimal Serene Header Bar -->
+  <header class="fixed top-0 left-0 right-0 z-50 bg-[#082419]/85 backdrop-blur-xl border-b border-emerald-800/40 px-6 py-3.5 shadow-md">
+    <div class="max-w-7xl mx-auto flex items-center justify-between">
+      
+      <!-- Sacred Emblem & Brand -->
+      <div class="flex items-center gap-3">
+        <div class="relative flex items-center justify-center w-10 h-10 rounded-xl bg-gradient-to-br from-emerald-800 to-emerald-950 border border-amber-500/40 text-amber-300 shadow-md">
+          <span class="text-2xl font-serif">ॐ</span>
+          <div class="absolute -top-1 -right-1 w-2.5 h-2.5 rounded-full bg-amber-400 animate-ping"></div>
+          <div class="absolute -top-1 -right-1 w-2.5 h-2.5 rounded-full bg-amber-400"></div>
+        </div>
+        <div>
+          <div class="flex items-center gap-2">
+            <h1 class="text-xl font-bold tracking-wider font-serif gold-text">AyurSutra</h1>
+            <span class="text-[9px] font-bold px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 uppercase tracking-widest">PATIENT SANCTUARY</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Quick Link to Main Hospital Portal -->
+      <a href="../ayursutra/index.html" class="flex items-center gap-2 text-xs font-semibold text-amber-300/90 hover:text-amber-200 bg-amber-950/40 hover:bg-amber-950/80 px-3.5 py-1.5 rounded-xl border border-amber-500/30 transition-all">
+        <i data-lucide="layout-dashboard" class="w-3.5 h-3.5"></i>
+        <span>Hospital Portal</span>
+      </a>
+
+    </div>
+  </header>
+
+  <!-- Toast Notification Container -->
+  <div id="toast-container" class="fixed top-20 right-6 z-50 flex flex-col gap-2 pointer-events-none"></div>
+
+  <!-- SECTION SNAP MAIN SCROLL CONTAINER -->
+  <div id="snap-main" class="snap-main-container">
+
+    <!-- =================================================================== -->
+    <!-- SECTION 1: MEDICAL REPORT UPLOAD & OCR INTAKE                      -->
+    <!-- =================================================================== -->
+    <section id="section-ocr" class="snap-section">
+      
+      <div class="big-white-box p-8 md:p-12 shadow-2xl">
+        
+        <div class="flex items-center justify-between border-b border-stone-200 pb-4 mb-6">
+          <div>
+            <h2 class="text-2xl font-bold font-serif text-stone-900">Upload Your Medical Report</h2>
+            <p class="text-stone-500 text-xs mt-1">Upload a lab report, MRI, or clinical note image for automated medical intake.</p>
+          </div>
+          <span class="w-8 h-8 rounded-full bg-emerald-100 text-emerald-800 flex items-center justify-center font-bold text-xs">1/3</span>
+        </div>
+
+        <!-- Drag & Drop Uploader Box -->
+        <div id="ocr-drop-zone" class="ocr-drop-zone p-10 text-center cursor-pointer relative overflow-hidden mb-6">
+          <input type="file" id="file-input-report" class="hidden" accept="image/*" />
+          
+          <div class="space-y-4">
+            <div class="w-16 h-16 rounded-2xl bg-emerald-100 text-emerald-600 flex items-center justify-center mx-auto shadow-inner">
+              <i data-lucide="file-up" class="w-8 h-8"></i>
+            </div>
+            <div>
+              <p class="text-lg font-bold text-stone-900">Drag & Drop Medical Report Image</p>
+              <p class="text-xs text-stone-500 mt-1">Supports PNG, JPG, WEBP • Automated Medical OCR Extraction</p>
+            </div>
+            <button type="button" class="btn-emerald px-6 py-2.5 rounded-xl text-xs uppercase tracking-wider inline-flex items-center gap-2 shadow">
+              <i data-lucide="upload" class="w-4 h-4"></i>
+              <span>Browse Image File</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Live OCR Status Container -->
+        <div id="ocr-status-container" class="hidden space-y-3 bg-stone-50 p-4 rounded-xl border border-stone-200 mb-4">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-bold text-stone-700 uppercase tracking-wider" id="ocr-status-text">Scanning Report Text...</span>
+            <span class="text-xs font-mono text-emerald-600 font-bold">OCR Active</span>
+          </div>
+
+          <div class="w-full bg-stone-200 h-2 rounded-full overflow-hidden">
+            <div id="ocr-progress-bar" class="bg-gradient-to-r from-emerald-500 to-amber-500 h-full w-0 transition-all duration-300"></div>
+          </div>
+        </div>
+
+        <!-- Action Footer -->
+        <div class="flex justify-end pt-4 border-t border-stone-200">
+          <button id="btn-to-section-2" type="button" class="btn-emerald px-7 py-3 rounded-xl text-xs uppercase tracking-wider font-bold flex items-center gap-2">
+            <span>Proceed to Verification</span>
+            <i data-lucide="chevron-down" class="w-4 h-4"></i>
+          </button>
+        </div>
+
+      </div>
+
+      <!-- Scroll Cue -->
+      <div class="scroll-indicator text-emerald-200/80 text-xs flex items-center gap-1.5">
+        <span>Scroll down to verify</span>
+        <i data-lucide="arrow-down" class="w-3.5 h-3.5"></i>
+      </div>
+
+    </section>
+
+    <!-- =================================================================== -->
+    <!-- SECTION 2: PATIENT VERIFICATION FORM                              -->
+    <!-- =================================================================== -->
+    <section id="section-verification" class="snap-section opacity-50 pointer-events-none transition-all duration-500">
+      
+      <div class="big-white-box p-8 md:p-12 shadow-2xl">
+        
+        <div class="flex items-center justify-between border-b border-stone-200 pb-4 mb-6">
+          <div>
+            <h2 class="text-2xl font-bold font-serif text-stone-900">Verify Your Information</h2>
+            <p class="text-stone-500 text-xs mt-1">Please confirm your personal details and symptoms to match adequate therapists.</p>
+          </div>
+          <span class="w-8 h-8 rounded-full bg-amber-100 text-amber-800 flex items-center justify-center font-bold text-xs">2/3</span>
+        </div>
+
+        <form id="form-manual-verification" class="space-y-5">
+          
+          <!-- Demographics Grid -->
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div>
+              <label class="wb-label" for="input-name">Full Patient Name *</label>
+              <input type="text" id="input-name" class="wb-input w-full" required placeholder="e.g. Ananya Sharma" />
+            </div>
+
+            <div>
+              <label class="wb-label" for="input-age">Age (Years) *</label>
+              <input type="number" id="input-age" class="wb-input w-full" required min="1" max="120" placeholder="34" />
+            </div>
+
+            <div>
+              <label class="wb-label" for="input-gender">Gender *</label>
+              <select id="input-gender" class="wb-input w-full">
+                <option value="Female">Female</option>
+                <option value="Male">Male</option>
+                <option value="Other">Other</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <label class="wb-label" for="input-blood">Blood Group *</label>
+              <select id="input-blood" class="wb-input w-full">
+                <option value="O+">O Rh Positive (O+)</option>
+                <option value="A+">A Rh Positive (A+)</option>
+                <option value="B+">B Rh Positive (B+)</option>
+                <option value="AB+">AB Rh Positive (AB+)</option>
+                <option value="O-">O Rh Negative (O-)</option>
+              </select>
+            </div>
+
+            <div>
+              <label class="wb-label" for="input-phone">Contact Phone *</label>
+              <input type="text" id="input-phone" class="wb-input w-full" required placeholder="+91 98765 43210" />
+            </div>
+          </div>
+
+          <!-- Symptoms & Medical History -->
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <label class="wb-label" for="input-symptoms">What Symptoms Are You Feeling? *</label>
+              <textarea id="input-symptoms" rows="3" class="wb-input w-full" required placeholder="e.g. Chronic migraines, neck stiffness, trouble sleeping..."></textarea>
+            </div>
+
+            <div>
+              <label class="wb-label" for="input-history">Past Medical History</label>
+              <textarea id="input-history" rows="3" class="wb-input w-full" placeholder="e.g. Cervical spondylosis since 2023, work stress..."></textarea>
+            </div>
+          </div>
+
+          <!-- Actions Footer -->
+          <div class="flex items-center justify-between pt-4 border-t border-stone-200">
+            <button id="btn-back-to-ocr" type="button" class="px-5 py-2.5 rounded-xl border border-stone-300 text-stone-700 text-xs font-bold hover:bg-stone-100 transition-all">
+              ↑ Back to Upload
+            </button>
+            <button id="btn-to-therapists" type="submit" class="btn-emerald px-7 py-3 rounded-xl text-xs uppercase tracking-wider font-bold flex items-center gap-2">
+              <span>Find Matched Therapists</span>
+              <i data-lucide="chevron-down" class="w-4 h-4"></i>
+            </button>
+          </div>
+
+        </form>
+
+      </div>
+
+    </section>
+
+    <!-- =================================================================== -->
+    <!-- SECTION 3: ADEQUATE MATCHED THERAPISTS & VAIDYAS                    -->
+    <!-- =================================================================== -->
+    <section id="section-therapists" class="snap-section opacity-50 pointer-events-none transition-all duration-500">
+      
+      <div class="big-white-box p-8 md:p-12 shadow-2xl">
+        
+        <div class="flex items-center justify-between border-b border-stone-200 pb-4 mb-6">
+          <div>
+            <h2 class="text-2xl font-bold font-serif text-stone-900">Adequate Matched Therapists & Vaidyas</h2>
+            <p class="text-stone-500 text-xs mt-1">Specialized Acharyas and Panchakarma practitioners matched to your clinical profile.</p>
+          </div>
+          <span class="w-8 h-8 rounded-full bg-emerald-100 text-emerald-800 flex items-center justify-center font-bold text-xs">3/3</span>
+        </div>
+
+        <!-- Therapists Grid Container -->
+        <div id="therapists-grid" class="grid grid-cols-1 md:grid-cols-2 gap-5 mb-6">
+          <!-- Dynamically Rendered Therapist Cards -->
+        </div>
+
+        <!-- Actions Footer -->
+        <div class="flex items-center justify-between pt-4 border-t border-stone-200">
+          <button id="btn-back-to-verification" type="button" class="px-5 py-2.5 rounded-xl border border-stone-300 text-stone-700 text-xs font-bold hover:bg-stone-100 transition-all">
+            ↑ Back to Verification
+          </button>
+          <a href="../ayursutra/index.html" class="btn-gold px-7 py-3 rounded-xl text-xs uppercase tracking-wider font-bold flex items-center gap-2 shadow">
+            <span>Return to Hospital Portal</span>
+            <i data-lucide="external-link" class="w-4 h-4"></i>
+          </a>
+        </div>
+
+      </div>
+
+    </section>
+
+  </div>
+
+  <!-- Module JS -->
+  <script type="module" src="./app.js"></script>
+
+</body>
+</html>
