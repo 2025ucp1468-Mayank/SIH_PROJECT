@@ -2,5 +2,5 @@
   "version": 2,
   "name": "ayursutra",
   "cleanUrls": true,
-  "trailingSlash": false
+  "trailingSlash": true
 }
